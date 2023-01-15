@@ -5,6 +5,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        misskey: "#86b300",
+      },
       fontFamily: {
         inter: ["var(--f-inter)"],
         zkgn: ["var(--f-zkgn)"],

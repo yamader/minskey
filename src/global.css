@@ -3,8 +3,9 @@
 
 html,
 body,
+main,
 #__next {
-  @apply m-0 h-full;
+  @apply h-full;
 }
 
 @tailwind utilities;
