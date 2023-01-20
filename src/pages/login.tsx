@@ -2,7 +2,7 @@ import * as RadioGroup from "@radix-ui/react-radio-group"
 import { useAtom } from "jotai"
 import { permissions } from "misskey-js"
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import { cache, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { v4 as uuidv4 } from "uuid"
 
@@ -70,11 +70,63 @@ function MiAuthLogin() {
 }
 
 function DirectLogin() {
+  type DirectLoginForm = {
+    host: string
+    token: string
+  }
+
+  const {
+    register,
+    setError,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<DirectLoginForm>()
+  const router = useRouter()
+  const onSubmit = async ({ host, token }: DirectLoginForm) => {
+    const testurl = `https://${host}/api/i`
+
+    try {
+      // api/iを叩いてtokenが有効かどうかを確認する
+      // TODO
+      router.push(testurl)
+    }catch(e){
+      setError("host", { type: "manual", message: e + "" })
+    }
+  }
+
   return (
-    <form>
-      <p className="my-16 text-center font-inter text-4xl font-bold">🚧 WIP 🚧</p>
-    </form>
-  )
+      <form className="mx-10 my-4" onSubmit={handleSubmit(onSubmit)}>
+        <div className="my-4">
+          <label className="font-inter text-xl font-bold" htmlFor="login_host">
+            Host
+          </label>
+          <input
+            className="w-full rounded-md border-2 p-4 shadow-none focus:border-lime-400 focus:outline-none"
+            id="login_host"
+            placeholder="example.net"
+            {...register("host", { required: "適切なホスト名を入力してください" })}
+          />
+          {  errors.host && <p className="text-red-500">{errors.host.message}</p> }
+        </div>
+        <div className="my-4">
+          <label className="font-inter text-xl font-bold" htmlFor="login_token">
+              API Token
+            </label>
+            <input
+              className="w-full rounded-md border-2 p-4 shadow-none focus:border-lime-400 focus:outline-none"
+              id="login_token"
+              placeholder="YOUR TOKEN"
+              {...register("token", { required: "適切なアクセストークンを入力してください" })}
+            />
+            { errors.token && <p className="text-red-500">{errors.token.message}</p> }
+        </div>
+        <input
+          className="w-full rounded-md bg-lime-500 py-2 font-inter text-xl font-bold text-white hover:bg-lime-400 active:bg-lime-300"
+          type="submit"
+          value="Next"
+        />
+      </form>
+    )
 }
 
 export default function LoginPage() {
