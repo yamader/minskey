@@ -81,17 +81,29 @@ function DirectLogin() {
     formState: { errors },
     handleSubmit,
   } = useForm<DirectLoginForm>()
-  const router = useRouter()
+  //const router = useRouter()
+
+  //Todo: 謎のErrorを返される...どうして...
   const onSubmit = async ({ host, token }: DirectLoginForm) => {
     const testurl = `https://${host}/api/i`
-
-    try {
-      // api/iを叩いてtokenが有効かどうかを確認する
-      // TODO
-      router.push(testurl)
-    }catch(e){
+    const req ={
+      method: 'POST',
+      headers:{'Content-Type': 'application/json'},
+      body: JSON.stringify(
+        {
+          i: token
+        }
+      )
+    };
+    fetch(testurl,req).then(
+      (response)=> response.json()
+    ).then((response) => {
+      if (!response.ok) {
+        throw new Error(response.statusText)
+      }
+    }).catch((e) => {
       setError("host", { type: "manual", message: e + "" })
-    }
+    })
   }
 
   return (
