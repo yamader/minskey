@@ -26,12 +26,9 @@ export default function AuthPage() {
         return
       }
 
-      setAccount({
-        origin: host,
-        credential: res.token,
-      })
+      setAccount({ host, token: res.token })
       setAuthSession(null)
-      router.replace("/")
+      router.replace("/") // todo: fix this
     },
     [router, authSession, setAuthSession, setAccount]
   )

@@ -3,8 +3,8 @@ import { atomWithStorage } from "jotai/utils"
 import { api, entities } from "misskey-js"
 
 type Account = {
-  origin: string
-  credential: string
+  host: string
+  token: string
 }
 
 type AuthSession = {
@@ -19,9 +19,14 @@ export const authSessionAtom = atomWithStorage<AuthSession | null>("authSession"
 export const apiAtom = atom<api.APIClient | null>(get => {
   const account = get(accountAtom)
   if (!account) return null
-  return new api.APIClient(account)
+  return new api.APIClient({
+    origin: `https://${account.host}`,
+    credential: account.token,
+  })
 })
 
-export const profileAtom = atom<Promise<entities.UserLite | null>>(async () => {
-  return null
+export const profileAtom = atom<Promise<entities.UserLite | null>>(async get => {
+  const api = get(apiAtom)
+  if (!api) return null
+  return await api.request("i")
 })
