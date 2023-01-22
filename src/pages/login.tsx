@@ -81,30 +81,26 @@ function DirectLogin() {
     formState: { errors },
     handleSubmit,
   } = useForm<DirectLoginForm>()
-  //const router = useRouter()
+  const router = useRouter()
+  const [, setAccount] = useAtom(accountAtom)
 
-  //Todo: 謎のErrorを返される...どうして...
   const onSubmit = async ({ host, token }: DirectLoginForm) => {
     const testurl = `https://${host}/api/i`
-    const req ={
-      method: 'POST',
-      headers:{'Content-Type': 'application/json'},
-      body: JSON.stringify(
-        {
-          i: token
-        }
-      )
-    };
-    fetch(testurl,req).then(
-      (response)=> response.json()
-    ).then((response) => {
-      if (!response.ok) {
-        throw new Error(response.statusText)
-      }
-    }).catch((e) => {
+    const req = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ i: token }),
+    }
+
+    const res = await fetch(testurl, req).catch(e => {
       setError("host", { type: "manual", message: e + "" })
     })
-  }
+    if (res.ok) {
+      setAccount({ host, token })
+      router.push("/")
+    } else {
+      setError("token", { type: "manual", message: "auth failed" })
+    }
 
   return (
       <form className="mx-10 my-4" onSubmit={handleSubmit(onSubmit)}>
