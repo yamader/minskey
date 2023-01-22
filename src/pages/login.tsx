@@ -2,7 +2,7 @@ import * as RadioGroup from "@radix-ui/react-radio-group"
 import { useAtom } from "jotai"
 import { permissions } from "misskey-js"
 import { useRouter } from "next/router"
-import { cache, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { v4 as uuidv4 } from "uuid"
 
