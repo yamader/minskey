@@ -1,17 +1,27 @@
+import { useAtom } from "jotai"
 import { useRouter } from "next/router"
+import { Suspense, useCallback, useEffect } from "react"
 
 import CommonLayout from "~/components/CommonLayout"
-// import UserProfile from "~/components/UserProfile"
+import UserProfile from "~/components/UserProfile"
+import { apiAtom } from "~/libs/atoms"
 
-export default function ProfilePage() {
+function Profile() {
   const router = useRouter()
+  const [api] = useAtom(apiAtom)
 
   const { user } = router.query
   console.log(user)
 
+  return <UserProfile />
+}
+
+export default function ProfilePage() {
   return (
     <CommonLayout>
-      {/*<UserProfile user={} />*/}
+      <Suspense fallback={<UserProfile />}>
+        <Profile />
+      </Suspense>
     </CommonLayout>
   )
 }
