@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form"
 import { v4 as uuidv4 } from "uuid"
 
 import CardLayout from "~/components/CardLayout"
-import { authSessionAtom } from "~/libs/atoms"
+import { accountAtom, authSessionAtom } from "~/libs/atoms"
 
 function MiAuthLogin() {
   type MiAuthForm = {
@@ -92,49 +92,52 @@ function DirectLogin() {
       body: JSON.stringify({ i: token }),
     }
 
-    const res = await fetch(testurl, req).catch(e => {
+    try {
+      const res = await fetch(testurl, req)
+      if (res.ok) {
+        setAccount({ host, token })
+        router.push("/")
+      } else {
+        setError("token", { type: "manual", message: "auth failed" })
+      }
+    } catch (e) {
       setError("host", { type: "manual", message: e + "" })
-    })
-    if (res.ok) {
-      setAccount({ host, token })
-      router.push("/")
-    } else {
-      setError("token", { type: "manual", message: "auth failed" })
     }
+  }
 
   return (
-      <form className="mx-10 my-4" onSubmit={handleSubmit(onSubmit)}>
-        <div className="my-4">
-          <label className="font-inter text-xl font-bold" htmlFor="login_host">
-            Host
-          </label>
-          <input
-            className="w-full rounded-md border-2 p-4 shadow-none focus:border-lime-400 focus:outline-none"
-            id="login_host"
-            placeholder="example.net"
-            {...register("host", { required: "適切なホスト名を入力してください" })}
-          />
-          {  errors.host && <p className="text-red-500">{errors.host.message}</p> }
-        </div>
-        <div className="my-4">
-          <label className="font-inter text-xl font-bold" htmlFor="login_token">
-              API Token
-            </label>
-            <input
-              className="w-full rounded-md border-2 p-4 shadow-none focus:border-lime-400 focus:outline-none"
-              id="login_token"
-              placeholder="YOUR TOKEN"
-              {...register("token", { required: "適切なアクセストークンを入力してください" })}
-            />
-            { errors.token && <p className="text-red-500">{errors.token.message}</p> }
-        </div>
+    <form className="mx-10 my-4" onSubmit={handleSubmit(onSubmit)}>
+      <div className="my-4">
+        <label className="font-inter text-xl font-bold" htmlFor="login_host">
+          Host
+        </label>
         <input
-          className="w-full rounded-md bg-lime-500 py-2 font-inter text-xl font-bold text-white hover:bg-lime-400 active:bg-lime-300"
-          type="submit"
-          value="Next"
+          className="w-full rounded-md border-2 p-4 shadow-none focus:border-lime-400 focus:outline-none"
+          id="login_host"
+          placeholder="example.net"
+          {...register("host", { required: "適切なホスト名を入力してください" })}
         />
-      </form>
-    )
+        {errors.host && <p className="text-red-500">{errors.host.message}</p>}
+      </div>
+      <div className="my-4">
+        <label className="font-inter text-xl font-bold" htmlFor="login_token">
+          API Token
+        </label>
+        <input
+          className="w-full rounded-md border-2 p-4 shadow-none focus:border-lime-400 focus:outline-none"
+          id="login_token"
+          placeholder="YOUR TOKEN"
+          {...register("token", { required: "適切なアクセストークンを入力してください" })}
+        />
+        {errors.token && <p className="text-red-500">{errors.token.message}</p>}
+      </div>
+      <input
+        className="w-full rounded-md bg-lime-500 py-2 font-inter text-xl font-bold text-white hover:bg-lime-400 active:bg-lime-300"
+        type="submit"
+        value="Next"
+      />
+    </form>
+  )
 }
 
 export default function LoginPage() {
