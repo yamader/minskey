@@ -69,8 +69,8 @@ function MiAuthLogin() {
   )
 }
 
-function DirectLogin() {
-  type DirectLoginForm = {
+function ManualLogin() {
+  type ManualLoginForm = {
     host: string
     token: string
   }
@@ -80,11 +80,11 @@ function DirectLogin() {
     setError,
     formState: { errors },
     handleSubmit,
-  } = useForm<DirectLoginForm>()
+  } = useForm<ManualLoginForm>()
   const router = useRouter()
   const [, setAccount] = useAtom(accountAtom)
 
-  const onSubmit = async ({ host, token }: DirectLoginForm) => {
+  const onSubmit = async ({ host, token }: ManualLoginForm) => {
     const testurl = `https://${host}/api/i`
     const req = {
       method: "POST",
@@ -121,12 +121,12 @@ function DirectLogin() {
       </div>
       <div className="my-4">
         <label className="font-inter text-xl font-bold" htmlFor="login_token">
-          API Token
+          Token
         </label>
         <input
           className="w-full rounded-md border-2 p-4 shadow-none focus:border-lime-400 focus:outline-none"
           id="login_token"
-          placeholder="YOUR TOKEN"
+          placeholder="AbCdEfGhIjKlMnOpQrStUvWxYz012345"
           {...register("token", { required: "適切なアクセストークンを入力してください" })}
         />
         {errors.token && <p className="text-red-500">{errors.token.message}</p>}
@@ -169,12 +169,12 @@ export default function LoginPage() {
             <RadioGroup.Indicator className="flex h-full w-full items-center justify-center after:h-2.5 after:w-2.5 after:rounded-full after:bg-black rdx-state-checked:after:content-['']" />
           </div>
           <label className="flex h-full grow items-center" htmlFor="method_direct">
-            <span>Direct</span>
+            <span>Manual</span>
           </label>
         </RadioGroup.Item>
       </RadioGroup.Root>
       {method === "miauth" && <MiAuthLogin />}
-      {method === "direct" && <DirectLogin />}
+      {method === "direct" && <ManualLogin />}
     </CardLayout>
   )
 }

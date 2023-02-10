@@ -1,6 +1,6 @@
 import { useAtom } from "jotai"
 import { useRouter } from "next/router"
-import { useCallback, useEffect } from "react"
+import { useEffect, useState } from "react"
 
 import { accountAtom, authErrorAtom, authSessionAtom } from "~/libs/atoms"
 
@@ -10,30 +10,30 @@ export default function AuthPage() {
   const [authSession, setAuthSession] = useAtom(authSessionAtom)
   const [, setAuthError] = useAtom(authErrorAtom)
   const [, setAccount] = useAtom(accountAtom)
-
-  const auth = useCallback(async () => {
-    if (!router.isReady) return
-
-    try {
-      if (!router.query.session || !authSession) throw new Error("session not found")
-
-      const { id, host } = authSession
-      const url = `https://${host}/api/miauth/${id}/check`
-      const res = await fetch(url, { method: "POST" }).then(r => r.json())
-      if (!res.ok) throw new Error("miauth failed")
-
-      setAccount({ host, token: res.token })
-      setAuthSession(null)
-      router.replace("/")
-    } catch (e) {
-      setAuthError(e + "")
-      router.replace("/login")
-    }
-  }, [router, setAccount, authSession, setAuthSession, setAuthError])
+  const [done, setDone] = useState(false) // 💩 こうしないとなんか怒られる
 
   useEffect(() => {
-    auth()
-  }, [auth])
+    if (!router.isReady || done) return
+    ;(async () => {
+      try {
+        if (!router.query.session || !authSession) throw new Error("session not found")
+
+        const { id, host } = authSession
+        const url = `https://${host}/api/miauth/${id}/check`
+        const res = await fetch(url, { method: "POST" }).then(r => r.json())
+        if (!res.ok) throw new Error("miauth failed")
+
+        setAccount({ host, token: res.token })
+        setAuthSession(null)
+        router.replace("/")
+      } catch (e) {
+        setAuthError(e + "")
+        router.replace("/login")
+      } finally {
+        setDone(true)
+      }
+    })()
+  }, [router, setAccount, authSession, setAuthSession, setAuthError, done, setDone])
 
   return (
     <div className="flex h-full">
