@@ -2,6 +2,7 @@ import { useAtom } from "jotai"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 
+import NBSK from "~/components/NBSK"
 import { accountAtom, authErrorAtom, authSessionAtom } from "~/libs/atoms"
 
 // todo: Suspenseでいい感じに書き直す
@@ -35,9 +36,5 @@ export default function AuthPage() {
     })()
   }, [router, setAccount, authSession, setAuthSession, setAuthError, done, setDone])
 
-  return (
-    <div className="flex h-full">
-      <p className="m-auto flex text-xl">( ՞ةڼ◔)</p>
-    </div>
-  )
+  return <NBSK />
 }

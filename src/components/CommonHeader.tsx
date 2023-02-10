@@ -23,14 +23,22 @@ function UserMenu() {
       <DropdownMenu.Portal>
         <DropdownMenu.Content className="m-2 w-48 rounded-lg border bg-white p-2 drop-shadow">
           <DropdownMenu.Item asChild>
-            <Link
-              className="flex flex-col rounded-lg px-3 py-2 outline-none hover:bg-neutral-100 active:bg-neutral-200"
-              href={`/profile?user=@${profile!.username}@${account!.host}`}>
-              <span className="overflow-hidden text-ellipsis text-lg font-bold">{profile!.name}</span>
-              <span className="overflow-hidden text-ellipsis font-inter text-sm font-bold text-neutral-500">
-                @{profile!.username}@{account!.host}
-              </span>
-            </Link>
+            {profile ? (
+              <Link
+                className="flex flex-col rounded-lg px-3 py-2 outline-none hover:bg-neutral-100 active:bg-neutral-200"
+                href={`/profile?user=@${profile?.username}@${account?.host}`}>
+                <span className="overflow-hidden text-ellipsis text-lg font-bold">{profile?.name}</span>
+                <span className="overflow-hidden text-ellipsis font-inter text-sm font-bold text-neutral-500">
+                  @{profile?.username}@{account?.host}
+                </span>
+              </Link>
+            ) : (
+              <Link
+                className="flex rounded-lg bg-gradient-to-r from-red-500 to-red-400 px-3 py-2 italic text-white outline-none hover:underline"
+                href="/help">
+                Error
+              </Link>
+            )}
           </DropdownMenu.Item>
           <DropdownMenu.Separator className="m-2 h-px bg-neutral-200" />
           <DropdownMenu.Item asChild>
@@ -40,10 +48,12 @@ function UserMenu() {
               設定
             </Link>
           </DropdownMenu.Item>
-          <DropdownMenu.Item
-            className="rounded-lg px-3 py-2 font-bold text-red-500 outline-none hover:bg-red-100 active:bg-red-200"
-            onClick={() => setAccount(null)}>
-            ログアウト
+          <DropdownMenu.Item asChild>
+            <button
+              className="w-full rounded-lg px-3 py-2 text-start font-bold text-red-500 outline-none hover:bg-red-100 active:bg-red-200"
+              onClick={() => setAccount(null)}>
+              ログアウト
+            </button>
           </DropdownMenu.Item>
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
@@ -68,7 +78,7 @@ export default function CommonHeader() {
         {account ? (
           <Suspense
             fallback={
-              <div className="h-12 w-12">
+              <div className="h-12 w-12 animate-pulse">
                 <UserIcon />
               </div>
             }>

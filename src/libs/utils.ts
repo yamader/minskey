@@ -1,6 +1,6 @@
 import { entities } from "misskey-js"
 
-export function statusEmoji(status: entities.UserLite["onlineStatus"]) {
+export function statusEmoji(status: entities.UserLite["onlineStatus"] = "unknown") {
   switch (status) {
     case "online":
       return "🟢"

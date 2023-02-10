@@ -37,5 +37,5 @@ export const apiAtom = atom<api.APIClient | null>(get => {
 export const profileAtom = atom<Promise<entities.UserLite | null>>(async get => {
   const api = get(apiAtom)
   if (!api) return null
-  return await api.request("i")
+  return await api.request("i").catch(() => null)
 })
