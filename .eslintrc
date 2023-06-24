@@ -1,10 +1,5 @@
 {
-  "extends": [
-    "eslint:recommended",
-    "prettier",
-    "next/core-web-vitals",
-    "plugin:tailwindcss/recommended"
-  ],
+  "extends": ["eslint:recommended", "prettier", "next/core-web-vitals", "plugin:tailwindcss/recommended"],
   "plugins": ["simple-import-sort"],
   "rules": {
     "no-unused-vars": "warn",
