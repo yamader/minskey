@@ -1,8 +1,8 @@
 import "~/global.css"
 
-import { Fira_Code, Inter, Zen_Kaku_Gothic_New } from "@next/font/google"
 import { Provider } from "jotai"
 import { AppProps } from "next/app"
+import { Fira_Code, Inter, Zen_Kaku_Gothic_New } from "next/font/google"
 import Head from "next/head"
 import { Suspense } from "react"
 import { ErrorBoundary, FallbackProps } from "react-error-boundary"

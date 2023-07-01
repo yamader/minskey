@@ -1,9 +1,13 @@
 {
-    "editor.tabSize": 4,
-    "files.associations": {
-        "*.ts": "typescript",
-        "*.mdx": "markdown",
-        "*.css": "tailwindcss"
-    },
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "editor.tabSize": 4,
+  "files.associations": {
+    "*.ts": "typescript",
+    "*.mdx": "markdown",
+    "*.css": "tailwindcss"
+  },
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
