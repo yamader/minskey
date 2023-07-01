@@ -1,5 +1,5 @@
 import { useAtom } from "jotai"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 import CommonLayout from "~/components/CommonLayout"
 import { streamConnectAtom, streamHTLChannelAtom } from "~/libs/atoms"
@@ -18,6 +18,23 @@ export default function IndexPage() {
 function TimeLine() {
   const [streamConnect] = useAtom(streamConnectAtom)
   const [htlChannel] = useAtom(streamHTLChannelAtom)
+  const [noteList, setNoteList] = useState<[{ note: any; index: number }]>()
+  const [noteCount, setNoteCount] = useState(0)
 
-  return <div></div>
+  useEffect(() => {})
+
+  htlChannel?.on("note", note => {
+    console.log(note)
+    setNoteCount(noteCount + 1)
+    noteList?.push({ index: noteCount, note: note })
+    setNoteList(noteList)
+  })
+
+  return (
+    <div>
+      {noteList?.map(n => {
+        return <p key={n.index}>{n.note.text}</p> //なぜかこれが動かない
+      })}
+    </div>
+  )
 }
