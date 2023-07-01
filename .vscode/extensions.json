@@ -1,0 +1,3 @@
+{
+    "recommendations": ["dbaeumer.vscode-eslint", "ecmel.vscode-html-css", "christian-kohler.npm-intellisense", "esbenp.prettier-vscode", "bradlc.vscode-tailwindcss"]
+}
