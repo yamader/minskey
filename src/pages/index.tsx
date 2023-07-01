@@ -1,4 +1,8 @@
+import { useAtom } from "jotai"
+import { useEffect } from "react"
+
 import CommonLayout from "~/components/CommonLayout"
+import { streamConnectAtom, streamHTLChannelAtom } from "~/libs/atoms"
 
 export default function IndexPage() {
   return (
@@ -12,5 +16,8 @@ export default function IndexPage() {
 }
 
 function TimeLine() {
-  return <></>
+  const [streamConnect] = useAtom(streamConnectAtom)
+  const [htlChannel] = useAtom(streamHTLChannelAtom)
+
+  return <div></div>
 }
