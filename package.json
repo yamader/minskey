@@ -8,7 +8,7 @@
     "@radix-ui/react-tooltip": "1.0.3",
     "jotai": "2.0.1",
     "mfm-js": "0.23.3",
-    "misskey-js": "0.0.16",
+    "misskey-js": "0.0.15",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-error-boundary": "3.1.4",
