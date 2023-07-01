@@ -1,7 +1,6 @@
-import { Channel } from "diagnostics_channel"
 import { atom } from "jotai"
 import { atomWithStorage } from "jotai/utils"
-import { api, entities, Stream } from "misskey-js"
+import { api, ChannelConnection, entities, Stream } from "misskey-js"
 
 // Account
 
@@ -39,10 +38,10 @@ export const streamConnectAtom = atom<Stream | null>(get => {
   return new Stream(accout.host, { token: accout.token })
 })
 
-export const streamChannelAtom = atom<Channel | null>(get => {
+export const streamHTLChannelAtom = atom<ChannelConnection | null>(get => {
   const connect = get(streamConnectAtom)
   if (!connect) return null
-  return null //Todo
+  return connect.useChannel("homeTimeline")
 })
 
 // Global State
