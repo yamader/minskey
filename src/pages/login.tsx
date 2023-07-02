@@ -9,6 +9,10 @@ import { v4 as uuidv4 } from "uuid"
 import CardLayout from "~/components/CardLayout"
 import { accountAtom, authSessionAtom } from "~/libs/atoms"
 
+function ensureProto(host: string) {
+  return /^(http(|s):\/\/).+/.test(host) ? host : `https://${host}`
+}
+
 function MiAuthLogin() {
   type MiAuthForm = {
     host: string
@@ -30,15 +34,17 @@ function MiAuthLogin() {
   }, [])
 
   const onSubmit = async ({ host }: MiAuthForm) => {
-    const id = uuidv4(),
+    const srv = ensureProto(host),
+      id = uuidv4(),
       name = "minskey",
       icon = location?.origin + "/icon.png",
       callback = location?.origin + "/auth",
       permission = permissions.join(",")
+    const [hd, tl] = srv.split("://")
 
     try {
-      const url = `https://${host}/miauth/${id}?name=${name}&icon=${icon}&callback=${callback}&permission=${permission}`
-      setAuthSession({ id, host })
+      const url = `${srv}/miauth/${id}?name=${name}&icon=${icon}&callback=${callback}&permission=${permission}`
+      setAuthSession({ id, proto: hd, host: tl })
       router.push(url)
     } catch (e) {
       setAuthSession(null)
@@ -85,17 +91,19 @@ function ManualLogin() {
   const [, setAccount] = useAtom(accountAtom)
 
   const onSubmit = async ({ host, token }: ManualLoginForm) => {
-    const testurl = `https://${host}/api/i`
+    const srv = ensureProto(host),
+      testurl = `${srv}/api/i`
     const req = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ i: token }),
     }
+    const [hd, tl] = srv.split("://")
 
     try {
       const res = await fetch(testurl, req)
       if (res.ok) {
-        setAccount({ host, token })
+        setAccount({ proto: hd, host: tl, token })
         router.push("/")
       } else {
         setError("token", { type: "manual", message: "auth failed" })
