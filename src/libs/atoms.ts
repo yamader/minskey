@@ -1,6 +1,6 @@
 import { atom } from "jotai"
 import { atomWithStorage } from "jotai/utils"
-import { api, ChannelConnection, Channels, entities, Stream } from "misskey-js"
+import { api, ChannelConnection, entities, Stream } from "misskey-js"
 
 // Account
 

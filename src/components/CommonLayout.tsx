@@ -6,7 +6,7 @@ import CommonHeader from "~/components/CommonHeader"
 export default function CommonLayout({ children }: { children: ReactNode }) {
   return (
     <div className="flex h-full flex-col">
-      <div className="mx-auto w-full max-w-2xl grow px-4">
+      <div className="mx-auto w-full max-w-4xl grow px-4">
         <CommonHeader />
         {children}
       </div>
