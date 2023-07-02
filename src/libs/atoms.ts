@@ -35,7 +35,7 @@ export const apiAtom = atom<api.APIClient | null>(get => {
 export const streamConnectAtom = atom<Stream | null>(get => {
   const accout = get(accountAtom)
   if (!accout) return null
-  return new Stream("https://"+ accout.host, { token: accout.token })
+  return new Stream("https://" + accout.host, { token: accout.token })
 })
 
 export const streamHTLChannelAtom = atom<ChannelConnection<{

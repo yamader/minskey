@@ -23,7 +23,18 @@ export default function AboutPage() {
       </p>
       <h2 className={h2class}>ソースコードとライセンス</h2>
       <p>
-        ソースコードは
+        実行されているソースコードは
+        <a
+          className="mx-1 font-bold text-lime-500 hover:underline"
+          href="https://github.com/Hayao0819/minskey"
+          target="_blank"
+          rel="noreferrer">
+          Hayao0819/minskey
+        </a>
+        で頒布しています。 ライセンスはMITです。
+      </p>
+      <p>
+        このMinskeyのハヤオによるフォークです。 フォーク元は
         <a
           className="mx-1 font-bold text-lime-500 hover:underline"
           href="https://github.com/yamader/minskey"
@@ -31,7 +42,7 @@ export default function AboutPage() {
           rel="noreferrer">
           yamader/minskey
         </a>
-        で頒布しています。ライセンスはMITです。
+        を参照してください。
       </p>
     </CommonLayout>
   )

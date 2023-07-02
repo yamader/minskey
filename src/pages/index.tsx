@@ -48,14 +48,20 @@ function TimeLine() {
           </label>
         </form>
       </div>
-      <div>{(htlChannel) ? <>{noteList?.map(n => {
-          return (
-            <div key={n.index}>
-              <Note note={n.note} />
-            </div>
-          )
-        })}</> : <p>Please login at first</p>}
-        
+      <div>
+        {htlChannel ? (
+          <>
+            {noteList?.map(n => {
+              return (
+                <div key={n.index}>
+                  <Note note={n.note} />
+                </div>
+              )
+            })}
+          </>
+        ) : (
+          <p>Please login at first</p>
+        )}
       </div>
     </div>
   )
