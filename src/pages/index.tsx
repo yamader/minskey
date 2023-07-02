@@ -19,17 +19,14 @@ export default function IndexPage() {
 function TimeLine() {
   //const [streamConnect] = useAtom(streamConnectAtom)
   const [htlChannel] = useAtom(streamHTLChannelAtom)
-  const [noteList, setNoteList] = useState<{ note: Note; index: number }[]>()
-  const [noteCount, setNoteCount] = useState(0)
+  const [noteList, setNoteList] = useState<Note[]>()
 
   htlChannel?.on("note", note => {
-    setNoteCount(noteCount + 1)
     if (note == null) return
     if (noteList == null) {
-      setNoteList([{ note: note, index: 0 }])
+      setNoteList([note])
     } else {
-      const newArray = [{ note: note, index: noteList.length }, ...noteList]
-      setNoteList(newArray)
+      setNoteList([note, ...noteList])
     }
   })
 
@@ -53,8 +50,8 @@ function TimeLine() {
           <>
             {noteList?.map(n => {
               return (
-                <div key={n.index}>
-                  <Note note={n.note} />
+                <div key={n.id}>
+                  <Note note={n} />
                 </div>
               )
             })}
