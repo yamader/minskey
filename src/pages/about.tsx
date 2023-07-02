@@ -5,7 +5,7 @@ export default function AboutPage() {
 
   return (
     <CommonLayout>
-      <h1 className="pt-16 pb-8 text-4xl font-black">minskeyについて</h1>
+      <h1 className="pb-8 pt-16 text-4xl font-black">minskeyについて</h1>
       <h2 className={h2class}>概要</h2>
       <p>
         minskeyとは，(消極的な理由によって)最小限の機能のみを実装したMisskeyクライアントです。

@@ -71,9 +71,8 @@ export default function CommonHeader() {
       </Link>
       <nav className="flex items-center space-x-4 font-inter">
         <ul className="flex space-x-4 font-bold text-stone-700">
-          <li className="flex hover:underline">
-            <Link href="/about">About</Link>
-          </li>
+          <HeaderLink href="/about">About</HeaderLink>
+          <HeaderLink href="/help">Help</HeaderLink>
         </ul>
         {account ? (
           <Suspense
@@ -89,5 +88,17 @@ export default function CommonHeader() {
         )}
       </nav>
     </header>
+  )
+}
+
+interface HeaderLinkProps {
+  href: string
+  children: string
+}
+function HeaderLink({ href, children }: HeaderLinkProps) {
+  return (
+    <li className="flex hover:underline">
+      <Link href={href}>{children}</Link>
+    </li>
   )
 }

@@ -1,6 +1,7 @@
 import { useAtom } from "jotai"
 import { useRouter } from "next/router"
-import { Suspense, useCallback, useEffect } from "react"
+//import { Suspense, useCallback, useEffect } from "react"
+import { Suspense } from "react"
 
 import CommonLayout from "~/components/CommonLayout"
 import UserProfile from "~/components/UserProfile"
