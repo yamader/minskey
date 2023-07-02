@@ -30,7 +30,7 @@ function TimeLine() {
     if (noteList==null){
       setNoteList([{note: note, index: 0}])
     }else{
-      const newArray = [...noteList, { note: note, index: noteList.length }]
+      const newArray = [{ note: note, index: noteList.length }, ...noteList]
       setNoteList(newArray)
     }
   })
@@ -38,8 +38,22 @@ function TimeLine() {
   return (
     <div>
       {noteList?.map(n => {
-        return <p key={n.index}>{n.note.text}</p> //なぜかこれが動かない
+        return <div key={n.index}><Note note={n.note} /></div>
       })}
+    </div>
+  )
+}
+
+interface NoteProps{
+  note: Note
+}
+// Todo: まともなTLのデザイン
+function Note({note}: NoteProps){
+  return (
+    <div>
+      <p>
+        {note.user.name}「{note.text}」{note.files.length != 0 ? <>（{note.files.length}つのファイル）</> : <></>}
+      </p>
     </div>
   )
 }
