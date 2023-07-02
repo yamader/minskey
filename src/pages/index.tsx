@@ -1,4 +1,5 @@
 import { useAtom } from "jotai"
+import { Note } from "misskey-js/built/entities"
 import { useEffect, useState } from "react"
 
 import CommonLayout from "~/components/CommonLayout"
@@ -16,18 +17,22 @@ export default function IndexPage() {
 }
 
 function TimeLine() {
-  const [streamConnect] = useAtom(streamConnectAtom)
+  //const [streamConnect] = useAtom(streamConnectAtom)
   const [htlChannel] = useAtom(streamHTLChannelAtom)
-  const [noteList, setNoteList] = useState<[{ note: any; index: number }]>()
+  const [noteList, setNoteList] = useState<{ note: Note; index: number }[]>()
   const [noteCount, setNoteCount] = useState(0)
 
-  useEffect(() => {})
+  //useEffect(() => {})
 
   htlChannel?.on("note", note => {
-    console.log(note)
     setNoteCount(noteCount + 1)
-    noteList?.push({ index: noteCount, note: note })
-    setNoteList(noteList)
+    if (note==null) return
+    if (noteList==null){
+      setNoteList([{note: note, index: 0}])
+    }else{
+      const newArray = [...noteList, { note: note, index: noteList.length }]
+      setNoteList(newArray)
+    }
   })
 
   return (

@@ -1,6 +1,6 @@
 import { atom } from "jotai"
 import { atomWithStorage } from "jotai/utils"
-import { api, ChannelConnection, entities, Stream } from "misskey-js"
+import { api, ChannelConnection, Channels, entities, Stream } from "misskey-js"
 
 // Account
 
@@ -38,7 +38,13 @@ export const streamConnectAtom = atom<Stream | null>(get => {
   return new Stream("https://"+ accout.host, { token: accout.token })
 })
 
-export const streamHTLChannelAtom = atom<ChannelConnection | null>(get => {
+export const streamHTLChannelAtom = atom<ChannelConnection<{
+  params: null
+  events: {
+    note: (payload: entities.Note) => void
+  }
+  receives: null
+}> | null>(get => {
   const connect = get(streamConnectAtom)
   if (!connect) return null
   return connect.useChannel("homeTimeline")
