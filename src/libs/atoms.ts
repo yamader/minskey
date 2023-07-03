@@ -38,6 +38,7 @@ export const streamConnectAtom = atom<Stream | null>(get => {
   return new Stream("https://" + accout.host, { token: accout.token })
 })
 
+// 各Timelineはjotaiで管理しないでTimeLineページだけで扱えばいいかもしれない
 export const streamHTLChannelAtom = atom<ChannelConnection<{
   params: null
   events: {
@@ -49,6 +50,20 @@ export const streamHTLChannelAtom = atom<ChannelConnection<{
   if (!connect) return null
   return connect.useChannel("homeTimeline")
 })
+
+export const srtreamGTLChannelAton = atom<ChannelConnection<{
+  params: null
+  events: {
+    note: (payload: entities.Note) => void
+  }
+  receives: null
+}> | null>(get => {
+  const connect = get(streamConnectAtom)
+  if (!connect) return null
+  return connect.useChannel("globalTimeline")
+})
+
+
 
 // Global State
 

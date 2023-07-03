@@ -1,2 +1,2 @@
-export { Note } from "./Note";
-export { TimeLine } from "./TimeLine";
+export { Note } from "./Note"
+export { TimeLine } from "./TimeLine"
