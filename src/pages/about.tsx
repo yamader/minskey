@@ -33,6 +33,15 @@ export default function AboutPage() {
         </a>
         で頒布しています。ライセンスはMITです。
       </p>
+      <h2 className={h2class}>Contributer</h2>
+      <ul className="list-disc">
+        <li>
+          <a className="hover:underline" href="https://yamad.me">
+            YamaD
+          </a>
+          <a className="hover:underline" href="https://www.hayao0819.com">Hayao</a>
+        </li>
+      </ul>
     </CommonLayout>
   )
 }
