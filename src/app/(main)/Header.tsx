@@ -1,3 +1,5 @@
+"use client"
+
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
 import { useAtom } from "jotai"
 import Link from "next/link"
@@ -8,6 +10,44 @@ import LinkButton from "~/components/LinkButton"
 import ProfileIcon from "~/components/ProfileIcon"
 import UserIcon from "~/components/UserIcon"
 import { accountAtom, profileAtom } from "~/libs/atoms"
+
+export default function Header() {
+  const [account] = useAtom(accountAtom)
+
+  return (
+    <header className="flex items-center justify-between">
+      <Link className="py-1" href="/">
+        <BrandLogo />
+      </Link>
+      <nav className="flex items-center space-x-4 font-inter">
+        <ul className="flex space-x-4 font-bold text-stone-700">
+          <HeaderLink href="/about">About</HeaderLink>
+          <HeaderLink href="/help">Help</HeaderLink>
+        </ul>
+        {account ? (
+          <Suspense
+            fallback={
+              <div className="h-12 w-12 animate-pulse">
+                <UserIcon />
+              </div>
+            }>
+            <UserMenu />
+          </Suspense>
+        ) : (
+          <LinkButton href="/login">Login</LinkButton>
+        )}
+      </nav>
+    </header>
+  )
+}
+
+function HeaderLink({ href, children }: { href: string; children: string }) {
+  return (
+    <li className="flex hover:underline">
+      <Link href={href}>{children}</Link>
+    </li>
+  )
+}
 
 function UserMenu() {
   const [account, setAccount] = useAtom(accountAtom)
@@ -58,47 +98,5 @@ function UserMenu() {
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>
-  )
-}
-
-export default function CommonHeader() {
-  const [account] = useAtom(accountAtom)
-
-  return (
-    <header className="flex items-center justify-between">
-      <Link className="py-1" href="/">
-        <BrandLogo />
-      </Link>
-      <nav className="flex items-center space-x-4 font-inter">
-        <ul className="flex space-x-4 font-bold text-stone-700">
-          <HeaderLink href="/about">About</HeaderLink>
-          <HeaderLink href="/help">Help</HeaderLink>
-        </ul>
-        {account ? (
-          <Suspense
-            fallback={
-              <div className="h-12 w-12 animate-pulse">
-                <UserIcon />
-              </div>
-            }>
-            <UserMenu />
-          </Suspense>
-        ) : (
-          <LinkButton href="/login">Login</LinkButton>
-        )}
-      </nav>
-    </header>
-  )
-}
-
-interface HeaderLinkProps {
-  href: string
-  children: string
-}
-function HeaderLink({ href, children }: HeaderLinkProps) {
-  return (
-    <li className="flex hover:underline">
-      <Link href={href}>{children}</Link>
-    </li>
   )
 }
