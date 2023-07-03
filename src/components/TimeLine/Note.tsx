@@ -23,17 +23,19 @@ export function Note({ note, renote }: NoteProps): ReactNode {
       </div>
       <p className="">{note.text}</p>
       {note.files.length != 0 ? (
-        note.files.map(item => {
-          if (item.type.startsWith("image/")) {
-            return <Image src={item.url} width={125} height={125} alt="File" key={item.id} />
-          } else {
-            return (
-              <>
-                {item.url}({item.type})
-              </>
-            )
-          }
-        })
+        <div className="flex ">
+          {note.files.map(item => {
+            if (item.type.startsWith("image/")) {
+              return <Image src={item.url} width={125} height={125} alt="File" key={item.id} />
+            } else {
+              return (
+                <>
+                  {item.url}({item.type})
+                </>
+              )
+            }
+          })}
+        </div>
       ) : (
         <></>
       )}
