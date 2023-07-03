@@ -6,10 +6,11 @@ interface NoteProps {
   renote?: Note
 }
 // Todo: まともなTLのデザイン
-export function Note({ note, renote }: NoteProps): ReactNode {
+export function Note({ note, renote }: NoteProps) {
   if (!note.text) {
     if (note.renote) {
-      return Note({ note: note.renote, renote: note })
+      //return Note({ note: note.renote, renote: note })
+      return <Note note={note.renote} renote={note} />
     }
   }
 
