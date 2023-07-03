@@ -1,5 +1,4 @@
 import { Note } from "misskey-js/built/entities"
-import Image from "next/image"
 import { ReactNode } from "react"
 
 interface NoteProps {
@@ -18,7 +17,7 @@ export function Note({ note, renote }: NoteProps): ReactNode {
     <div className="m-4 p-2">
       {renote ? <p className="text-sm">Renoted by {renote.user.name} </p> : <></>}
       <div className="flex items-center">
-        <Image src={note.user.avatarUrl} alt="Icon" width={48} height={48} />
+        <img src={note.user.avatarUrl} alt="Icon" width={48} height={48} />
         <p className="pl-5">{note.user.name}</p>
       </div>
       <p className="">{note.text}</p>
@@ -26,7 +25,7 @@ export function Note({ note, renote }: NoteProps): ReactNode {
         <div className="flex ">
           {note.files.map(item => {
             if (item.type.startsWith("image/")) {
-              return <Image src={item.url} width={125} height={125} alt="File" key={item.id} />
+              return <img src={item.url} width={125} height={125} alt="File" key={item.id} />
             } else {
               return (
                 <>
