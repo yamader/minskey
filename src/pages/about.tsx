@@ -39,7 +39,11 @@ export default function AboutPage() {
           <a className="hover:underline" href="https://yamad.me">
             YamaD
           </a>
-          <a className="hover:underline" href="https://www.hayao0819.com">Hayao</a>
+        </li>
+        <li>
+          <a className="hover:underline" href="https://www.hayao0819.com">
+            Hayao
+          </a>
         </li>
       </ul>
     </CommonLayout>
