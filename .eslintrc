@@ -14,7 +14,8 @@
     "next/next/no-img-element": "off",
     "tailwindcss/classnames-order": "off",
     "tailwindcss/no-custom-classname": "off",
-    "@typescript-eslint/no-unused-vars": ["warn"]
+    "@typescript-eslint/no-unused-vars": ["warn"],
+    "@typescript-eslint/no-var-requires": "off"
   },
   "parser": "@typescript-eslint/parser"
 }
