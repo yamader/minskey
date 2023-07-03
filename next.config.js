@@ -1,4 +1,6 @@
-module.exports = {
-  reactStrictMode: true,
-  images: { unoptimized: true },
+const nextConfig = {
+  output: "export",
+  trailingSlash: true,
 }
+
+export default nextConfig

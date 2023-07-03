@@ -19,12 +19,12 @@ export default function AuthPage() {
       try {
         if (!router.query.session || !authSession) throw new Error("session not found")
 
-        const { id, host } = authSession
-        const url = `https://${host}/api/miauth/${id}/check`
+        const { id, proto, host } = authSession
+        const url = `${proto}://${host}/api/miauth/${id}/check`
         const res = await fetch(url, { method: "POST" }).then(r => r.json())
         if (!res.ok) throw new Error("miauth failed")
 
-        setAccount({ host, token: res.token })
+        setAccount({ proto, host, token: res.token })
         setAuthSession(null)
         router.replace("/")
       } catch (e) {

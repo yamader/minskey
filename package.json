@@ -38,13 +38,15 @@
     "tailwindcss-radix": "2.8.0",
     "typescript": "5.0.4"
   },
+  "packageManager": "pnpm@8.6.5",
   "private": true,
   "scripts": {
-    "build": "next build && next export",
+    "build": "next build",
     "dev": "next dev",
     "fmt": "prettier -w src",
     "lint": "tsc && next lint"
   },
+  "type": "module",
   "volta": {
     "node": "18.16.1"
   }

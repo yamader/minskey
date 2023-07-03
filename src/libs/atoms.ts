@@ -5,6 +5,7 @@ import { api, ChannelConnection, entities, Stream } from "misskey-js"
 // Account
 
 type Account = {
+  proto: string
   host: string
   token: string
 }
@@ -15,6 +16,7 @@ export const accountAtom = atomWithStorage<Account | null>("account", null)
 
 type AuthSession = {
   id: string
+  proto: string
   host: string
 }
 
@@ -27,15 +29,15 @@ export const apiAtom = atom<api.APIClient | null>(get => {
   const account = get(accountAtom)
   if (!account) return null
   return new api.APIClient({
-    origin: `https://${account.host}`,
+    origin: `${account.proto}://${account.host}`,
     credential: account.token,
   })
 })
 
 export const streamConnectAtom = atom<Stream | null>(get => {
-  const accout = get(accountAtom)
-  if (!accout) return null
-  return new Stream("https://" + accout.host, { token: accout.token })
+  const account = get(accountAtom)
+  if (!account) return null
+  return new Stream(`${account.proto}://${account.host}`, { token: account.token })
 })
 
 // 各Timelineはjotaiで管理しないでTimeLineページだけで扱えばいいかもしれない
