@@ -1,10 +1,7 @@
-import "~/global.css"
+import "./global.css"
 
 import { Metadata } from "next"
 import { Fira_Code, Inter, Zen_Kaku_Gothic_New } from "next/font/google"
-import { Suspense } from "react"
-
-import NBSK from "~/components/NBSK"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -23,11 +20,12 @@ const firaCode = Fira_Code({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://minskey.dyama.net"),
   title: "minskey",
   description: "minimal misskey client",
   openGraph: {
     title: "minskey",
-    images: "https://minskey.dyama.net/icon.png",
+    images: "/icon.png",
   },
   twitter: {
     card: "summary",
@@ -35,14 +33,11 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const fonts = [inter.variable, zenKakuGothicNew.variable, zenKakuGothicNew.className, firaCode.variable].join(" ")
+
   return (
-    <html lang="ja">
-      <body
-        className={[inter.variable, zenKakuGothicNew.variable, zenKakuGothicNew.className, firaCode.variable].join(
-          " "
-        )}>
-        <Suspense fallback={<NBSK />}>{children}</Suspense>
-      </body>
+    <html lang="ja" className="h-full">
+      <body className={`${fonts} h-full`}>{children}</body>
     </html>
   )
 }

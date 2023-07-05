@@ -1,6 +1,8 @@
+"use client"
+
 import { useAtom } from "jotai"
-import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
+import { useEffect } from "react"
 
 import NBSK from "~/components/NBSK"
 import { accountAtom, authErrorAtom, authSessionAtom } from "~/libs/atoms"
@@ -8,18 +10,20 @@ import { accountAtom, authErrorAtom, authSessionAtom } from "~/libs/atoms"
 // todo: Suspenseでいい感じに書き直す
 export default function AuthPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [authSession, setAuthSession] = useAtom(authSessionAtom)
   const [, setAuthError] = useAtom(authErrorAtom)
   const [, setAccount] = useAtom(accountAtom)
-  const [done, setDone] = useState(false) // 💩 こうしないとなんか怒られる
 
   useEffect(() => {
-    if (!router.isReady || done) return
     ;(async () => {
       try {
-        if (!router.query.session || !authSession) throw new Error("session not found")
+        const cid = searchParams?.get("session")
+        if (!cid || !authSession) throw new Error("session not found")
 
         const { id, proto, host } = authSession
+        if (cid !== id) throw new Error("invalid auth session")
+
         const url = `${proto}://${host}/api/miauth/${id}/check`
         const res = await fetch(url, { method: "POST" }).then(r => r.json())
         if (!res.ok) throw new Error("miauth failed")
@@ -30,11 +34,9 @@ export default function AuthPage() {
       } catch (e) {
         setAuthError(e + "")
         router.replace("/login")
-      } finally {
-        setDone(true)
       }
     })()
-  }, [router, setAccount, authSession, setAuthSession, setAuthError, done, setDone])
+  }, [router, searchParams, authSession, setAuthSession, setAuthError, setAccount])
 
   return <NBSK />
 }

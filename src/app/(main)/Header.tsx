@@ -16,7 +16,7 @@ export default function Header() {
 
   return (
     <header className="flex items-center justify-between">
-      <Link className="py-1" href="/">
+      <Link className="py-1" href={account ? "/home" : "/"}>
         <BrandLogo />
       </Link>
       <nav className="flex items-center space-x-4 font-inter">

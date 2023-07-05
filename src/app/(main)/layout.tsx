@@ -1,15 +1,10 @@
-import CommonFooter from "~/components/CommonFooter"
-
 import Header from "./Header"
 
-export default function AppLayout({ children }: { children: React.ReactNode }) {
+export default function MainLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-full flex-col">
-      <div className="mx-auto w-full max-w-4xl grow px-4">
-        <Header />
-        {children}
-      </div>
-      <CommonFooter />
+    <div className="mx-auto flex h-full w-full max-w-4xl flex-col px-4">
+      <Header />
+      <div className="flex grow flex-col">{children}</div>
     </div>
   )
 }

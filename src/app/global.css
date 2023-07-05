@@ -1,11 +1,3 @@
 @tailwind base;
 @tailwind components;
-
-html,
-body,
-main,
-#__next {
-  @apply h-full;
-}
-
 @tailwind utilities;

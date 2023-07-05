@@ -1,6 +1,6 @@
 "use client"
 
-export default function Error({ error, reset }: { error: Error; reset: () => void }) {
+export default function RootError({ error, reset }: { error: Error; reset: () => void }) {
   const h2class = "mt-6 mb-3 text-4xl font-bold after:content-[':']"
 
   const armageddon = () => {
