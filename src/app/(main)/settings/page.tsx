@@ -1,11 +1,11 @@
 "use client"
 
-import { useAtom } from "jotai"
-
-import { accountAtom } from "~/libs/atoms"
+import { useAuth } from "~/features/auth/libs"
+import { useSettings } from "~/features/settings/libs"
 
 export default function SetingsPage() {
-  const [account, setAccount] = useAtom(accountAtom)
+  const { account } = useAuth()
+  const [settings] = useSettings()
 
   const h2class = "pt-6 pb-2.5 text-xl font-bold"
 
@@ -19,6 +19,13 @@ export default function SetingsPage() {
           <h2 className={h2class}>トークンの設定</h2>
         </section>
       )}
+
+      <hr />
+
+      <h2>生データ</h2>
+      <pre>
+        <code>{JSON.stringify(settings)}</code>
+      </pre>
     </>
   )
 }

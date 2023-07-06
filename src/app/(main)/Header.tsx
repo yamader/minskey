@@ -1,18 +1,18 @@
 "use client"
 
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
-import { useAtom } from "jotai"
 import Link from "next/link"
 import { Suspense } from "react"
 
 import BrandLogo from "~/components/BrandLogo"
 import LinkButton from "~/components/LinkButton"
-import ProfileIcon from "~/components/ProfileIcon"
 import UserIcon from "~/components/UserIcon"
-import { accountAtom, profileAtom } from "~/libs/atoms"
+import { useAuth, useLogin } from "~/features/auth/libs"
+import { useProfile } from "~/features/profile/libs"
+import ProfileIcon from "~/features/profile/ProfileIcon"
 
 export default function Header() {
-  const [account] = useAtom(accountAtom)
+  const account = useLogin()
 
   return (
     <header className="flex items-center justify-between">
@@ -50,8 +50,8 @@ function HeaderLink({ href, children }: { href: string; children: string }) {
 }
 
 function UserMenu() {
-  const [account, setAccount] = useAtom(accountAtom)
-  const [profile] = useAtom(profileAtom)
+  const { account, logout } = useAuth()
+  const profile = useProfile()
 
   return (
     <DropdownMenu.Root>
@@ -91,7 +91,7 @@ function UserMenu() {
           <DropdownMenu.Item asChild>
             <button
               className="w-full rounded-lg px-3 py-2 text-start font-bold text-red-500 outline-none hover:bg-red-100 active:bg-red-200"
-              onClick={() => setAccount(null)}>
+              onClick={logout}>
               ログアウト
             </button>
           </DropdownMenu.Item>

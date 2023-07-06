@@ -1,11 +1,18 @@
+"use client"
+
 import * as Tooltip from "@radix-ui/react-tooltip"
 import { entities } from "misskey-js"
 
 import UserIcon from "~/components/UserIcon"
-import { statusEmoji } from "~/libs/utils"
 
-export default function UserProfile({ user }: { user?: entities.UserLite }) {
+import { statusEmoji } from "./libs"
+
+export default function UserProfile({ id }: { id?: string }) {
+  // unko
+  const user = { avatarUrl: null, onlineStatus: null }
   const onlineStatus = user?.onlineStatus || "unknown"
+
+  console.log(id)
 
   return (
     <>

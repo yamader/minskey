@@ -1,16 +1,11 @@
-import { Note } from "misskey-js/built/entities"
-import { ReactNode } from "react"
+import { entities } from "misskey-js"
 
-interface NoteProps {
-  note: Note
-  renote?: Note
-}
 // Todo: まともなTLのデザイン
-export function Note({ note, renote }: NoteProps) {
+export default function NotePreview({ note, renote }: { note: entities.Note; renote?: entities.Note }) {
   if (!note.text) {
     if (note.renote) {
       //return Note({ note: note.renote, renote: note })
-      return <Note note={note.renote} renote={note} />
+      return <NotePreview note={note.renote} renote={note} />
     }
   }
 

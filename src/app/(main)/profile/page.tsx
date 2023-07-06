@@ -1,28 +1,18 @@
 "use client"
 
-import { useAtom } from "jotai"
 import { useSearchParams } from "next/navigation"
 import { Suspense } from "react"
 
-import UserProfile from "~/components/UserProfile"
-import { apiAtom } from "~/libs/atoms"
-
-function Profile() {
-  // const router = useRouter()
-  const searchParams = useSearchParams()
-  const [api] = useAtom(apiAtom)
-
-  const user = searchParams?.get("user")
-  console.log(user)
-
-  return <UserProfile />
-}
+import UserProfile from "~/features/profile/UserProfile"
 
 export default function ProfilePage() {
+  const searchParams = useSearchParams()
+  const id = searchParams?.get("user") || undefined
+
   return (
     <>
       <Suspense fallback={<UserProfile />}>
-        <Profile />
+        <UserProfile id={id} />
       </Suspense>
     </>
   )

@@ -1,16 +1,16 @@
 "use client"
 
 import * as RadioGroup from "@radix-ui/react-radio-group"
-import { useAtom } from "jotai"
 import { permissions } from "misskey-js"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { v4 as uuidv4 } from "uuid"
 
-import { accountAtom, authSessionAtom } from "~/libs/atoms"
+import { useAuth } from "~/features/auth/libs"
 
 // todo: MiAuthとManualでUIのガタつきをなくす
+// todo: authErrorを表示する
 export default function LoginPage() {
   const [method, setMethod] = useState("miauth") // "miauth" | "direct"
 
@@ -66,7 +66,7 @@ function MiAuthLogin() {
     handleSubmit,
   } = useForm<MiAuthForm>()
   const router = useRouter()
-  const [, setAuthSession] = useAtom(authSessionAtom)
+  const { setAuth } = useAuth()
 
   const [location, setLocation] = useState<Location | null>(null)
   useEffect(() => {
@@ -85,10 +85,10 @@ function MiAuthLogin() {
 
     try {
       const url = `${srv}/miauth/${id}?name=${name}&icon=${icon}&callback=${callback}&permission=${permission}`
-      setAuthSession({ id, proto: hd, host: tl })
+      setAuth({ session: { id, proto: hd, host: tl } })
       router.push(url)
     } catch (e) {
-      setAuthSession(null)
+      setAuth({ session: null })
       setError("host", { type: "manual", message: e + "" })
     }
   }
@@ -129,7 +129,7 @@ function ManualLogin() {
     handleSubmit,
   } = useForm<ManualLoginForm>()
   const router = useRouter()
-  const [, setAccount] = useAtom(accountAtom)
+  const { setAuth } = useAuth()
 
   const onSubmit = async ({ host, token }: ManualLoginForm) => {
     const srv = ensureProto(host),
@@ -144,7 +144,10 @@ function ManualLogin() {
     try {
       const res = await fetch(testurl, req)
       if (res.ok) {
-        setAccount({ proto: hd, host: tl, token })
+        setAuth({
+          account: { proto: hd, host: tl, token },
+          session: null,
+        })
         router.push("/")
       } else {
         setError("token", { type: "manual", message: "auth failed" })

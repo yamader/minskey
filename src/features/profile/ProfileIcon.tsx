@@ -1,12 +1,9 @@
-import { useAtom } from "jotai"
-import useSWR from "swr"
-
 import UserIcon from "~/components/UserIcon"
-import { profileAtom } from "~/libs/atoms"
-import { statusEmoji } from "~/libs/utils"
+
+import { statusEmoji, useProfile } from "./libs"
 
 export default function ProfileIcon() {
-  const [profile, setProfile] = useAtom(profileAtom)
+  const profile = useProfile()
 
   // todo: SWRでステータスの更新
 

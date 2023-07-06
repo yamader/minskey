@@ -1,18 +1,17 @@
 "use client"
 
-import { useAtom } from "jotai"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 
-import { accountAtom } from "~/libs/atoms"
+import { useLogin } from "~/features/auth/libs"
 
 export default function IndexPage() {
   const router = useRouter()
-  const [account] = useAtom(accountAtom)
+  const login = useLogin()
 
   useEffect(() => {
-    if (account) router.replace("/home")
-  }, [account, router])
+    if (login) router.replace("/home")
+  }, [router, login])
 
   return (
     <>
