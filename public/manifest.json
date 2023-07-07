@@ -1,0 +1,22 @@
+{
+  "name": "minskey",
+  "short_name": "minskey",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#033400",
+  "background_color": "#000000",
+  "description": "A minimal Misskey client",
+  "icons": [
+    {
+      "src": "/icons/192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

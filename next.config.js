@@ -1,5 +1,15 @@
-const nextConfig = {
-  output: "export",
-}
+import withPWAInit from "@ducanh2912/next-pwa"
 
-export default nextConfig
+const withPWA = withPWAInit({
+  dest: "public",
+  fallbacks: {
+    document: "/~offline",
+  },
+})
+
+export default withPWA({
+  output: "export",
+  images: {
+    unoptimized: true,
+  },
+})

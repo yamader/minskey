@@ -1,3 +1,13 @@
+import Image from "next/image"
+
+import Anon from "~/assets/anon.png"
+
 export default function UserIcon({ src }: { src?: string | null }) {
-  return <img className="h-full overflow-hidden rounded-full" src={src || "/anon.png"} alt="icon" />
+  const className = "h-full overflow-hidden rounded-full"
+
+  return src ? (
+    <img className={className} src={src} alt="icon" />
+  ) : (
+    <Image className={className} src={Anon} alt="icon" />
+  )
 }

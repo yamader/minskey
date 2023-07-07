@@ -5,3 +5,11 @@ node_modules
 
 /.next
 /next-env.d.ts
+
+# next-pwa
+
+/public/workbox**
+/public/sw**
+/public/worker**
+/public/fallback**
+/public/precache**

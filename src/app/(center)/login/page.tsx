@@ -78,7 +78,7 @@ function MiAuthLogin() {
     const srv = ensureProto(host),
       id = uuidv4(),
       name = "minskey",
-      icon = location?.origin + "/icon.png",
+      icon = location?.origin + "/favicon.png",
       callback = location?.origin + "/auth",
       permission = permissions.join(",")
     const [hd, tl] = srv.split("://")

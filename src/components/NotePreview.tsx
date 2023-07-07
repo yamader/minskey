@@ -1,4 +1,5 @@
 import { entities } from "misskey-js"
+import Image from "next/image"
 
 // Todo: まともなTLのデザイン
 export default function NotePreview({ note, renote }: { note: entities.Note; renote?: entities.Note }) {
@@ -13,7 +14,7 @@ export default function NotePreview({ note, renote }: { note: entities.Note; ren
     <div className="m-4 p-2">
       {renote ? <p className="text-sm">Renoted by {renote.user.name} </p> : <></>}
       <div className="flex items-center">
-        <img src={note.user.avatarUrl} alt="Icon" width={48} height={48} />
+        <Image src={note.user.avatarUrl} width={48} height={48} alt="Icon" />
         <p className="pl-5">{note.user.name}</p>
       </div>
       <p className="">{note.text}</p>
@@ -21,7 +22,7 @@ export default function NotePreview({ note, renote }: { note: entities.Note; ren
         <div className="flex ">
           {note.files.map(item => {
             if (item.type.startsWith("image/")) {
-              return <img src={item.url} width={125} height={125} alt="File" key={item.id} />
+              return <Image src={item.url} width={125} height={125} alt="File" key={item.id} />
             } else {
               return (
                 <>

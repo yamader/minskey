@@ -22,10 +22,12 @@ const firaCode = Fira_Code({
 export const metadata: Metadata = {
   metadataBase: new URL("https://minskey.dyama.net"),
   title: "minskey",
-  description: "minimal misskey client",
+  description: "A minimal Misskey client",
+  icons: "/favicon.png",
+  manifest: "/manifest.json",
   openGraph: {
     title: "minskey",
-    images: "/icon.png",
+    images: "/favicon.png",
   },
   twitter: {
     card: "summary",
