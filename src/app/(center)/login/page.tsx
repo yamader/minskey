@@ -2,7 +2,7 @@
 
 import * as RadioGroup from "@radix-ui/react-radio-group"
 import { permissions } from "misskey-js"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { v4 as uuidv4 } from "uuid"
@@ -12,7 +12,21 @@ import { useAuth } from "~/features/auth/libs"
 // todo: MiAuthとManualでUIのガタつきをなくす
 // todo: authErrorを表示する
 export default function LoginPage() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
   const [method, setMethod] = useState("miauth") // "miauth" | "direct"
+
+  const { error, setAuth } = useAuth()
+  const [prevError, setPrevError] = useState<string | null>(null)
+  useEffect(() => {
+    if (error) {
+      setPrevError(error)
+      setAuth({ error: null })
+    }
+  }, [error, setAuth])
+
+  const go = searchParams.get("go") || "/home"
+  const host = searchParams.get("host") ?? undefined
 
   return (
     <>
@@ -44,8 +58,16 @@ export default function LoginPage() {
           </label>
         </RadioGroup.Item>
       </RadioGroup.Root>
-      {method === "miauth" && <MiAuthLogin />}
-      {method === "direct" && <ManualLogin />}
+      <div className="mx-10 my-4">
+        <p className="text-red-500">{prevError}</p>
+        {method === "miauth" && <MiAuthLogin go={go} host={host} />}
+        {method === "direct" && <ManualLogin go={go} host={host} />}
+        <button
+          className="w-full rounded-md border-2 bg-neutral-100 py-2 font-inter text-xl font-bold text-lime-500 hover:bg-lime-200 active:bg-lime-300"
+          onClick={router.back}>
+          back
+        </button>
+      </div>
     </>
   )
 }
@@ -54,7 +76,12 @@ function ensureProto(host: string) {
   return /^(http(|s):\/\/).+/.test(host) ? host : `https://${host}`
 }
 
-function MiAuthLogin() {
+type LoginProps = {
+  go: string
+  host?: string
+}
+
+function MiAuthLogin({ go, host }: LoginProps) {
   type MiAuthForm = {
     host: string
   }
@@ -79,7 +106,7 @@ function MiAuthLogin() {
       id = uuidv4(),
       name = "minskey",
       icon = location?.origin + "/favicon.png",
-      callback = location?.origin + "/auth",
+      callback = location?.origin + `/auth?go=${go}`,
       permission = permissions.join(",")
     const [hd, tl] = srv.split("://")
 
@@ -88,13 +115,12 @@ function MiAuthLogin() {
       setAuth({ session: { id, proto: hd, host: tl } })
       router.push(url)
     } catch (e) {
-      setAuth({ session: null })
       setError("host", { type: "manual", message: e + "" })
     }
   }
 
   return (
-    <form className="mx-10 my-4" onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="my-4">
         <label className="font-inter text-xl font-bold" htmlFor="login_host">
           Host
@@ -103,12 +129,12 @@ function MiAuthLogin() {
           className="w-full rounded-md border-2 p-4 shadow-none focus:border-lime-400 focus:outline-none"
           id="login_host"
           placeholder="example.net"
-          {...register("host", { required: "適切なホスト名を入力してください" })}
+          {...register("host", { required: "適切なホスト名を入力してください", value: host })}
         />
         {errors.host && <p className="text-red-500">{errors.host.message}</p>}
       </div>
       <input
-        className="w-full rounded-md bg-lime-500 py-2 font-inter text-xl font-bold text-white hover:bg-lime-400 active:bg-lime-300"
+        className="my-2 w-full rounded-md bg-lime-500 py-2 font-inter text-xl font-bold text-white hover:bg-lime-400 active:bg-lime-300"
         type="submit"
         value="Next"
       />
@@ -116,7 +142,7 @@ function MiAuthLogin() {
   )
 }
 
-function ManualLogin() {
+function ManualLogin({ go, host }: LoginProps) {
   type ManualLoginForm = {
     host: string
     token: string
@@ -148,7 +174,7 @@ function ManualLogin() {
           account: { proto: hd, host: tl, token },
           session: null,
         })
-        router.push("/")
+        router.push(go)
       } else {
         setError("token", { type: "manual", message: "auth failed" })
       }
@@ -158,7 +184,7 @@ function ManualLogin() {
   }
 
   return (
-    <form className="mx-10 my-4" onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="my-4">
         <label className="font-inter text-xl font-bold" htmlFor="login_host">
           Host
@@ -167,7 +193,7 @@ function ManualLogin() {
           className="w-full rounded-md border-2 p-4 shadow-none focus:border-lime-400 focus:outline-none"
           id="login_host"
           placeholder="example.net"
-          {...register("host", { required: "適切なホスト名を入力してください" })}
+          {...register("host", { required: "適切なホスト名を入力してください", value: host })}
         />
         {errors.host && <p className="text-red-500">{errors.host.message}</p>}
       </div>
@@ -184,7 +210,7 @@ function ManualLogin() {
         {errors.token && <p className="text-red-500">{errors.token.message}</p>}
       </div>
       <input
-        className="w-full rounded-md bg-lime-500 py-2 font-inter text-xl font-bold text-white hover:bg-lime-400 active:bg-lime-300"
+        className="my-2 w-full rounded-md bg-lime-500 py-2 font-inter text-xl font-bold text-white hover:bg-lime-400 active:bg-lime-300"
         type="submit"
         value="Next"
       />

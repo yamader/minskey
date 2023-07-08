@@ -7,7 +7,7 @@ import UserProfile from "~/features/profile/UserProfile"
 
 export default function ProfilePage() {
   const searchParams = useSearchParams()
-  const id = searchParams?.get("user") || undefined
+  const id = searchParams.get("user") || undefined
 
   return (
     <>

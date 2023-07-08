@@ -50,7 +50,7 @@ function HeaderLink({ href, children }: { href: string; children: string }) {
 }
 
 function UserMenu() {
-  const { account, logout } = useAuth()
+  const { logout } = useAuth()
   const profile = useProfile()
 
   return (
@@ -66,10 +66,10 @@ function UserMenu() {
             {profile ? (
               <Link
                 className="flex flex-col rounded-lg px-3 py-2 outline-none hover:bg-neutral-100 active:bg-neutral-200"
-                href={`/profile?user=@${profile?.username}@${account?.host}`}>
-                <span className="overflow-hidden text-ellipsis text-lg font-bold">{profile?.name}</span>
+                href={`/profile?user=@${profile.username}@${profile.host}`}>
+                <span className="overflow-hidden text-ellipsis text-lg font-bold">{profile.name}</span>
                 <span className="overflow-hidden text-ellipsis font-inter text-sm font-bold text-neutral-500">
-                  @{profile?.username}@{account?.host}
+                  @{profile.username}@{profile.host}
                 </span>
               </Link>
             ) : (
@@ -91,7 +91,7 @@ function UserMenu() {
           <DropdownMenu.Item asChild>
             <button
               className="w-full rounded-lg px-3 py-2 text-start font-bold text-red-500 outline-none hover:bg-red-100 active:bg-red-200"
-              onClick={logout}>
+              onClick={() => confirm("ほんまに？") && logout()}>
               ログアウト
             </button>
           </DropdownMenu.Item>

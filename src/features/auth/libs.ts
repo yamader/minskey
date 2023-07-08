@@ -24,7 +24,7 @@ type AuthSession = {
 export const accountAtom = atomWithStorage<Account | null>("minsk::account::v1", null)
 
 export const authSessionAtom = atomWithStorage<AuthSession | null>("minsk::authSession", null)
-export const authErrorAtom = atom("")
+export const authErrorAtom = atom<string | null>(null)
 
 // hooks
 
@@ -60,7 +60,7 @@ export function useAuth() {
   }
 
   const logout = () => {
-    setAuth({ account: null, session: null, error: "" })
+    setAuth({ account: null, session: null, error: null })
   }
 
   return {
