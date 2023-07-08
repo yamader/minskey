@@ -10,7 +10,8 @@ export function useTL(channel: TLChanNames) {
   const api = useAPI()
   const [notes, setNotes] = useState<entities.Note[]>([])
 
-  useLogin(true)
+  const account = useLogin(true)
+  const host = account?.host ?? null
 
   // first time
   useEffect(() => {
@@ -19,20 +20,22 @@ export function useTL(channel: TLChanNames) {
       const res = await api.request("notes/timeline", {
         limit: 10,
       })
+      res.forEach(note => (note.user.host ??= host))
       setNotes(res)
     })()
-  }, [api])
+  }, [api, host])
 
   // streaming
   useEffect(() => {
     if (!stream) return
     const conn = stream?.on("note", note => {
-      setNotes(notes => notes.concat(note))
+      note.user.host ??= host
+      setNotes(notes => [note, ...notes])
     })
     return () => {
       conn?.off("note")
     }
-  }, [stream])
+  }, [stream, host])
 
   // scroll
   const more = useCallback(async () => {
@@ -41,8 +44,9 @@ export function useTL(channel: TLChanNames) {
       limit: 30,
       untilId: notes[notes.length - 1].id,
     })
+    res.forEach(note => (note.user.host ??= host))
     setNotes(notes => notes.concat(res))
-  }, [api, notes])
+  }, [api, notes, host])
 
   return { notes, more }
 }

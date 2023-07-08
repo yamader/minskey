@@ -50,8 +50,10 @@ function HeaderLink({ href, children }: { href: string; children: string }) {
 }
 
 function UserMenu() {
-  const { logout } = useAuth()
+  const { account, logout } = useAuth()
   const profile = useProfile()
+
+  const host = profile?.host ?? account?.host
 
   return (
     <DropdownMenu.Root>
@@ -66,10 +68,10 @@ function UserMenu() {
             {profile ? (
               <Link
                 className="flex flex-col rounded-lg px-3 py-2 outline-none hover:bg-neutral-100 active:bg-neutral-200"
-                href={`/profile?user=@${profile.username}@${profile.host}`}>
+                href={`/profile?user=@${profile.username}@${host}`}>
                 <span className="overflow-hidden text-ellipsis text-lg font-bold">{profile.name}</span>
                 <span className="overflow-hidden text-ellipsis font-inter text-sm font-bold text-neutral-500">
-                  @{profile.username}@{profile.host}
+                  @{profile.username}@{host}
                 </span>
               </Link>
             ) : (

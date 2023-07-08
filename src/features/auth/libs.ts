@@ -34,7 +34,7 @@ export function useLogin(login?: boolean) {
   const client = useClient()
 
   useEffect(() => {
-    if (login && client && !account) router.push("/login")
+    if (login && client && !account) router.push("/")
   }, [login, client, account, router])
 
   return account
