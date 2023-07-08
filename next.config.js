@@ -8,8 +8,9 @@ const withPWA = withPWAInit({
 })
 
 export default withPWA({
-  output: "export",
+  trailingSlash: true,
   images: {
     unoptimized: true,
   },
+  output: "export",
 })

@@ -1,6 +1,9 @@
 import { atom, useAtom, useAtomValue } from "jotai"
 import { atomWithStorage } from "jotai/utils"
 import { useRouter } from "next/navigation"
+import { useEffect } from "react"
+
+import { useClient } from "~/libs/utils"
 
 // types
 
@@ -28,7 +31,12 @@ export const authErrorAtom = atom("")
 export function useLogin(login?: boolean) {
   const account = useAtomValue(accountAtom)
   const router = useRouter()
-  if (login && !account) router.push("/login")
+  const client = useClient()
+
+  useEffect(() => {
+    if (login && client && !account) router.push("/login")
+  }, [login, client, account, router])
+
   return account
 }
 
