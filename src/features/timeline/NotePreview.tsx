@@ -6,7 +6,9 @@ import { memo } from "react"
 
 import FilePreview from "~/components/FilePreview"
 import { profileLink } from "~/features/profile/libs"
-import { reltime } from "~/libs/utils"
+import { abstime, reltime } from "~/libs/utils"
+
+import { useSettings } from "../settings/libs"
 
 type NotePreviewProps = {
   note: entities.Note
@@ -45,7 +47,7 @@ function NotePreview({ note, renote }: NotePreviewProps) {
                 <span className="text-neutral-400">@{note.user.host}</span>
               </p>
             </div>
-            <p>{reltime(note.createdAt)}</p>
+            <p title={abstime(note.createdAt)}>{FormatTime(note.createdAt)}</p>
           </div>
           <p>{note.text}</p>
           {!!note.files.length && (
@@ -82,4 +84,13 @@ function RenoteHeader({ rn }: { rn: entities.Note }) {
       <p>{reltime(rn.createdAt)}</p>
     </div>
   )
+}
+
+function FormatTime(date: string): string {
+  const [settings] = useSettings()
+  if (settings.absoluteDate) {
+    return date
+  } else {
+    return reltime(date).toString()
+  }
 }
