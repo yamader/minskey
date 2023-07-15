@@ -1,9 +1,10 @@
-import { Globe, Home, Lock, LucideProps, Mail } from "lucide-react"
+import { Globe, Home, Lock, LucideIcon, Mail } from "lucide-react"
 import { Endpoints } from "misskey-js"
+import { ComponentProps } from "react"
 
 export type Visibility = Endpoints["notes/create"]["req"]["visibility"]
 
-export default function VisivilityIcon({ name, ...props }: LucideProps & { name: Visibility }) {
+export default function VisivilityIcon({ name, ...props }: ComponentProps<LucideIcon> & { name: Visibility }) {
   // prettier-ignore
   switch (name) {
     case "public":    return <Globe {...props} />
