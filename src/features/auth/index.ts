@@ -3,7 +3,7 @@ import { atomWithStorage } from "jotai/utils"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 
-import { useClient } from "~/libs/utils"
+import { useClient } from "~/features/common"
 
 // types
 

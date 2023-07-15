@@ -3,9 +3,9 @@
 import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 
-import NBSK from "~/components/NBSK"
-import { useAuth } from "~/features/auth/libs"
-import { useClient } from "~/libs/utils"
+import { useAuth } from "~/features/auth"
+import { useClient } from "~/features/common"
+import NBSK from "~/features/common/NBSK"
 
 // todo: Suspenseでいい感じに書き直す
 export default function AuthPage() {

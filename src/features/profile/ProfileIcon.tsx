@@ -1,6 +1,5 @@
-import UserIcon from "~/components/UserIcon"
-
-import { statusEmoji, useProfile } from "./libs"
+import { statusEmoji, useProfile } from "."
+import UserIcon from "./UserIcon"
 
 export default function ProfileIcon() {
   const profile = useProfile()

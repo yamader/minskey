@@ -1,12 +1,46 @@
+import { atom, useAtom, useAtomValue, useSetAtom } from "jotai"
+import { atomWithStorage } from "jotai/utils"
 import { entities } from "misskey-js"
 import { useCallback, useEffect, useState } from "react"
 
-import { TLChanNames, useAPI, useStream } from "~/features/api/libs"
-import { useLogin } from "~/features/auth/libs"
+import { TLChanNames, useAPI, useStream } from "~/features/api"
+import { useLogin } from "~/features/auth"
+
+////////////////////////////////////////////////////////////////
+//  atoms
+////////////////////////////////////////////////////////////////
+
+type TL = {
+  notes: entities.Note[]
+  more: () => Promise<void>
+}
+
+// ストリーミングするTLを選択
+export const tlNameAtom = atomWithStorage<TLChanNames>("mnsk::tl", "homeTimeline")
+
+export const tlAtom = atom<TL>({ notes: [], more: () => Promise.resolve() })
+
+////////////////////////////////////////////////////////////////
+//  hooks
+////////////////////////////////////////////////////////////////
+
+// TLのストリーミングを管理する
+export function useTLStream() {
+  const chan = useAtomValue(tlNameAtom)
+  useSetAtom(tlAtom)(useTLRaw(chan))
+}
+
+export function useTLName() {
+  return useAtom(tlNameAtom)
+}
+
+export function useTL() {
+  return useAtomValue(tlAtom)
+}
 
 // todo: ノートの内容をいい感じにキャッシュ
-export function useTL(channel: TLChanNames) {
-  const stream = useStream(channel)
+function useTLRaw(chan: TLChanNames) {
+  const stream = useStream(chan)
   const api = useAPI()
   const [notes, setNotes] = useState<entities.Note[]>([])
 

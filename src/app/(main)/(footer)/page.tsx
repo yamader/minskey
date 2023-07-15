@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 
-import { useLogin } from "~/features/auth/libs"
+import { useLogin } from "~/features/auth"
 
 export default function IndexPage() {
   const router = useRouter()

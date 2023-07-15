@@ -4,12 +4,12 @@ import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
 import Link from "next/link"
 import { Suspense } from "react"
 
-import BrandLogo from "~/components/BrandLogo"
-import LinkButton from "~/components/LinkButton"
-import UserIcon from "~/components/UserIcon"
-import { useAuth, useLogin } from "~/features/auth/libs"
-import { useProfile } from "~/features/profile/libs"
+import { useAuth, useLogin } from "~/features/auth"
+import BrandLogo from "~/features/common/BrandLogo"
+import LinkButton from "~/features/common/LinkButton"
+import { useProfile } from "~/features/profile"
 import ProfileIcon from "~/features/profile/ProfileIcon"
+import UserIcon from "~/features/profile/UserIcon"
 
 export default function Header() {
   const account = useLogin()

@@ -2,14 +2,13 @@
 
 import { Loader2 } from "lucide-react"
 
-import { useTL } from "~/features/timeline/libs"
-import NotePreview from "~/features/timeline/NotePreview"
-import { useBottom } from "~/libs/utils"
+import { useBottom } from "~/features/common"
+import NotePreview from "~/features/note/NotePreview"
+import { useTL } from "~/features/timeline"
 
 // todo: TLの切り替え
 export default function HomePage() {
-  const { notes, more } = useTL("homeTimeline")
-
+  const { notes, more } = useTL()
   useBottom(more)
 
   return (

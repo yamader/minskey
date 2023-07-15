@@ -7,7 +7,10 @@ export default function HelpPage() {
       <h1 className="pb-8 pt-16 text-4xl font-black">Help</h1>
       <h2 className={h2class}>機能がない</h2>
       <p>
-        Minskeyは現在開発中です。<a href="https://github.com/yamader/minskey/issues/4" target="_blank" className={aclass}>Issue #4</a>
+        Minskeyは現在開発中です。
+        <a href="https://github.com/yamader/minskey/issues/4" target="_blank" className={aclass}>
+          Issue #4
+        </a>
         で進捗を確認してください。
       </p>
       <h2 className={h2class}>エラーが出る</h2>

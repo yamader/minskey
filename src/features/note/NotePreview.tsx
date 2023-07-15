@@ -4,24 +4,20 @@ import Image from "next/image"
 import Link from "next/link"
 import { memo } from "react"
 
-import FilePreview from "~/components/FilePreview"
-import { profileLink } from "~/features/profile/libs"
-import { abstime, reltime } from "~/libs/utils"
-
-import { useSettings } from "../settings/libs"
+import { abstime, reltime } from "~/features/common"
+import FilePreview from "~/features/note/FilePreview"
+import { profileLink } from "~/features/profile"
+import { useSettings } from "~/features/settings"
 
 type NotePreviewProps = {
   note: entities.Note
   renote?: entities.Note
 }
 
-const NotePreviewMemo = memo<NotePreviewProps>(function NP({ note }) {
-  return <NotePreview note={note} />
-})
-
+const NotePreviewMemo = memo(NotePreview)
 export default NotePreviewMemo
 
-// Todo: まともなTLのデザイン
+// todo: 設定に応じて自動でリフレッシュ
 function NotePreview({ note, renote }: NotePreviewProps) {
   if (note.renote && !note.text) {
     return <NotePreview note={note.renote} renote={note} />
@@ -47,7 +43,9 @@ function NotePreview({ note, renote }: NotePreviewProps) {
                 <span className="text-neutral-400">@{note.user.host}</span>
               </p>
             </div>
-            <p title={abstime(note.createdAt)}>{FormatTime(note.createdAt)}</p>
+            <Link className="hover:underline" href={`/note?id=${note.id}`}>
+              <time dateTime={abstime(note.createdAt)}>{FormatTime(note.createdAt)}</time>
+            </Link>
           </div>
           <p>{note.text}</p>
           {!!note.files.length && (

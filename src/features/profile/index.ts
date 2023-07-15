@@ -1,8 +1,7 @@
 import { atom, useAtomValue } from "jotai"
 import { entities } from "misskey-js"
 
-import { apiAtom } from "~/features/api/libs"
-import { useLogin } from "~/features/auth/libs"
+import { apiAtom } from "~/features/api"
 
 // utils
 

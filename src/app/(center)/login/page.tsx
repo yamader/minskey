@@ -7,7 +7,7 @@ import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { v4 as uuidv4 } from "uuid"
 
-import { useAuth } from "~/features/auth/libs"
+import { useAuth } from "~/features/auth"
 
 // todo: MiAuthとManualでUIのガタつきをなくす
 // todo: authErrorを表示する

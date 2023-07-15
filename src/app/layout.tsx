@@ -1,5 +1,6 @@
 import "./global.css"
 
+import clsx from "clsx"
 import { Metadata } from "next"
 import { Fira_Code, Inter, Zen_Kaku_Gothic_New } from "next/font/google"
 
@@ -35,11 +36,18 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const fonts = [inter.variable, zenKakuGothicNew.variable, zenKakuGothicNew.className, firaCode.variable].join(" ")
-
   return (
     <html lang="ja" className="h-full">
-      <body className={`${fonts} h-full`}>{children}</body>
+      <body
+        className={clsx(
+          inter.variable,
+          zenKakuGothicNew.variable,
+          zenKakuGothicNew.className,
+          firaCode.variable,
+          "h-full"
+        )}>
+        {children}
+      </body>
     </html>
   )
 }

@@ -1,7 +1,7 @@
 "use client"
 
-import { useAuth } from "~/features/auth/libs"
-import { useSettings } from "~/features/settings/libs"
+import { useAuth } from "~/features/auth"
+import { useSettings } from "~/features/settings"
 
 export default function SetingsPage() {
   const { account } = useAuth()
