@@ -16,11 +16,11 @@ export default function NoteDialog() {
   const [open, setOpen] = useNoteDialog()
 
   // おま○け
-  const fst = useRef(false)
+  const fst = useRef(true)
   useEffect(() => {
-    if (open) history.pushState(null, "", "/compose/note")
-    else if (fst.current) history.back()
-    fst.current = true
+    if (open) history.pushState(null, "", "/compose/note/")
+    else if (!fst.current) history.back()
+    fst.current = false
   }, [open])
 
   return (

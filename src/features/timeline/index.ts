@@ -16,7 +16,7 @@ type TL = {
 }
 
 // ストリーミングするTLを選択
-export const tlNameAtom = atomWithStorage<TLChanNames>("mnsk::tl", "homeTimeline")
+export const tlNameAtom = atomWithStorage<TLChanNames>("minsk::tl::name", "homeTimeline")
 
 export const tlAtom = atom<TL>({ notes: [], more: () => Promise.resolve() })
 

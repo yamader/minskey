@@ -5,7 +5,9 @@ import { useEffect } from "react"
 
 import { useClient } from "~/features/common"
 
-// types
+////////////////////////////////////////////////////////////////
+//  atoms
+////////////////////////////////////////////////////////////////
 
 type Account = {
   proto: string
@@ -13,20 +15,22 @@ type Account = {
   token: string
 }
 
+// todo: multiple account, and rename key
+export const accountAtom = atomWithStorage<Account | null>("minsk::account::v1", null)
+
 type AuthSession = {
   id: string
   proto: string
   host: string
 }
 
-// atoms
+export const authSessionAtom = atomWithStorage<AuthSession | null>("minsk::auth::session", null)
 
-export const accountAtom = atomWithStorage<Account | null>("minsk::account::v1", null)
-
-export const authSessionAtom = atomWithStorage<AuthSession | null>("minsk::authSession", null)
 export const authErrorAtom = atom<string | null>(null)
 
-// hooks
+////////////////////////////////////////////////////////////////
+//  hooks
+////////////////////////////////////////////////////////////////
 
 export function useLogin(login?: boolean) {
   const account = useAtomValue(accountAtom)

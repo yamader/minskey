@@ -7,7 +7,7 @@ import { Endpoints } from "misskey-js"
 const noteDialogAtom = atom(false)
 
 type Visibility = Endpoints["notes/create"]["req"]["visibility"]
-const noteVisibilityAtom = atomWithStorage<Visibility>("mnsk::note_visibility", "public")
+const noteVisibilityAtom = atomWithStorage<Visibility>("minsk::note::visibility", "public")
 
 // hooks
 
