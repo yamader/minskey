@@ -4,16 +4,31 @@ import * as Dialog from "@radix-ui/react-dialog"
 import * as Select from "@radix-ui/react-select"
 import { BarChartHorizontal, ChevronDown, EyeOff, Paperclip, User2, X } from "lucide-react"
 import { ComponentProps, forwardRef, useEffect, useRef } from "react"
-import { useForm } from "react-hook-form"
+import { useForm, UseFormReturn } from "react-hook-form"
 import TextareaAutosize from "react-textarea-autosize"
 
 import { useAPI } from "~/features/api"
+import { useKeysym } from "~/features/common"
 
 import { useNoteDialog, useNoteVisibility } from "."
 import VisibilityIcon, { Visibility } from "./VisibilityIcon"
 
+type FormData = {
+  text: string
+  visibility: Visibility
+}
+
 export default function NoteDialog() {
   const [open, setOpen] = useNoteDialog()
+
+  // NoteForm state
+  const [visibility] = useNoteVisibility()
+  const form = useForm<FormData>({
+    values: { text: "", visibility },
+  })
+
+  // keysym: compose note
+  useKeysym("n", [], () => setOpen(true))
 
   // おま○け
   const fst = useRef(true)
@@ -28,30 +43,33 @@ export default function NoteDialog() {
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black/50" />
         <Dialog.Content className="fixed left-1/2 top-14 max-h-[85vh] w-[32rem] translate-x-[-50%]">
-          <NoteForm close={() => setOpen(false)} />
+          <NoteForm {...form} close={() => setOpen(false)} />
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
   )
 }
 
-function NoteForm({ close }: { close: () => void }) {
+function NoteForm({
+  register,
+  handleSubmit,
+  getValues,
+  setValue,
+  close,
+}: UseFormReturn<FormData> & { close: () => void }) {
   const api = useAPI()
-  const [visibility, setVisibility] = useNoteVisibility()
+  const [, setVisibility] = useNoteVisibility()
 
-  type FormData = {
-    text: string
-    visibility: Visibility
-  }
-  const { register, handleSubmit, setValue } = useForm<FormData>({
-    defaultValues: { visibility },
-  })
   const onSubmit = async (data: FormData) => {
     if (!api) return
     setVisibility(data.visibility)
     await api.request("notes/create", data)
     close()
+    setValue("text", "")
   }
+
+  // keysym: post note
+  useKeysym("Enter", ["Control"], handleSubmit(onSubmit))
 
   const btn = "rounded-lg hover:bg-neutral-200 p-2"
   return (
@@ -88,7 +106,7 @@ function NoteForm({ close }: { close: () => void }) {
           </div>
           <div className="flex items-center gap-1">
             <NFSelectVisibility
-              defaultValue={visibility}
+              defaultValue={getValues("visibility")}
               onValueChange={val => setValue("visibility", val as Visibility)}
             />
             <button
