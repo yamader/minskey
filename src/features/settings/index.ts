@@ -6,7 +6,7 @@ import { atomWithStorage } from "jotai/utils"
 type Settings = {
   version: number
   dark: boolean
-  absoluteDate: boolean
+  absDate: boolean
 }
 
 const rawSettingsAtom = atomWithStorage("minsk::settings", {})
@@ -33,7 +33,7 @@ function settingsMigrator(settings: any): Settings {
   if (!settings.version || settings.version < 0) {
     settings.version = 0
     settings.dark = false
-    settings.absoluteDate = false
+    settings.absDate = false
   }
 
   return settings

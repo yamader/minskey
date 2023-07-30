@@ -1,13 +1,17 @@
-import { MoreHorizontal, Plus, Repeat2, Reply } from "lucide-react"
+import { Repeat2 } from "lucide-react"
 import { entities } from "misskey-js"
 import Image from "next/image"
 import Link from "next/link"
 import { memo } from "react"
 
-import { abstime, reltime } from "~/features/common"
-import FilePreview from "~/features/note/FilePreview"
+import TimeText from "~/features/common/TimeText"
+import FilePreview from "~/features/drive/FilePreview"
 import { profileLink } from "~/features/profile"
-import { useSettings } from "~/features/settings"
+
+import NavMore from "./NavMore"
+import NavReact from "./NavReact"
+import NavReply from "./NavReply"
+import NavRN from "./NavRN"
 
 type NotePreviewProps = {
   note: entities.Note
@@ -20,12 +24,25 @@ export default NotePreviewMemo
 // todo: 設定に応じて自動でリフレッシュ
 function NotePreview({ note, renote }: NotePreviewProps) {
   if (note.renote && !note.text) {
-    return <NotePreview note={note.renote} renote={note} />
+    renote = note
+    note = note.renote
   }
 
   return (
     <div className="p-3">
-      {renote && <RenoteHeader rn={renote} />}
+      {renote && (
+        <div className="mb-1 flex justify-between text-neutral-600">
+          <p className="ml-1 flex items-center gap-1 text-sm">
+            <Repeat2 size={16} />
+            <Link className="font-bold hover:underline" href={profileLink(renote.user)}>
+              {renote.user.name}
+            </Link>
+          </p>
+          <Link className="hover:underline" href={`/note?id=${renote.id}`}>
+            <TimeText dateTime={renote.createdAt} />
+          </Link>
+        </div>
+      )}
       <div className="flex gap-1.5">
         <Link
           className="m-1 h-fit w-fit overflow-hidden rounded-[48px] shadow transition-all hover:rounded-md"
@@ -44,7 +61,7 @@ function NotePreview({ note, renote }: NotePreviewProps) {
               </p>
             </div>
             <Link className="hover:underline" href={`/note?id=${note.id}`}>
-              <time dateTime={abstime(note.createdAt)}>{FormatTime(note.createdAt)}</time>
+              <TimeText dateTime={note.createdAt} />
             </Link>
           </div>
           <p>{note.text}</p>
@@ -59,36 +76,13 @@ function NotePreview({ note, renote }: NotePreviewProps) {
             </div>
           )}
           <div className="mt-1 flex gap-8">
-            <Reply size={20} />
-            <Repeat2 size={20} />
-            <Plus size={20} />
-            <MoreHorizontal size={20} />
+            <NavReply note={note} />
+            <NavRN note={note} />
+            <NavReact note={note} />
+            <NavMore note={note} />
           </div>
         </div>
       </div>
     </div>
   )
-}
-
-function RenoteHeader({ rn }: { rn: entities.Note }) {
-  return (
-    <div className="mb-1 flex justify-between text-neutral-600">
-      <p className="ml-1 flex items-center gap-1 text-sm">
-        <Repeat2 size={16} />
-        <Link className="font-bold hover:underline" href={profileLink(rn.user)}>
-          {rn.user.name}
-        </Link>
-      </p>
-      <p>{reltime(rn.createdAt)}</p>
-    </div>
-  )
-}
-
-function FormatTime(date: string): string {
-  const [settings] = useSettings()
-  if (settings.absoluteDate) {
-    return date
-  } else {
-    return reltime(date).toString()
-  }
 }
