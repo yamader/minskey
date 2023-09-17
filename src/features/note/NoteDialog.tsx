@@ -7,11 +7,10 @@ import { ComponentProps, forwardRef, useEffect, useRef } from "react"
 import { useForm, UseFormReturn } from "react-hook-form"
 import TextareaAutosize from "react-textarea-autosize"
 
+import VisibilityIcon, { Visibility } from "./VisibilityIcon"
+import { useNoteDialog, useNoteVisibility } from "."
 import { useAPI } from "~/features/api"
 import { useKeysym } from "~/features/common"
-
-import { useNoteDialog, useNoteVisibility } from "."
-import VisibilityIcon, { Visibility } from "./VisibilityIcon"
 
 type FormData = {
   text: string
@@ -136,7 +135,7 @@ function NFSelectVisibility(props: ComponentProps<typeof Select.Root>) {
           </div>
         </Select.ItemText>
       </Select.Item>
-    )
+    ),
   )
 
   return (

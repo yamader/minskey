@@ -44,7 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           zenKakuGothicNew.variable,
           zenKakuGothicNew.className,
           firaCode.variable,
-          "h-full"
+          "h-full",
         )}>
         {children}
       </body>

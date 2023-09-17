@@ -4,14 +4,13 @@ import Image from "next/image"
 import Link from "next/link"
 import { memo } from "react"
 
-import TimeText from "~/features/common/TimeText"
-import FilePreview from "~/features/drive/FilePreview"
-import { profileLink } from "~/features/profile"
-
 import NavMore from "./NavMore"
 import NavReact from "./NavReact"
 import NavReply from "./NavReply"
 import NavRN from "./NavRN"
+import { profileLink } from "~/features/profile"
+import FilePreview from "~/features/drive/FilePreview"
+import TimeText from "~/features/common/TimeText"
 
 type NotePreviewProps = {
   note: entities.Note

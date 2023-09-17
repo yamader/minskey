@@ -1,8 +1,7 @@
 import { TimeHTMLAttributes } from "react"
 
-import { useSettings } from "~/features/settings"
-
 import { abstime, reltime } from "."
+import { useSettings } from "~/features/settings"
 
 type TimeTextProps = TimeHTMLAttributes<HTMLTimeElement> & { dateTime: string }
 

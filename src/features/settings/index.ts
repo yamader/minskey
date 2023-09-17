@@ -17,7 +17,7 @@ export const settingsAtom = atom(
   },
   (_, set, update: Settings) => {
     set(rawSettingsAtom, update as object)
-  }
+  },
 )
 
 // hooks
