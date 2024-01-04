@@ -5,6 +5,7 @@ import { Loader2 } from "lucide-react"
 import { useBottom } from "~/features/common"
 import NotePreview from "~/features/note/NotePreview"
 import { useTL } from "~/features/timeline"
+import TLSwitch from "~/features/timeline/TLSwitch"
 
 // todo: TLの切り替え
 export default function HomePage() {
@@ -14,9 +15,7 @@ export default function HomePage() {
   return (
     <>
       <div className="rounded-xl border border-neutral-100 bg-white shadow">
-        <div className="flex justify-center">
-          <p className="border-x px-4 py-2">※これはHTLです</p>
-        </div>
+        <TLSwitch />
         <div className="flex flex-col">
           {notes.map((note, i) => (
             <div className="border-t" key={i}>
