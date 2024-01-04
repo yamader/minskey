@@ -10,7 +10,7 @@ import TextareaAutosize from "react-textarea-autosize"
 import VisibilityIcon, { Visibility } from "./VisibilityIcon"
 import { useNoteDialog, useNoteVisibility } from "."
 import { useAPI } from "~/features/api"
-import { useKeysym } from "~/features/common"
+import { useKeysymWithOpts } from "~/features/common"
 
 type FormData = {
   text: string
@@ -27,7 +27,13 @@ export default function NoteDialog() {
   })
 
   // keysym: compose note
-  useKeysym("n", [], () => setOpen(true))
+  useKeysymWithOpts(
+    "n",
+    {
+      preventDefault: !open,
+    },
+    () => setOpen(true),
+  )
 
   // おま○け
   const fst = useRef(true)
@@ -68,7 +74,14 @@ function NoteForm({
   }
 
   // keysym: post note
-  useKeysym("Enter", ["Control"], handleSubmit(onSubmit))
+
+  useKeysymWithOpts(
+    "Enter",
+    {
+      mods: ["Control"],
+    },
+    handleSubmit(onSubmit),
+  )
 
   const btn = "rounded-lg hover:bg-neutral-200 p-2"
   return (
