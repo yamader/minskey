@@ -15,5 +15,11 @@
     "@typescript-eslint/no-var-requires": "off",
     "import/order": "warn",
     "react/display-name": "off"
+  },
+  // https://github.com/typescript-eslint/typescript-eslint/issues/154
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
+    }
   }
 }
