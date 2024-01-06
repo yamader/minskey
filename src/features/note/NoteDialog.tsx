@@ -86,7 +86,7 @@ function NoteForm({
   const btn = "rounded-lg hover:bg-neutral-200 p-2"
   return (
     <div className="relative flex flex-col overflow-hidden rounded-lg bg-neutral-200 shadow-lg">
-      <div className="flex justify-between p-1">
+      <div className="flex justify-between p-2">
         <div className="flex">
           <User2 />
           <span>me</span>
