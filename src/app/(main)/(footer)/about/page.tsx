@@ -32,7 +32,7 @@ export default function AboutPage() {
         で頒布しています。ライセンスはMITです。
       </p>
       <h2 className={h2class}>Contributer</h2>
-      <ul className="list-disc">
+      <ul className="list-disc pl-10">
         <li>
           <a className="hover:underline" href="https://yamad.me">
             YamaD
