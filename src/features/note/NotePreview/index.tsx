@@ -65,7 +65,6 @@ function NotePreview({ note, renote }: NotePreviewProps) {
           </div>
           <p>{note.text}</p>
           {!!note.files.length && (
-            // todo: grid layout
             <div className="w-1/2 grid grid-cols-2">
               {note.files.map((file, i) => (
                 <div key={i}>

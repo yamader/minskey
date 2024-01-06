@@ -6,6 +6,8 @@ import { Endpoints } from "misskey-js"
 
 const noteDialogAtom = atom(false)
 
+const pictureDialogAtom = atom<{ open: boolean; file: string }>({ open: false, file: "" })
+
 type Visibility = Endpoints["notes/create"]["req"]["visibility"]
 const noteVisibilityAtom = atomWithStorage<Visibility>("minsk::note::visibility", "public")
 
@@ -13,6 +15,10 @@ const noteVisibilityAtom = atomWithStorage<Visibility>("minsk::note::visibility"
 
 export function useNoteDialog() {
   return useAtom(noteDialogAtom)
+}
+
+export function usePictureDialog() {
+  return useAtom(pictureDialogAtom)
 }
 
 export function useNoteVisibility() {
