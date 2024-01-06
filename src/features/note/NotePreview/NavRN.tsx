@@ -23,8 +23,7 @@ export default function NavRN({ note }: { note: entities.Note }) {
               className={menuItem}
               onClick={async () => {
                 if (!api) return
-                // 動かん(笑)
-                await api.request("notes/renotes", { noteId: note.id })
+                await api.request("notes/create", { renoteId: note.id })
               }}>
               <Repeat2 size={16} />
               RN
