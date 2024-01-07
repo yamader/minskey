@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 
-import { useAuth } from "~/features/auth"
+import { useAccounts, useAuth } from "~/features/auth"
 import { useClient } from "~/features/common"
 import NBSK from "~/features/common/NBSK"
 
@@ -12,6 +12,7 @@ export default function AuthPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { session, setAuth } = useAuth()
+  const { addAccount } = useAccounts()
   const client = useClient()
   const [done, setDone] = useState(false) // 💩
 
@@ -29,9 +30,10 @@ export default function AuthPage() {
         const url = `${proto}://${host}/api/miauth/${id}/check`
         const res = await fetch(url, { method: "POST" }).then(r => r.json())
         if (!res.ok) throw new Error("miauth failed")
-
+        const account = { proto, host, token: res.token }
+        addAccount(account)
         setAuth({
-          account: { proto, host, token: res.token },
+          account: account,
           session: null,
           error: null,
         })

@@ -5,6 +5,8 @@ import { useEffect } from "react"
 
 import { useClient } from "~/features/common"
 
+type ArrElement<ArrType> = ArrType extends readonly (infer ElementType)[] ? ElementType : never
+
 ////////////////////////////////////////////////////////////////
 //  atoms
 ////////////////////////////////////////////////////////////////
@@ -15,8 +17,9 @@ type Account = {
   token: string
 }
 
-// todo: multiple account, and rename key
-export const accountAtom = atomWithStorage<Account | null>("minsk::account::v1", null)
+// FixMe: 理論上、currentAccountAtomにaccountsAtomに存在しない値を代入することができる
+export const accountsAtom = atomWithStorage<Account[] | null>("minsk::accounts", null)
+export const currentAccountAtom = atomWithStorage<Account | null>("minsk::accounts::currentAccount", null)
 
 type AuthSession = {
   id: string
@@ -32,20 +35,8 @@ export const authErrorAtom = atom<string | null>(null)
 //  hooks
 ////////////////////////////////////////////////////////////////
 
-export function useLogin(login?: boolean) {
-  const account = useAtomValue(accountAtom)
-  const router = useRouter()
-  const client = useClient()
-
-  useEffect(() => {
-    if (login && client && !account) router.push("/")
-  }, [login, client, account, router])
-
-  return account
-}
-
 export function useAuth() {
-  const [authAccount, setAccount] = useAtom(accountAtom)
+  const [currentAccount, setCurrentAccount] = useAtom(currentAccountAtom)
   const [authSession, setAuthSession] = useAtom(authSessionAtom)
   const [authError, setAuthError] = useAtom(authErrorAtom)
 
@@ -54,11 +45,11 @@ export function useAuth() {
     session,
     error,
   }: {
-    account?: typeof authAccount
+    account?: typeof currentAccount
     session?: typeof authSession
     error?: typeof authError
   }) => {
-    if (account !== undefined) setAccount(account)
+    if (account !== undefined) setCurrentAccount(account)
     if (session !== undefined) setAuthSession(session)
     if (error !== undefined) setAuthError(error)
   }
@@ -68,10 +59,42 @@ export function useAuth() {
   }
 
   return {
-    account: authAccount,
+    account: currentAccount,
     session: authSession,
     error: authError,
     setAuth,
     logout,
   }
+}
+
+export function useAccounts(login?: boolean) {
+  const [accounts, setAccounts] = useAtom(accountsAtom)
+
+  const router = useRouter()
+  const client = useClient()
+
+  useEffect(() => {
+    if (login && client && !accounts) router.push("/")
+  }, [login, client, accounts, router])
+
+  const addAccount = (account: ArrElement<NonNullable<typeof accounts>>) => {
+    if (accounts) setAccounts([...accounts, account])
+    else setAccounts([account])
+  }
+
+  return {
+    accounts,
+    addAccount,
+  }
+}
+
+export const useLogin = (login?: boolean) => {
+  const currentAccount = useAtomValue(currentAccountAtom)
+  const client = useClient()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (login && client && !currentAccount) router.push("/")
+  }, [login, client, currentAccount, router])
+  return currentAccount
 }

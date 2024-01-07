@@ -7,7 +7,7 @@ import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { v4 as uuidv4 } from "uuid"
 
-import { useAuth } from "~/features/auth"
+import { useAccounts, useAuth } from "~/features/auth"
 
 // todo: MiAuthとManualでUIのガタつきをなくす
 // todo: authErrorを表示する
@@ -156,6 +156,7 @@ function ManualLogin({ go, host }: LoginProps) {
   } = useForm<ManualLoginForm>()
   const router = useRouter()
   const { setAuth } = useAuth()
+  const { addAccount } = useAccounts()
 
   const onSubmit = async ({ host, token }: ManualLoginForm) => {
     const srv = ensureProto(host),
@@ -170,8 +171,10 @@ function ManualLogin({ go, host }: LoginProps) {
     try {
       const res = await fetch(testurl, req)
       if (res.ok) {
+        const account = { proto: hd, host: tl, token }
+        addAccount(account)
         setAuth({
-          account: { proto: hd, host: tl, token },
+          account: account,
           session: null,
         })
         router.push(go)

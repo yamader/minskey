@@ -4,7 +4,7 @@ import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
 import Link from "next/link"
 import { Suspense } from "react"
 
-import { useAuth, useLogin } from "~/features/auth"
+import { useAccounts, useAuth, useLogin } from "~/features/auth"
 import BrandLogo from "~/features/common/BrandLogo"
 import LinkButton from "~/features/common/LinkButton"
 import { useProfile } from "~/features/profile"
@@ -51,7 +51,10 @@ function HeaderLink({ href, children }: { href: string; children: string }) {
 
 function UserMenu() {
   const { account, logout } = useAuth()
+  const { accounts } = useAccounts()
   const profile = useProfile()
+
+  console.log(accounts)
 
   const host = profile?.host ?? account?.host
 
