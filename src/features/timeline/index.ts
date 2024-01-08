@@ -47,6 +47,8 @@ function useTLRaw(chan: TLChanNames) {
   const account = useLogin(true)
   const host = account?.host ?? null
 
+  const tlName = useAtomValue(tlNameAtom)
+
   // first time
   useEffect(() => {
     if (!api) return
@@ -57,7 +59,7 @@ function useTLRaw(chan: TLChanNames) {
       res.forEach(note => (note.user.host ??= host))
       setNotes(res)
     })()
-  }, [api, host])
+  }, [api, host, tlName])
 
   // streaming
   useEffect(() => {
