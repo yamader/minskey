@@ -1,9 +1,46 @@
-import { Notification } from "misskey-js/built/entities"
+import { Notification, User } from "misskey-js/built/entities"
+
+import Link from "next/link"
+import { ReactNode } from "react"
 import NoticeNotePreview from "./NoticeNotePreview"
+
+import TLUserIcon from "~/features/profile/TLUserIcon"
+import { profileLink } from "~/features/profile"
 
 export default function Notice({ notice }: { notice: Notification }) {
   return (
-    <div className="p-3 border-t">
+    <div className="p-3 border-t flex justify-between">
+      <NoticeContent notice={notice} />
+      <span>{notice.id}</span>
+    </div>
+  )
+}
+
+export const NoticeUser = ({ user, children }: { user: User; children?: ReactNode }) => {
+  return (
+    <div className="flex gap-1.5">
+      <TLUserIcon user={user} />
+      <div className="flex w-full flex-col gap-0.5">
+        <div className="flex justify-between">
+          <div className="flex gap-1 font-bold">
+            <Link className="hover:underline" href={profileLink(user)}>
+              {user.name}
+            </Link>
+            <p>
+              <span>@{user.username}</span>
+              <span className="text-neutral-400">@{user.host}</span>
+            </p>
+          </div>
+        </div>
+        {children}
+      </div>
+    </div>
+  )
+}
+
+const NoticeContent = ({ notice }: { notice: Notification }) => {
+  return (
+    <>
       {notice.type === "follow" ? (
         <FollowNotice notice={notice} />
       ) : notice.type === "mention" ? (
@@ -29,13 +66,17 @@ export default function Notice({ notice }: { notice: Notification }) {
       ) : (
         <UnknownNotice notice={notice} />
       )}
-    </div>
+    </>
   )
 }
 
 export function FollowNotice({ notice }: { notice: Notification }) {
   if (notice.type !== "follow") return null
-  return <div>{notice.user.name}さんがフォローしました</div>
+  return (
+    <div>
+      <NoticeUser user={notice.user}>あなたをフォローしました</NoticeUser>
+    </div>
+  )
 }
 
 export function MentionNotice({ notice }: { notice: Notification }) {
