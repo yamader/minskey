@@ -1,33 +1,36 @@
 import { Notification } from "misskey-js/built/entities"
+import NoticeNotePreview from "./NoticeNotePreview"
 
 export default function Notice({ notice }: { notice: Notification }) {
-  switch (notice.type) {
-    case "follow":
-      return <FollowNotice notice={notice} />
-    case "mention":
-      return <MentionNotice notice={notice} />
-
-    case "reply":
-      return <ReplyNotice notice={notice} />
-    case "renote":
-      return <RenoteNotice notice={notice} />
-    case "quote":
-      return <QuoteNotice notice={notice} />
-    case "reaction":
-      return <ReactionNotice notice={notice} />
-    case "pollVote":
-      return <PollVoteNotice notice={notice} />
-    case "receiveFollowRequest":
-      return <ReceiveFollowRequestNotice notice={notice} />
-    case "followRequestAccepted":
-      return <FollowRequestAcceptedNotice notice={notice} />
-    case "groupInvited":
-      return <GroupInvitedNotice notice={notice} />
-    case "app":
-      return <AppNotice notice={notice} />
-    default:
-      return <UnknownNotice notice={notice} />
-  }
+  return (
+    <div className="p-3 border-t">
+      {notice.type === "follow" ? (
+        <FollowNotice notice={notice} />
+      ) : notice.type === "mention" ? (
+        <MentionNotice notice={notice} />
+      ) : notice.type === "reply" ? (
+        <ReplyNotice notice={notice} />
+      ) : notice.type === "renote" ? (
+        <RenoteNotice notice={notice} />
+      ) : notice.type === "quote" ? (
+        <QuoteNotice notice={notice} />
+      ) : notice.type === "reaction" ? (
+        <ReactionNotice notice={notice} />
+      ) : notice.type === "pollVote" ? (
+        <PollVoteNotice notice={notice} />
+      ) : notice.type === "receiveFollowRequest" ? (
+        <ReceiveFollowRequestNotice notice={notice} />
+      ) : notice.type === "followRequestAccepted" ? (
+        <FollowRequestAcceptedNotice notice={notice} />
+      ) : notice.type === "groupInvited" ? (
+        <GroupInvitedNotice notice={notice} />
+      ) : notice.type === "app" ? (
+        <AppNotice notice={notice} />
+      ) : (
+        <UnknownNotice notice={notice} />
+      )}
+    </div>
+  )
 }
 
 export function FollowNotice({ notice }: { notice: Notification }) {
@@ -41,7 +44,12 @@ export function MentionNotice({ notice }: { notice: Notification }) {
 }
 export function ReplyNotice({ notice }: { notice: Notification }) {
   if (notice.type !== "reply") return null
-  return <div>{notice.user.name}さんから返信が届きました</div>
+  return (
+    <div>
+      <span>{notice.user.name}さんから返信が届きました</span>
+      <NoticeNotePreview note={notice.note} />
+    </div>
+  )
 }
 
 export function RenoteNotice({ notice }: { notice: Notification }) {

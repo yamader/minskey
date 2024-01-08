@@ -1,16 +1,17 @@
 "use client"
 
+import { useBottom } from "~/features/common"
 import { useNotifications } from "~/features/notifications"
 import Notice from "~/features/notifications/Notice"
 
 export default function NotificationsPage() {
-  const { notifications } = useNotifications()
+  const { notifications, more } = useNotifications()
 
+  useBottom(more)
   return (
     <>
-      <div className="flex flex-col">
+      <div className="flex flex-col bg-white rounded-xl">
         {notifications.map(notice => {
-          console.log(notice)
           return <Notice notice={notice} key={notice.id} />
         })}
       </div>

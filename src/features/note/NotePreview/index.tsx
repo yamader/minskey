@@ -28,7 +28,7 @@ function NotePreview({ note, renote }: NotePreviewProps) {
   }
 
   return (
-    <div className="p-3">
+    <div className="p-3 rounded-xl bg-white shadow">
       {renote && (
         <div className="mb-1 flex justify-between text-neutral-600">
           <p className="ml-1 flex items-center gap-1 text-sm">
