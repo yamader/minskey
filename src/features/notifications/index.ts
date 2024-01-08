@@ -59,7 +59,8 @@ export const useNotificationsRaw = () => {
 
   // scroll
   const more = useCallback(async () => {
-    if (!api) return
+    if (!api || notifications.length < 1) return
+    //console.log(notifications[notifications.length - 1])
     const res = await api.request("i/notifications", {
       limit: 10,
       //sinceId: notifications[notifications.length - 1].id,
