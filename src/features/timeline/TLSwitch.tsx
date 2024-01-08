@@ -9,7 +9,7 @@ export default function TLSwitch() {
     <>
       <div className="flex justify-between">
         <button
-          className={"border-x px-4 py-2 grow text-center " + (tlName == "homeTimeline" ? "underline" : "")}
+          className={"border-r py-2 grow text-center " + (tlName == "homeTimeline" ? "underline" : "")}
           onClick={() => {
             setTlName("homeTimeline")
           }}>
@@ -17,7 +17,7 @@ export default function TLSwitch() {
         </button>
 
         <button
-          className={"border-x px-4 py-2 grow text-center " + (tlName == "globalTimeline" ? "underline" : "")}
+          className={"px-4 py-2 grow text-center " + (tlName == "globalTimeline" ? "underline" : "")}
           onClick={() => {
             setTlName("globalTimeline")
           }}>
