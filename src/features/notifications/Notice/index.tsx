@@ -105,7 +105,12 @@ export function QuoteNotice({ notice }: { notice: Notification }) {
 
 export function ReactionNotice({ notice }: { notice: Notification }) {
   if (notice.type !== "reaction") return null
-  return <div>{notice.user.name}さんがリアクションしました</div>
+  return (
+    <div>
+      <span> {notice.user.name}さんがリアクションしました</span>
+      <NoticeNotePreview note={notice.note} />
+    </div>
+  )
 }
 
 export function PollVoteNotice({ notice }: { notice: Notification }) {
