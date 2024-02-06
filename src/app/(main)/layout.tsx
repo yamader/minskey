@@ -1,5 +1,5 @@
-import Header from "./Header"
 import TLProvider from "~/features/timeline/TLProvider"
+import Header from "./Header"
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   return (

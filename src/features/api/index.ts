@@ -1,5 +1,5 @@
 import { atom, useAtomValue } from "jotai"
-import { api, Channels, entities, Stream } from "misskey-js"
+import { Channels, Stream, api, entities } from "misskey-js"
 
 import { accountAtom } from "~/features/auth"
 

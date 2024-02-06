@@ -1,5 +1,5 @@
-import UserIcon from "./UserIcon"
 import { statusEmoji, useProfile } from "."
+import UserIcon from "./UserIcon"
 
 export default function ProfileIcon() {
   const profile = useProfile()

@@ -4,13 +4,13 @@ import Image from "next/image"
 import Link from "next/link"
 import { memo } from "react"
 
+import TimeText from "~/features/common/TimeText"
+import FilePreview from "~/features/drive/FilePreview"
+import { profileLink } from "~/features/profile"
 import NavMore from "./NavMore"
+import NavRN from "./NavRN"
 import NavReact from "./NavReact"
 import NavReply from "./NavReply"
-import NavRN from "./NavRN"
-import { profileLink } from "~/features/profile"
-import FilePreview from "~/features/drive/FilePreview"
-import TimeText from "~/features/common/TimeText"
 
 type NotePreviewProps = {
   note: entities.Note
@@ -66,7 +66,7 @@ function NotePreview({ note, renote }: NotePreviewProps) {
           <p>{note.text}</p>
           {!!note.files.length && (
             // todo: grid layout
-            <div className="w-1/2 grid grid-cols-2">
+            <div className="grid w-1/2 grid-cols-2">
               {note.files.map((file, i) => (
                 <div key={i}>
                   <FilePreview file={file} />
