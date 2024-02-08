@@ -38,3 +38,11 @@ export function useStream<T extends keyof Channels>(channel: T) {
   const stream = useAtomValue(streamConnectAtom)
   return stream?.useChannel(channel) ?? null
 }
+
+// utils
+
+export function fetchEmoji(name: string, host: string) {
+  return fetch(`https://${host}/api/emoji?name=${name}`)
+    .then(res => res.json())
+    .catch(e => (console.warn(e), {}))
+}

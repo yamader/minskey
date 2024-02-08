@@ -7,8 +7,7 @@ const withSerwist = withSerwistInit({
 
 export default withSerwist({
   trailingSlash: true,
-  images: {
-    unoptimized: true,
-  },
+  images: { unoptimized: true },
+  reactStrictMode: false,
   output: "export",
 })
