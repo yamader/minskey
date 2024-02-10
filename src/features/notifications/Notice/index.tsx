@@ -4,14 +4,17 @@ import Link from "next/link"
 import { ReactNode } from "react"
 import NoticeNotePreview from "./NoticeNotePreview"
 
-import TLUserIcon from "~/features/profile/TLUserIcon"
+import TimeText from "~/features/common/TimeText"
 import { profileLink } from "~/features/profile"
+import TLUserIcon from "~/features/profile/TLUserIcon"
 
 export default function Notice({ notice }: { notice: Notification }) {
   return (
-    <div className="p-3 border-t flex justify-between">
+    <div className="flex justify-between border-t p-3">
       <NoticeContent notice={notice} />
-      <span>{notice.id}</span>
+      <span>
+        <TimeText dateTime={notice.createdAt}></TimeText>
+      </span>
     </div>
   )
 }

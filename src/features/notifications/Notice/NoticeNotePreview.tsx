@@ -1,7 +1,6 @@
 import { entities } from "misskey-js"
 import Image from "next/image"
 import Link from "next/link"
-import TimeText from "~/features/common/TimeText"
 import { profileLink } from "~/features/profile"
 
 export default function NoticeNotePreview({ note }: { note: entities.Note }) {
@@ -24,11 +23,12 @@ export default function NoticeNotePreview({ note }: { note: entities.Note }) {
                 <span className="text-neutral-400">@{note.user.host}</span>
               </p>
             </div>
-            <Link className="hover:underline" href={`/note?id=${note.id}`}>
-              <TimeText dateTime={note.createdAt} />
-            </Link>
           </div>
-          <p>{note.text}</p>
+          <p>
+            <Link className="hover:underline" href={`/note?id=${note.id}`}>
+              {note.text}
+            </Link>
+          </p>
         </div>
       </div>
     </div>
