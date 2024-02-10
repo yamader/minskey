@@ -89,6 +89,13 @@ function UserMenu() {
           <DropdownMenu.Item asChild>
             <Link
               className="flex rounded-lg px-3 py-2 outline-none hover:bg-neutral-100 active:bg-neutral-200"
+              href="/login">
+              アカウントを追加
+            </Link>
+          </DropdownMenu.Item>
+          <DropdownMenu.Item asChild>
+            <Link
+              className="flex rounded-lg px-3 py-2 outline-none hover:bg-neutral-100 active:bg-neutral-200"
               href="/settings">
               設定
             </Link>
