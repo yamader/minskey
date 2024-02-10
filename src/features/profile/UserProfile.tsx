@@ -1,10 +1,9 @@
 "use client"
 
 import * as Tooltip from "@radix-ui/react-tooltip"
-import { entities } from "misskey-js"
 
-import UserIcon from "./UserIcon"
 import { statusEmoji } from "."
+import UserIcon from "./UserIcon"
 
 export default function UserProfile({ id }: { id?: string }) {
   // unko

@@ -1,15 +1,12 @@
-node_modules
-*.tsbuildinfo
+/node_modules
 /build
-/out
 
 /.next
-/next-env.d.ts
+/out
 
-# next-pwa
+*.tsbuildinfo
+next-env.d.ts
 
-/public/workbox**
-/public/sw**
-/public/worker**
-/public/fallback**
-/public/precache**
+# PWA
+/public/sw.js
+/public/swe-worker-*.js
