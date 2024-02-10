@@ -1,6 +1,6 @@
 import { atom, useAtomValue } from "jotai"
 import { Channels, Stream, api, entities } from "misskey-js"
-import { currentAccountAtom } from "../auth"
+import { accountsAtom, currentAccountIndexAtom } from "../auth"
 
 // types
 
@@ -13,8 +13,11 @@ export type TLChanNames = {
 // atoms
 
 export const apiAtom = atom(get => {
-  const account = get(currentAccountAtom)
-  if (!account) return null
+  const accounts = get(accountsAtom)
+  const current = get(currentAccountIndexAtom)
+  if (!accounts || current === null || accounts.length - 1 < current) return null
+  const account = accounts[current]
+
   return new api.APIClient({
     origin: `${account.proto}://${account.host}`,
     credential: account.token,
@@ -22,7 +25,11 @@ export const apiAtom = atom(get => {
 })
 
 export const streamConnectAtom = atom(get => {
-  const account = get(currentAccountAtom)
+  const accounts = get(accountsAtom)
+  const current = get(currentAccountIndexAtom)
+  if (!accounts || current === null || accounts.length - 1 < current) return null
+  const account = accounts[current]
+
   if (!account) return null
   return new Stream(`${account.proto}://${account.host}`, { token: account.token })
 })

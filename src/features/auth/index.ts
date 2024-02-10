@@ -19,7 +19,7 @@ type Account = {
 
 // FixMe: 理論上、currentAccountAtomにaccountsAtomに存在しない値を代入することができる
 export const accountsAtom = atomWithStorage<Account[] | null>("minsk::accounts", null)
-export const currentAccountAtom = atomWithStorage<Account | null>("minsk::accounts::currentAccount", null)
+export const currentAccountIndexAtom = atomWithStorage<number | null>("minsk::accounts::currentAccount", null)
 
 type AuthSession = {
   id: string
@@ -36,9 +36,10 @@ export const authErrorAtom = atom<string | null>(null)
 ////////////////////////////////////////////////////////////////
 
 export function useAuth() {
-  const [currentAccount, setCurrentAccount] = useAtom(currentAccountAtom)
+  const [currentAccount, setCurrentAccount] = useAtom(currentAccountIndexAtom)
   const [authSession, setAuthSession] = useAtom(authSessionAtom)
   const [authError, setAuthError] = useAtom(authErrorAtom)
+  const { accounts, removeAccount } = useAccounts()
 
   const setAuth = ({
     account,
@@ -55,11 +56,22 @@ export function useAuth() {
   }
 
   const logout = () => {
-    setAuth({ account: null, session: null, error: null })
+    if (currentAccount !== null) {
+      removeAccount(currentAccount)
+    }
+    if (accounts && accounts.length >= 1) {
+      console.log("複垢logout")
+
+      setAuth({ account: 0, session: null, error: null })
+    } else {
+      console.log("単垢logout")
+      setCurrentAccount(null)
+      setAuth({ account: null, session: null, error: null })
+    }
   }
 
   return {
-    account: currentAccount,
+    account: accounts ? accounts[currentAccount ?? 0] : null,
     session: authSession,
     error: authError,
     setAuth,
@@ -74,7 +86,7 @@ export function useAccounts(login?: boolean) {
   const client = useClient()
 
   useEffect(() => {
-    if (login && client && !accounts) router.push("/")
+    //if (login && client && !accounts) router.push("/")
   }, [login, client, accounts, router])
 
   const addAccount = (account: ArrElement<NonNullable<typeof accounts>>) => {
@@ -82,19 +94,31 @@ export function useAccounts(login?: boolean) {
     else setAccounts([account])
   }
 
+  const removeAccount = (index: number) => {
+    if (accounts) {
+      // 完全一致するアカウントを削除
+      // JSON比較するのだめかもしれない
+      const newAccounts = accounts.filter((_, i) => i !== index)
+      setAccounts(newAccounts)
+    }
+  }
+
   return {
     accounts,
     addAccount,
+    removeAccount,
   }
 }
 
+// 現在のアカウントを取得する
 export const useLogin = (login?: boolean) => {
-  const currentAccount = useAtomValue(currentAccountAtom)
+  const currentAccount = useAtomValue(currentAccountIndexAtom)
+  const accounts = useAtomValue(accountsAtom)
   const client = useClient()
   const router = useRouter()
-
+  console.log("uselogin")
   useEffect(() => {
-    if (login && client && !currentAccount) router.push("/")
-  }, [login, client, currentAccount, router])
-  return currentAccount
+    if (login && client && (!accounts || currentAccount == null)) router.push("/")
+  }, [login, client, currentAccount, router, accounts])
+  return accounts ? accounts[currentAccount ?? 0] : null
 }

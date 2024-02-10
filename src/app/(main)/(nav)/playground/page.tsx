@@ -16,11 +16,11 @@ export default function PlaygroundPage() {
           アカウントを追加
         </a>
       </p>
-      {accounts?.map(account => (
+      {accounts?.map((account, index) => (
         <div key={account.token}>
           <p
             onClick={() => {
-              setAuth({ account: account })
+              setAuth({ account: index })
               router.push("/home")
             }}>
             {account.host}

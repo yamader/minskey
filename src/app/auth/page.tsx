@@ -20,7 +20,7 @@ function AuthSuspense() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { session, setAuth } = useAuth()
-  const { addAccount } = useAccounts()
+  const { accounts, addAccount } = useAccounts()
   const client = useClient()
   const [done, setDone] = useState(false) // 💩
 
@@ -41,7 +41,7 @@ function AuthSuspense() {
         const account = { proto, host, token: res.token }
         addAccount(account)
         setAuth({
-          account: account,
+          account: accounts?.length ?? 0,
           session: null,
           error: null,
         })
@@ -54,7 +54,7 @@ function AuthSuspense() {
         setDone(true)
       }
     })()
-  }, [router, searchParams, session, setAuth, client, done])
+  }, [router, searchParams, session, setAuth, client, done, accounts, addAccount])
 
   return <NBSK />
 }
