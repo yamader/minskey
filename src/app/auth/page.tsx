@@ -1,14 +1,22 @@
 "use client"
 
 import { useRouter, useSearchParams } from "next/navigation"
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 
 import { useAccounts, useAuth } from "~/features/auth"
 import { useClient } from "~/features/common"
 import NBSK from "~/features/common/NBSK"
 
-// todo: Suspenseでいい感じに書き直す
 export default function AuthPage() {
+  return (
+    <Suspense>
+      <AuthSuspense />
+    </Suspense>
+  )
+}
+
+// todo: Suspenseでいい感じに書き直す
+function AuthSuspense() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { session, setAuth } = useAuth()

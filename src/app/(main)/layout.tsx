@@ -1,7 +1,12 @@
-import Header from "./Header"
+"use client"
+
+import { useMfmProvider } from "~/features/mfm"
 import TLProvider from "~/features/timeline/TLProvider"
+import Header from "./Header"
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
+  useMfmProvider()
+
   return (
     <TLProvider>
       <div className="flex min-h-full flex-col bg-neutral-100">

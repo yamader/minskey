@@ -3,15 +3,23 @@
 import * as RadioGroup from "@radix-ui/react-radio-group"
 import { permissions } from "misskey-js"
 import { useRouter, useSearchParams } from "next/navigation"
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { v4 as uuidv4 } from "uuid"
 
 import { useAccounts, useAuth } from "~/features/auth"
 
+export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginSuspense />
+    </Suspense>
+  )
+}
+
 // todo: MiAuthとManualでUIのガタつきをなくす
 // todo: authErrorを表示する
-export default function LoginPage() {
+function LoginSuspense() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [method, setMethod] = useState("miauth") // "miauth" | "direct"
