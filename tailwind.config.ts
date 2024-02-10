@@ -1,5 +1,7 @@
-module.exports = {
-  content: ["src/**/*.{js,ts,jsx,tsx}"],
+import { Config } from "tailwindcss"
+
+export default {
+  content: ["src/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
@@ -20,4 +22,4 @@ module.exports = {
       addVariant("child", "& > *")
     },
   ],
-}
+} satisfies Config
