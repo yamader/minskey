@@ -37,7 +37,7 @@ function NotePreview({ note, renote }: NotePreviewProps) {
   }
 
   return (
-    <div className="p-3">
+    <div className="p-3 rounded-xl bg-white shadow">
       {renote && <RenoteBar renote={renote} />}
       <div className="flex gap-1.5">
         <Link
