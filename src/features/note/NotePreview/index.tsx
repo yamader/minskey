@@ -16,6 +16,7 @@ import NavReply from "./NavReply"
 type NotePreviewProps = {
   note: entities.Note
   renote?: entities.Note
+  //asReply?: boolean
 }
 
 // なんかいい感じにできねーかな
