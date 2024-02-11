@@ -67,3 +67,27 @@ export function useNoteReplies(noteId: string) {
 
   return replies
 }
+
+export function useRenotes(noteId: string) {
+  const api = useAPI()
+  const [renotes, setRenotes] = useState<Note[] | null>(null)
+
+  useEffect(() => {
+    if (!api || !noteId) return
+    if (renotes !== null) return
+
+    api
+      .request("notes/renotes", {
+        noteId: noteId,
+        limit: 10,
+      })
+      .then(res => {
+        setRenotes(res)
+      })
+      .catch(() => {
+        setRenotes(null)
+      })
+  }, [renotes, noteId, api])
+
+  return renotes
+}
