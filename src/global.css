@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.mfm-blockCode {
+  font-size: 0.8em;
+}
+
+.mfm-plainCE .mfm-customEmoji {
+  height: 1.25em;
+  vertical-align: -0.25em;
+}

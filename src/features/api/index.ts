@@ -1,5 +1,5 @@
 import { atom, useAtomValue } from "jotai"
-import { api, Channels, entities, Stream } from "misskey-js"
+import { Channels, Stream, api, entities } from "misskey-js"
 
 import { accountAtom } from "~/features/auth"
 
@@ -37,4 +37,12 @@ export function useAPI() {
 export function useStream<T extends keyof Channels>(channel: T) {
   const stream = useAtomValue(streamConnectAtom)
   return stream?.useChannel(channel) ?? null
+}
+
+// utils
+
+export function fetchEmoji(name: string, host: string) {
+  return fetch(`https://${host}/api/emoji?name=${name}`)
+    .then(res => res.json())
+    .catch(e => (console.warn(e), {}))
 }

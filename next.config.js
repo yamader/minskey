@@ -1,16 +1,13 @@
-import withPWAInit from "@ducanh2912/next-pwa"
+import withSerwistInit from "@serwist/next"
 
-const withPWA = withPWAInit({
-  dest: "public",
-  fallbacks: {
-    document: "/~offline",
-  },
+const withSerwist = withSerwistInit({
+  swSrc: "src/sw.ts",
+  swDest: "public/sw.js",
 })
 
-export default withPWA({
+export default withSerwist({
   trailingSlash: true,
-  images: {
-    unoptimized: true,
-  },
+  images: { unoptimized: true },
+  reactStrictMode: false,
   output: "export",
 })
