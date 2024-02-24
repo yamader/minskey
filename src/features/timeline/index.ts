@@ -3,7 +3,7 @@ import { atomWithStorage } from "jotai/utils"
 import { entities } from "misskey-js"
 import { useCallback, useEffect, useState } from "react"
 
-import { TLChanNames, useAPI, useStream } from "~/features/api"
+import { TLChanNameToAPIEndpoint, TLChanNames, useAPI, useStream } from "~/features/api"
 import { useLogin } from "~/features/auth"
 
 ////////////////////////////////////////////////////////////////
@@ -52,8 +52,9 @@ function useTLRaw(chan: TLChanNames) {
   // first time
   useEffect(() => {
     if (!api) return
+    setNotes([])
     ;(async () => {
-      const res = await api.request("notes/timeline", {
+      const res: entities.Note[] = await api.request(TLChanNameToAPIEndpoint[tlName], {
         limit: 10,
       })
       res.forEach(note => (note.user.host ??= host))
@@ -76,7 +77,7 @@ function useTLRaw(chan: TLChanNames) {
   // scroll
   const more = useCallback(async () => {
     if (!api || !notes.length) return
-    const res = await api.request("notes/timeline", {
+    const res: entities.Note[] = await api.request(TLChanNameToAPIEndpoint[tlName], {
       limit: 30,
       untilId: notes[notes.length - 1].id,
     })
