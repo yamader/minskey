@@ -83,7 +83,7 @@ function useTLRaw(chan: TLChanNames) {
     })
     res.forEach(note => (note.user.host ??= host))
     setNotes(notes => notes.concat(res))
-  }, [api, notes, host])
+  }, [api, notes, host, tlName])
 
   return { notes, more }
 }
