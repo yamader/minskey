@@ -4,7 +4,12 @@ export default function RootError({ error, reset }: { error: Error; reset: () =>
   const h2class = "mt-6 mb-3 text-4xl font-bold after:content-[':']"
 
   const armageddon = () => {
-    alert("未実装なので，開発者ツールから自分でやってください")
+    //alert("未実装なので，開発者ツールから自分でやってください")
+    localStorage.clear()
+
+    // これとか？
+    // https://github.com/pmndrs/jotai/issues/404
+
     reset()
   }
 
