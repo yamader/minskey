@@ -95,7 +95,7 @@ function RenoteBar({ renote }: { renote: entities.Note }) {
         <p className="ml-1 flex items-center gap-1 text-sm">
           <Repeat2 size={16} />
           <Link className="mfm-plainCE font-bold hover:underline" href={profileLink(renote.user)}>
-            <MfmSimple text={renote.user.name} />
+            <MfmSimple text={renote.user.name ?? ""} />
           </Link>
         </p>
         <Link className="hover:underline" href={`/note?id=${renote.id}`}>
