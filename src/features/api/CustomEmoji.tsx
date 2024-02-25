@@ -7,14 +7,22 @@ import { fetchEmoji } from "~/features/api"
 
 export const CustomEmojiCtx = createContext<{ host: string | null }>({ host: null })
 
-const cacheAtom = atom<{ [host: string]: { [name: string]: string } }>({})
+const cacheAtom = atom<{ [host: string]: { [name: string]: string | undefined } }>({})
 
 const EmojiImg = ({ name, url }: { name: string; url?: string }) =>
   !url ? `:${name}:` : <img src={url} alt={name} className="mfm-customEmoji" />
 
 function FetchEmoji({ name, host }: { name: string; host: string }) {
   const [cache, setCache] = useAtom(cacheAtom)
-  if (host in cache && name in cache[host]) return <EmojiImg name={name} url={cache[host][name]} />
+  //console.log(cache)
+  if (host in cache && name in cache[host]) {
+    const url = cache[host][name]
+
+    if (!url) return <EmojiImg name={name} /> // 虚無がキャッシュされたときの処理
+    return <EmojiImg name={name} url={url} />
+  }
+
+  // この辺のanyをなんとかしたい
   const { url } = use(fetchEmoji(name, host))
   setCache({
     ...cache,
