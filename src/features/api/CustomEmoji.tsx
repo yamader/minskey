@@ -3,11 +3,11 @@
 import { atom, useAtom, useAtomValue } from "jotai"
 import { Fragment, Suspense, createContext, use, useContext } from "react"
 import { CustomEmojiProps } from "react-mfm"
-import { fetchEmoji } from "~/features/api"
+import { fetchEmojiUrl } from "~/features/api"
 
 export const CustomEmojiCtx = createContext<{ host: string | null }>({ host: null })
 
-const cacheAtom = atom<{ [host: string]: { [name: string]: string | undefined } }>({})
+const cacheAtom = atom<{ [host: string]: { [name: string]: string | null } }>({})
 
 const EmojiImg = ({ name, url }: { name: string; url?: string }) =>
   !url ? `:${name}:` : <img src={url} alt={name} className="mfm-customEmoji" />
@@ -22,13 +22,12 @@ function FetchEmoji({ name, host }: { name: string; host: string }) {
     return <EmojiImg name={name} url={url} />
   }
 
-  // この辺のanyをなんとかしたい
-  const { url } = use(fetchEmoji(name, host))
+  const url = use(fetchEmojiUrl(name, host))
   setCache({
     ...cache,
     [host]: { ...cache[host], [name]: url },
   })
-  return <EmojiImg name={name} url={url} />
+  return <EmojiImg name={name} url={url ?? undefined} />
 }
 
 export default function CustomEmoji({ name }: CustomEmojiProps) {
@@ -36,7 +35,7 @@ export default function CustomEmoji({ name }: CustomEmojiProps) {
   const { host } = useContext(CustomEmojiCtx)
   if (!host) return <EmojiImg name={name} />
   return (
-    <Suspense fallback={<EmojiImg name={name} url={cache[host]?.[name]} />}>
+    <Suspense fallback={<EmojiImg name={name} url={cache[host]?.[name] ?? undefined} />}>
       <FetchEmoji name={name} host={host} />
     </Suspense>
   )
