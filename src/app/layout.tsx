@@ -1,3 +1,5 @@
+import { Theme } from "@radix-ui/themes"
+import "@radix-ui/themes/styles.css"
 import clsx from "clsx"
 import { Metadata } from "next"
 import { Fira_Code, Inter, Zen_Kaku_Gothic_New } from "next/font/google"
@@ -37,16 +39,18 @@ const firaCode = Fira_Code({
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ja" className="h-full">
-      <body
-        className={clsx(
-          inter.variable,
-          zenKakuGothicNew.variable,
-          zenKakuGothicNew.className,
-          firaCode.variable,
-          "h-full",
-        )}>
-        {children}
+    <html lang="ja" suppressHydrationWarning>
+      <body>
+        <Theme
+          className={clsx(
+            inter.variable,
+            firaCode.variable,
+            zenKakuGothicNew.variable,
+            zenKakuGothicNew.className,
+          )}
+          asChild>
+          {children}
+        </Theme>
       </body>
     </html>
   )

@@ -9,7 +9,7 @@ export default function RootError({ error, reset }: { error: Error; reset: () =>
   }
 
   return (
-    <div className="flex h-full bg-sky-600 px-2 font-inter text-xl text-white">
+    <div className="flex h-screen bg-sky-600 px-2 font-inter text-xl text-white">
       <div className="m-auto flex w-full max-w-5xl flex-col">
         <h1 className="mb-2 flex space-x-6 text-9xl font-black">
           <span className="hover:animate-spin">🤯</span>
