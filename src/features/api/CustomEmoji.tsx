@@ -8,10 +8,7 @@ import { fetchEmojiUrl } from "~/features/api"
 export const CustomEmojiCtx = createContext<{ host: string | null }>({ host: null })
 
 // Hooks
-
-type EmojiCache = { [host: string]: { [name: string]: string | null } }
-const cacheAtom = atom<EmojiCache>({})
-
+const cacheAtom = atom<{ [host: string]: { [name: string]: string | null } }>({})
 const useEmojiCache = () => {
   const [cache, setCache] = useAtom(cacheAtom)
   const addCache = (host: string, name: string, url: string | null) => {
