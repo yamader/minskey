@@ -21,9 +21,7 @@ const useEmojiCache = () => {
       [host]: { ...cache[host], [name]: url },
     })
   }
-  const hasCache = (host: string, name: string) => {
-    return host in cache && name in cache[host]
-  }
+  const hasCache = (host: string, name: string) => host in cache && name in cache[host]
   return { cache, addCache, hasCache }
 }
 
