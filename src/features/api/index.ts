@@ -49,14 +49,9 @@ export function useStream<T extends keyof Channels>(channel: T) {
 // utils
 
 export async function fetchEmojiUrl(name: string, host: string): Promise<string | null> {
-  console.log("fetching emoji", name, host)
   const json = await fetch(`https://${host}/api/emoji?name=${name}`)
     .then(res => res.json())
     .catch(e => (console.warn(e), {}))
 
-  if (!json.url) {
-    console.log(`Emoji not found: ${name}`)
-    return null
-  }
-  return json.url
+  return json.url ?? null
 }
