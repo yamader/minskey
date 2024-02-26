@@ -1,9 +1,9 @@
 "use client"
 
-import { useMfmProvider } from "~/features/mfm"
+import { useMfmProvider } from "~/features/common/mfm"
+import NotificationsProvider from "~/features/notifications/NotificationsProvider"
 import TLProvider from "~/features/timeline/TLProvider"
 import Header from "./Header"
-import NotificationsProvider from "~/features/notifications/NotificationsProvider"
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   useMfmProvider()

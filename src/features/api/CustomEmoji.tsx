@@ -1,7 +1,7 @@
 "use client"
 
 import { atom, useAtom, useAtomValue } from "jotai"
-import { Suspense, createContext, use, useContext } from "react"
+import { Fragment, Suspense, createContext, use, useContext } from "react"
 import { CustomEmojiProps } from "react-mfm"
 import { fetchEmoji } from "~/features/api"
 
@@ -33,3 +33,6 @@ export default function CustomEmoji({ name }: CustomEmojiProps) {
     </Suspense>
   )
 }
+
+export const CustomEmojiStr = ({ text }: { text: string }) =>
+  text.split(":").map((s, i) => (i % 2 ? <CustomEmoji name={s} key={i} /> : <Fragment key={i}>{s}</Fragment>))

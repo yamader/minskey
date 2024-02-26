@@ -4,9 +4,9 @@ import Image from "next/image"
 import Link from "next/link"
 import { memo } from "react"
 import Mfm, { MfmSimple } from "react-mfm"
+import { CustomEmojiCtx, CustomEmojiStr } from "~/features/api/CustomEmoji"
 import TimeText from "~/features/common/TimeText"
 import FilePreview from "~/features/drive/FilePreview"
-import { CustomEmojiCtx } from "~/features/mfm/CustomEmoji"
 import { profileLink } from "~/features/profile"
 import NavMore from "./NavMore"
 import NavRN from "./NavRN"
@@ -38,7 +38,7 @@ function NotePreview({ note, renote }: NotePreviewProps) {
   }
 
   return (
-    <div className="p-3 rounded-xl bg-white shadow">
+    <div className="rounded-xl bg-white p-3 shadow">
       {renote && <RenoteBar renote={renote} />}
       <div className="flex gap-1.5">
         <Link
@@ -50,7 +50,7 @@ function NotePreview({ note, renote }: NotePreviewProps) {
           <div className="flex justify-between">
             <div className="flex gap-1 font-bold">
               <Link className="mfm-plainCE hover:underline" href={profileLink(note.user)}>
-                <MfmSimple text={note.user.name ?? "" /* wtf */} />
+                <CustomEmojiStr text={note.user.name ?? "" /* wtf */} />
               </Link>
               <p>
                 <span>@{note.user.username}</span>
