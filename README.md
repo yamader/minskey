@@ -5,7 +5,7 @@
 
 (消極的な理由によって)最小限の機能のみを実装したMisskeyクライアントです。
 
-Next.jsのStatic Exportによってビルドされ、状態はすべてローカルに保存されるようになっています。
+Next.jsのStatic Exportsによってビルドされ、状態はすべてローカルに保存されるようになっています。
 
 **Minskeyは現在開発中です。開発ステータスは[こちら](https://github.com/yamader/minskey/issues/4)を参照してください。**
 
@@ -13,7 +13,7 @@ Next.jsのStatic Exportによってビルドされ、状態はすべてローカ
 
 安定版は[minskey.dyama.net](https://minskey.dyama.net/)で公開されています。
 
-なんとなく使い方はわかると思います。
+使い方はなんとなくでわかると思います。
 
 ## 開発
 
