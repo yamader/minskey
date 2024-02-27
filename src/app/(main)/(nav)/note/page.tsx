@@ -1,10 +1,19 @@
 "use client"
 
 import { useSearchParams } from "next/navigation"
+import { Suspense } from "react"
 import { useNote, useNoteReplies } from "~/features/note"
 import NotePreview from "~/features/note/NotePreview"
 
 export default function NotePage() {
+  return (
+    <Suspense>
+      <NoteSuspense />
+    </Suspense>
+  )
+}
+
+function NoteSuspense() {
   const params = useSearchParams()
   let noteId = params.get("id")
   if (!noteId) noteId = ""

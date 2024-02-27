@@ -1,9 +1,9 @@
 "use client"
 
-import { useMfmProvider } from "~/features/mfm"
+import { useMfmProvider } from "~/features/common/mfm"
+import NotificationsProvider from "~/features/notifications/NotificationsProvider"
 import TLProvider from "~/features/timeline/TLProvider"
 import Header from "./Header"
-import NotificationsProvider from "~/features/notifications/NotificationsProvider"
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   useMfmProvider()
@@ -11,7 +11,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
   return (
     <TLProvider>
       <NotificationsProvider>
-        <div className="flex min-h-full flex-col bg-neutral-100">
+        <div className="flex min-h-screen flex-col bg-neutral-100">
           <main className="mx-auto flex w-full max-w-4xl grow flex-col px-4">
             <Header />
             {children}

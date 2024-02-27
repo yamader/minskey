@@ -1,5 +1,5 @@
 import { atom, useAtomValue } from "jotai"
-import { Channels, Stream, api, entities } from "misskey-js"
+import { Channels, Endpoints, Stream, api, entities } from "misskey-js"
 import { accountsAtom, currentAccountIndexAtom } from "../auth"
 
 // types
@@ -9,6 +9,13 @@ type noteHandler = (payload: entities.Note) => void
 export type TLChanNames = {
   [T in keyof Channels]: Channels[T]["events"] extends { note: noteHandler } ? T : never
 }[keyof Channels]
+
+export const TLChanNameToAPIEndpoint: Record<TLChanNames, keyof Endpoints> = {
+  globalTimeline: "notes/global-timeline",
+  homeTimeline: "notes/timeline",
+  localTimeline: "notes/local-timeline",
+  hybridTimeline: "notes/hybrid-timeline",
+}
 
 // atoms
 
@@ -47,8 +54,10 @@ export function useStream<T extends keyof Channels>(channel: T) {
 
 // utils
 
-export function fetchEmoji(name: string, host: string) {
-  return fetch(`https://${host}/api/emoji?name=${name}`)
+export async function fetchEmojiUrl(name: string, host: string): Promise<string | null> {
+  const json = await fetch(`https://${host}/api/emoji?name=${name}`)
     .then(res => res.json())
     .catch(e => (console.warn(e), {}))
+
+  return json.url ?? null
 }
