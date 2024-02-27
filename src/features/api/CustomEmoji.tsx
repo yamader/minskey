@@ -49,4 +49,6 @@ export default function CustomEmoji({ name }: CustomEmojiProps) {
 }
 
 export const CustomEmojiStr = ({ text }: { text: string }) =>
-  text.split(":").map((s, i) => (i % 2 ? <CustomEmoji name={s} key={i} /> : <Fragment key={i}>{s}</Fragment>))
+  text
+    .split(":")
+    .map((s, i) => (i % 2 ? <CustomEmoji name={s} key={i} /> : <Fragment key={i}>{s}</Fragment>))

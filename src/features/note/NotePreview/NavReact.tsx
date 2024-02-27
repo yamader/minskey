@@ -9,7 +9,9 @@ export default function NavReact({ note }: { note: entities.Note }) {
         <Plus size={20} />
       </Popover.Trigger>
       <Popover.Portal>
-        <Popover.Content className="rounded-lg border bg-white p-4 shadow-md focus:outline-none" sideOffset={4}>
+        <Popover.Content
+          className="rounded-lg border bg-white p-4 shadow-md focus:outline-none"
+          sideOffset={4}>
           (空気)
         </Popover.Content>
       </Popover.Portal>
