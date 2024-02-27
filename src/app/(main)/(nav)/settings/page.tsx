@@ -1,14 +1,17 @@
 "use client"
 
+import { useId } from "react"
 import { useAuth } from "~/features/auth"
-import Switch from "~/features/common/Switch"
 import { useSettings } from "~/features/settings"
 
 export default function SetingsPage() {
   const { account } = useAuth()
-  const [settings, setSetings] = useSettings()
+  const [settings, setSettings] = useSettings()
 
   const h2class = "pt-6 pb-2.5 text-xl font-bold"
+
+  const darkId = useId()
+  const absDateId = useId()
 
   return (
     <>
@@ -16,14 +19,31 @@ export default function SetingsPage() {
 
       <section>
         <h2 className={h2class}>アプリ設定</h2>
-        <Switch
-          init={settings.dark}
-          onChange={d => {
-            // なぜか設定が書き込まれない
-            setSetings({ ...settings, dark: d })
-          }}>
-          DarkMode
-        </Switch>
+        <div className="flex gap-5">
+          <div>
+            <input
+              type="checkbox"
+              id={darkId}
+              checked={settings.dark}
+              onChange={e => setSettings({ ...settings, dark: e.target.checked })}
+            />
+            <label htmlFor={darkId} className="ml-2 select-none">
+              ダークモード
+            </label>
+          </div>
+
+          <div>
+            <input
+              type="checkbox"
+              id={absDateId}
+              checked={settings.absDate}
+              onChange={e => setSettings({ ...settings, absDate: e.target.checked })}
+            />
+            <label htmlFor={absDateId} className="ml-2 select-none">
+              日付絶対表示
+            </label>
+          </div>
+        </div>
       </section>
 
       {account && (
