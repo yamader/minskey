@@ -1,34 +1,48 @@
 "use client"
 
-import { atom, useAtom, useAtomValue } from "jotai"
+import { atom, useAtom } from "jotai"
 import { Fragment, Suspense, createContext, use, useContext } from "react"
 import { CustomEmojiProps } from "react-mfm"
-import { fetchEmoji } from "~/features/api"
+import { fetchEmojiUrl } from "~/features/api"
 
 export const CustomEmojiCtx = createContext<{ host: string | null }>({ host: null })
 
-const cacheAtom = atom<{ [host: string]: { [name: string]: string } }>({})
+// Hooks
+const cacheAtom = atom<{ [host: string]: { [name: string]: string | null } }>({})
+const useEmojiCache = () => {
+  const [cache, setCache] = useAtom(cacheAtom)
+  const addCache = (host: string, name: string, url: string | null) => {
+    if (hasCache(host, name)) return
+    setCache({
+      ...cache,
+      [host]: { ...cache[host], [name]: url },
+    })
+  }
+  const hasCache = (host: string, name: string) => host in cache && name in cache[host]
+  return { cache, addCache, hasCache }
+}
+
+// Internal Components
 
 const EmojiImg = ({ name, url }: { name: string; url?: string }) =>
   !url ? `:${name}:` : <img src={url} alt={name} className="mfm-customEmoji" />
 
 function FetchEmoji({ name, host }: { name: string; host: string }) {
-  const [cache, setCache] = useAtom(cacheAtom)
-  if (host in cache && name in cache[host]) return <EmojiImg name={name} url={cache[host][name]} />
-  const { url } = use(fetchEmoji(name, host))
-  setCache({
-    ...cache,
-    [host]: { ...cache[host], [name]: url },
-  })
-  return <EmojiImg name={name} url={url} />
+  const { cache, addCache, hasCache } = useEmojiCache()
+
+  const url = hasCache(host, name) ? cache[host][name] : use(fetchEmojiUrl(name, host))
+  addCache(host, name, url)
+  return <EmojiImg name={name} url={url ?? undefined} />
 }
 
+// Components
+
 export default function CustomEmoji({ name }: CustomEmojiProps) {
-  const cache = useAtomValue(cacheAtom)
+  const { cache } = useEmojiCache()
   const { host } = useContext(CustomEmojiCtx)
   if (!host) return <EmojiImg name={name} />
   return (
-    <Suspense fallback={<EmojiImg name={name} url={cache[host]?.[name]} />}>
+    <Suspense fallback={<EmojiImg name={name} url={cache[host]?.[name] ?? undefined} />}>
       <FetchEmoji name={name} host={host} />
     </Suspense>
   )

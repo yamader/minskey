@@ -10,5 +10,5 @@ export function useMfmProvider() {
       ...config,
       CustomEmoji,
     }))
-  }, [])
+  }, [setMfmConfig])
 }
