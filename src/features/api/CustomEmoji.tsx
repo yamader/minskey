@@ -1,13 +1,18 @@
 "use client"
 
-import { atom, useAtom, useAtomValue } from "jotai"
+import { useAtom, useAtomValue } from "jotai"
+import { atomWithStorage } from "jotai/utils"
 import { Fragment, Suspense, createContext, use, useContext, useState } from "react"
 import { CustomEmojiProps } from "react-mfm"
 import { useAPI } from "~/features/api"
 
 // internal
 
-const emojiCacheAtom = atom<{ [host: string]: { [name: string]: string | null } }>({})
+// todo: invalidate
+const emojiCacheAtom = atomWithStorage<{ [host: string]: { [name: string]: string | null } }>(
+  "minsk::api::emojiCache",
+  {},
+)
 
 const EmojiImg = ({ name, url }: { name: string; url?: string | null }) =>
   !url ? `:${name}:` : <img src={url} alt={name} className="mfm-customEmoji" />
