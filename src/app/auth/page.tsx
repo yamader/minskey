@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation"
 import { Suspense, useEffect, useState } from "react"
 import NBSK from "~/components/NBSK"
-import { useAuth } from "~/features/auth"
+import { useAccounts, useAuth } from "~/features/auth"
 import { useClient } from "~/features/common"
 
 export default function AuthPage() {

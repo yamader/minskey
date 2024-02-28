@@ -17,7 +17,6 @@ type Account = {
   token: string
 }
 
-// FixMe: 理論上、currentAccountAtomにaccountsAtomに存在しない値を代入することができる
 export const accountsAtom = atomWithStorage<Account[] | null>("minsk::accounts", null)
 export const currentAccountIndexAtom = atomWithStorage<number | null>("minsk::accounts::currentAccount", null)
 

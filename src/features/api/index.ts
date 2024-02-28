@@ -1,9 +1,8 @@
 import { atom, useAtom, useAtomValue } from "jotai"
 import { Channels, Endpoints, Stream, api, entities } from "misskey-js"
-import { accountsAtom, currentAccountIndexAtom } from "../auth"
+import { accountsAtom, currentAccountIndexAtom, useAuth } from "../auth"
 
 import { use, useState } from "react"
-import { accountAtom } from "~/features/auth"
 import { APIClient, detect } from "./clients"
 
 // types
@@ -22,8 +21,8 @@ export const TLChanNameToAPIEndpoint: Record<TLChanNames, keyof Endpoints> = {
 }
 
 // atoms
-
 export const clientsAtom = atom<{ [host: string]: APIClient | null }>({})
+
 /** @deprecated */
 export const misskeyJSAtom = atom(get => {
   const accounts = get(accountsAtom)
@@ -50,7 +49,8 @@ export const streamConnectAtom = atom(get => {
 // hooks
 
 export function useAPI(host?: string) {
-  const account = useAtomValue(accountAtom)
+  const { account } = useAuth()
+
   const [clients, setClients] = useAtom(clientsAtom)
   const [clientFetch, setClientFetch] = useState<Promise<APIClient | null>>()
 
