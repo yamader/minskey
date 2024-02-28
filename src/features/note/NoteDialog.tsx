@@ -7,7 +7,7 @@ import { ComponentProps, forwardRef, useEffect, useRef } from "react"
 import { UseFormReturn, useForm } from "react-hook-form"
 import TextareaAutosize from "react-textarea-autosize"
 
-import { useAPI } from "~/features/api"
+import { useMisskeyJS } from "~/features/api"
 import { useKeysymWithOpts } from "~/features/common"
 import { useNoteDialog, useNoteVisibility } from "."
 import VisibilityIcon, { Visibility } from "./VisibilityIcon"
@@ -62,7 +62,7 @@ function NoteForm({
   setValue,
   close,
 }: UseFormReturn<FormData> & { close: () => void }) {
-  const api = useAPI()
+  const api = useMisskeyJS()
   const [, setVisibility] = useNoteVisibility()
 
   const onSubmit = async (data: FormData) => {
@@ -134,22 +134,23 @@ function NoteForm({
 }
 
 function NFSelectVisibility(props: ComponentProps<typeof Select.Root>) {
-  const SelectVisibility = forwardRef<HTMLDivElement, ComponentProps<typeof Select.Item> & { value: Visibility }>(
-    ({ children, value, ...props }, ref) => (
-      <Select.Item
-        className="select-none rounded-lg px-2 py-1.5 data-[highlighted]:bg-lime-200 data-[state=checked]:text-lime-700"
-        value={value}
-        {...props}
-        ref={ref}>
-        <Select.ItemText>
-          <div className="flex items-center gap-1 text-sm font-bold">
-            <VisibilityIcon name={value} size={18} />
-            <p className="-mt-0.5">{children}</p>
-          </div>
-        </Select.ItemText>
-      </Select.Item>
-    ),
-  )
+  const SelectVisibility = forwardRef<
+    HTMLDivElement,
+    ComponentProps<typeof Select.Item> & { value: Visibility }
+  >(({ children, value, ...props }, ref) => (
+    <Select.Item
+      className="select-none rounded-lg px-2 py-1.5 data-[highlighted]:bg-lime-200 data-[state=checked]:text-lime-700"
+      value={value}
+      {...props}
+      ref={ref}>
+      <Select.ItemText>
+        <div className="flex items-center gap-1 text-sm font-bold">
+          <VisibilityIcon name={value} size={18} />
+          <p className="-mt-0.5">{children}</p>
+        </div>
+      </Select.ItemText>
+    </Select.Item>
+  ))
 
   return (
     <Select.Root {...props}>

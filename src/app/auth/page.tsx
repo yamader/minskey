@@ -2,10 +2,9 @@
 
 import { useRouter, useSearchParams } from "next/navigation"
 import { Suspense, useEffect, useState } from "react"
-
-import { useAccounts, useAuth } from "~/features/auth"
+import NBSK from "~/components/NBSK"
+import { useAuth } from "~/features/auth"
 import { useClient } from "~/features/common"
-import NBSK from "~/features/common/NBSK"
 
 export default function AuthPage() {
   return (
@@ -49,7 +48,9 @@ function AuthSuspense() {
       } catch (e) {
         const host = session?.host ? `${session?.proto}://${session?.host}` : null
         setAuth({ session: null, error: e + "" })
-        router.replace(`/login?go=${encodeURIComponent(go)}` + (host ? `&host=${encodeURIComponent(host)}` : ""))
+        router.replace(
+          `/login?go=${encodeURIComponent(go)}` + (host ? `&host=${encodeURIComponent(host)}` : ""),
+        )
       } finally {
         setDone(true)
       }

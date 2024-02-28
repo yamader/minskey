@@ -1,52 +1,57 @@
 "use client"
 
-import { atom, useAtom } from "jotai"
-import { Fragment, Suspense, createContext, use, useContext } from "react"
+import { useAtom, useAtomValue } from "jotai"
+import { atomWithStorage } from "jotai/utils"
+import { Fragment, Suspense, createContext, use, useContext, useState } from "react"
 import { CustomEmojiProps } from "react-mfm"
-import { fetchEmojiUrl } from "~/features/api"
+import { useAPI } from "~/features/api"
 
-export const CustomEmojiCtx = createContext<{ host: string | null }>({ host: null })
+// internal
 
-// Hooks
-const cacheAtom = atom<{ [host: string]: { [name: string]: string | null } }>({})
-const useEmojiCache = () => {
-  const [cache, setCache] = useAtom(cacheAtom)
-  const addCache = (host: string, name: string, url: string | null) => {
-    if (hasCache(host, name)) return
-    setCache({
-      ...cache,
-      [host]: { ...cache[host], [name]: url },
-    })
-  }
-  const hasCache = (host: string, name: string) => host in cache && name in cache[host]
-  return { cache, addCache, hasCache }
-}
+// todo: invalidate
+const emojiCacheAtom = atomWithStorage<{ [host: string]: { [name: string]: string | null } }>(
+  "minsk::api::emojiCache",
+  {},
+)
 
-// Internal Components
-
-const EmojiImg = ({ name, url }: { name: string; url?: string }) =>
+const EmojiImg = ({ name, url }: { name: string; url?: string | null }) =>
   !url ? `:${name}:` : <img src={url} alt={name} className="mfm-customEmoji" />
 
 function FetchEmoji({ name, host }: { name: string; host: string }) {
-  const { cache, addCache, hasCache } = useEmojiCache()
+  const api = useAPI(host)
+  const [task, setTask] = useState<Promise<string | null>>() // たぶん要る
+  const [cache, setCache] = useAtom(emojiCacheAtom)
 
-  const url = hasCache(host, name) ? cache[host][name] : use(fetchEmojiUrl(name, host))
-  addCache(host, name, url)
-  return <EmojiImg name={name} url={url ?? undefined} />
+  const Cached = () => <EmojiImg name={name} url={cache[host]?.[name]} />
+  if (host in cache && name in cache[host]) return <Cached />
+  if (!api) return <Cached />
+  if (!task) {
+    setTask(api.fetchEmojiUrl(name))
+    return <Cached />
+  }
+
+  const url = use(task)
+  setCache(cache => ({ ...cache, [host]: { ...cache[host], [name]: url } }))
+  return <EmojiImg name={name} url={url} />
 }
 
 // Components
 
+export const CustomEmojiCtx = createContext<{ host: string | null }>({ host: null })
+
 export default function CustomEmoji({ name }: CustomEmojiProps) {
-  const { cache } = useEmojiCache()
+  const cache = useAtomValue(emojiCacheAtom)
   const { host } = useContext(CustomEmojiCtx)
+
   if (!host) return <EmojiImg name={name} />
   return (
-    <Suspense fallback={<EmojiImg name={name} url={cache[host]?.[name] ?? undefined} />}>
+    <Suspense fallback={<EmojiImg name={name} url={cache[host]?.[name]} />}>
       <FetchEmoji name={name} host={host} />
     </Suspense>
   )
 }
 
 export const CustomEmojiStr = ({ text }: { text: string }) =>
-  text.split(":").map((s, i) => (i % 2 ? <CustomEmoji name={s} key={i} /> : <Fragment key={i}>{s}</Fragment>))
+  text
+    .split(":")
+    .map((s, i) => (i % 2 ? <CustomEmoji name={s} key={i} /> : <Fragment key={i}>{s}</Fragment>))

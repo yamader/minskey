@@ -1,4 +1,4 @@
-import Footer from "~/features/common/Footer"
+import Footer from "~/components/Footer"
 
 export default function FooterLayout({ children }: { children: React.ReactNode }) {
   return (

@@ -3,7 +3,7 @@ import { atomWithStorage } from "jotai/utils"
 import { entities } from "misskey-js"
 import { useCallback, useEffect, useState } from "react"
 
-import { TLChanNameToAPIEndpoint, TLChanNames, useAPI, useStream } from "~/features/api"
+import { TLChanNameToAPIEndpoint, TLChanNames, useMisskeyJS, useStream } from "~/features/api"
 import { useLogin } from "~/features/auth"
 
 ////////////////////////////////////////////////////////////////
@@ -41,7 +41,7 @@ export function useTL() {
 // todo: ノートの内容をいい感じにキャッシュ
 function useTLRaw(chan: TLChanNames) {
   const stream = useStream(chan)
-  const api = useAPI()
+  const api = useMisskeyJS()
   const [notes, setNotes] = useState<entities.Note[]>([])
 
   const account = useLogin(true)

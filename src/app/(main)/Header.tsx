@@ -61,7 +61,9 @@ function UserMenu() {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
-        <button className="rounded-full bg-white outline-none hover:brightness-95" aria-label="User menu">
+        <button
+          className="rounded-full bg-white outline-none hover:brightness-95"
+          aria-label="User menu">
           <ProfileIcon />
         </button>
       </DropdownMenu.Trigger>
@@ -72,7 +74,9 @@ function UserMenu() {
               <Link
                 className="flex flex-col rounded-lg px-3 py-2 outline-none hover:bg-neutral-100 active:bg-neutral-200"
                 href={`/profile?user=@${profile.username}@${host}`}>
-                <span className="overflow-hidden text-ellipsis text-lg font-bold">{profile.name}</span>
+                <span className="overflow-hidden text-ellipsis text-lg font-bold">
+                  {profile.name}
+                </span>
                 <span className="overflow-hidden text-ellipsis font-inter text-sm font-bold text-neutral-500">
                   @{profile.username}@{host}
                 </span>
