@@ -23,7 +23,7 @@ export default function PlaygroundPage() {
               setAuth({ account: index })
               router.push("/home")
             }}>
-            {account.host}
+            {account.user.name} (@{account.user.username}@{account.host})
           </p>
         </div>
       ))}
