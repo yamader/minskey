@@ -2,10 +2,10 @@ import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
 import { Quote, Repeat2 } from "lucide-react"
 import { entities } from "misskey-js"
 
-import { useAPI } from "~/features/api"
+import { useMisskeyJS } from "~/features/api"
 
 export default function NavRN({ note }: { note: entities.Note }) {
-  const api = useAPI()
+  const api = useMisskeyJS()
 
   const menuItem =
     "focus:outline-none focus:bg-lime-200 flex mx-1 gap-1.5 text-sm cursor-pointer items-center pl-2.5 pr-3.5 py-1.5 font-bold rounded-md"

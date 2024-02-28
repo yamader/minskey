@@ -1,7 +1,7 @@
 import { atom, useAtomValue } from "jotai"
 import { entities } from "misskey-js"
 
-import { apiAtom } from "~/features/api"
+import { useMisskeyJS } from "~/features/api"
 
 // utils
 
@@ -25,7 +25,7 @@ export function profileLink(user: entities.UserLite) {
 // atoms
 
 export const profileAtom = atom(async get => {
-  const api = get(apiAtom)
+  const api = useMisskeyJS()
   return api?.request("i").catch(() => null) ?? null
 })
 

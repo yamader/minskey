@@ -1,7 +1,9 @@
-import { atom, useAtomValue } from "jotai"
+import { atom, useAtom, useAtomValue } from "jotai"
 import { Channels, Endpoints, Stream, api, entities } from "misskey-js"
 
+import { use, useState } from "react"
 import { accountAtom } from "~/features/auth"
+import { APIClient, detect } from "./clients"
 
 // types
 
@@ -20,7 +22,10 @@ export const TLChanNameToAPIEndpoint: Record<TLChanNames, keyof Endpoints> = {
 
 // atoms
 
-export const apiAtom = atom(get => {
+export const clientsAtom = atom<{ [host: string]: APIClient | null }>({})
+
+/** @deprecated */
+export const misskeyJSAtom = atom(get => {
   const account = get(accountAtom)
   if (!account) return null
   return new api.APIClient({
@@ -37,8 +42,30 @@ export const streamConnectAtom = atom(get => {
 
 // hooks
 
-export function useAPI() {
-  return useAtomValue(apiAtom)
+export function useAPI(host?: string) {
+  const account = useAtomValue(accountAtom)
+  const [clients, setClients] = useAtom(clientsAtom)
+  const [clientFetch, setClientFetch] = useState<Promise<APIClient | null>>()
+
+  let _host = host
+  if (!host?.match(/^https?:\/\//)) _host = "https://" + host
+  _host ??= account?.host && `${account.proto}://${account.host}`
+  if (!_host) return null
+
+  if (_host in clients) return clients[_host]
+  if (!clientFetch) {
+    const task = detect(_host)
+    setClientFetch(task)
+    return use(task)
+  }
+  const api = use(clientFetch)
+  setClients({ ...clients, [_host]: api })
+  return api
+}
+
+/** @deprecated */
+export function useMisskeyJS() {
+  return useAtomValue(misskeyJSAtom)
 }
 
 export function useStream<T extends keyof Channels>(channel: T) {
@@ -46,8 +73,7 @@ export function useStream<T extends keyof Channels>(channel: T) {
   return stream?.useChannel(channel) ?? null
 }
 
-// utils
-
+/** @deprecated */
 export async function fetchEmojiUrl(name: string, host: string): Promise<string | null> {
   const json = await fetch(`https://${host}/api/emoji?name=${name}`)
     .then(res => res.json())

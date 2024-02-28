@@ -1,7 +1,7 @@
 import { atom, useAtomValue, useSetAtom } from "jotai"
 import { entities } from "misskey-js"
 import { useCallback, useEffect, useState } from "react"
-import { useAPI, useStream } from "../api"
+import { useMisskeyJS, useStream } from "../api"
 import { useLogin } from "../auth"
 
 ////////////////////////////////////////////////////////////////
@@ -13,7 +13,10 @@ type Notifications = {
   more: () => Promise<void>
 }
 
-export const notificationsAtom = atom<Notifications>({ notifications: [], more: () => Promise.resolve() })
+export const notificationsAtom = atom<Notifications>({
+  notifications: [],
+  more: () => Promise.resolve(),
+})
 
 ////////////////////////////////////////////////////////////////
 //  hooks
@@ -27,7 +30,7 @@ export const useNotifications = () => useAtomValue(notificationsAtom)
 
 export const useNotificationsRaw = () => {
   const stream = useStream("main")
-  const api = useAPI()
+  const api = useMisskeyJS()
   const [notifications, setNotifications] = useState<entities.Notification[]>([])
 
   const account = useLogin(true)

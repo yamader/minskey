@@ -3,7 +3,7 @@ import { atomWithStorage } from "jotai/utils"
 import { Endpoints } from "misskey-js"
 import { Note } from "misskey-js/built/entities"
 import { useEffect, useState } from "react"
-import { useAPI } from "../api"
+import { useMisskeyJS } from "../api"
 
 // atoms
 
@@ -23,7 +23,7 @@ export function useNoteVisibility() {
 }
 
 export function useNote(noteId: string) {
-  const api = useAPI()
+  const api = useMisskeyJS()
   const [note, setNote] = useState<Note | null | "error">(null)
 
   // Set note
@@ -45,7 +45,7 @@ export function useNote(noteId: string) {
   return note
 }
 export function useNoteReplies(noteId: string) {
-  const api = useAPI()
+  const api = useMisskeyJS()
   const [replies, setReplies] = useState<Note[] | null>(null)
 
   useEffect(() => {
@@ -69,7 +69,7 @@ export function useNoteReplies(noteId: string) {
 }
 
 export function useRenotes(noteId: string) {
-  const api = useAPI()
+  const api = useMisskeyJS()
   const [renotes, setRenotes] = useState<Note[] | null>(null)
 
   useEffect(() => {
