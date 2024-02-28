@@ -17,12 +17,15 @@ Next.jsのStatic Exportsによってビルドされ、状態はすべてロー�
 
 ## 開発
 
-Node.js開発環境とPnpm実行環境を構築してください。Minskeyでは[Volta](https://volta.sh/)を推奨しています。
+Node.js開発環境とPNpm実行環境を構築してください。Minskeyでは[Volta](https://volta.sh/)と[Corepack](https://nodejs.org/api/corepack.html)を推奨しています。
+
+指定されている[Node.js](./.node-version)と[PNpm](./package.json)を使っていれば最悪なんでも良いです。
 
 ```bash
 volta setup
-volta node@lts
-volta install pnpm
+volta install node@lts corepack
+corepack use pnpm
+corepack install
 pnpm install
 ```
 
