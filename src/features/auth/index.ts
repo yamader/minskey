@@ -1,5 +1,6 @@
 import { atom, useAtom, useAtomValue } from "jotai"
 import { atomWithStorage } from "jotai/utils"
+import { User } from "misskey-js/built/entities"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 
@@ -15,6 +16,7 @@ type Account = {
   proto: string
   host: string
   token: string
+  user: User
 }
 
 export const accountsAtom = atomWithStorage<Account[] | null>("minsk::accounts", null)
@@ -102,6 +104,7 @@ export function useAccounts(login?: boolean) {
   }, [login, client, accounts, router])
 
   const addAccount = (account: ArrElement<NonNullable<typeof accounts>>) => {
+    console.log("addAccount", account)
     if (accounts) setAccounts([...accounts, account])
     else setAccounts([account])
   }

@@ -37,7 +37,7 @@ function AuthSuspense() {
         const url = `${proto}://${host}/api/miauth/${id}/check`
         const res = await fetch(url, { method: "POST" }).then(r => r.json())
         if (!res.ok) throw new Error("miauth failed")
-        addAccount({ proto, host, token: res.token })
+        addAccount({ proto, host, token: res.token, user: res.user })
         setAuth({
           account: accounts?.length ?? 0,
           session: null,

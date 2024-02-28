@@ -164,7 +164,7 @@ function ManualLogin({ go, host }: LoginProps) {
   } = useForm<ManualLoginForm>()
   const router = useRouter()
   const { setAuth } = useAuth()
-  const { addAccount ,accounts} = useAccounts()
+  const { addAccount, accounts } = useAccounts()
 
   const onSubmit = async ({ host, token }: ManualLoginForm) => {
     const srv = ensureProto(host),
@@ -179,7 +179,7 @@ function ManualLogin({ go, host }: LoginProps) {
     try {
       const res = await fetch(testurl, req)
       if (res.ok) {
-        const account = { proto: hd, host: tl, token }
+        const account = { proto: hd, host: tl, token, user: await res.json() }
         addAccount(account)
         setAuth({
           account: accounts?.length ?? 0,
