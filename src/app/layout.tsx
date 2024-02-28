@@ -3,7 +3,7 @@ import "@radix-ui/themes/styles.css"
 import clsx from "clsx"
 import { Metadata } from "next"
 import { Fira_Code, Inter, Zen_Kaku_Gothic_New } from "next/font/google"
-import "~/global.css"
+import "./global.css"
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://minskey.dyama.net"),
