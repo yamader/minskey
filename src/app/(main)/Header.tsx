@@ -3,9 +3,9 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
 import Link from "next/link"
 import { Suspense } from "react"
+
 import BrandLogo from "~/components/BrandLogo"
 import LinkButton from "~/components/LinkButton"
-
 import { useAuth, useLogin } from "~/features/auth"
 import { useProfile } from "~/features/profile"
 import ProfileIcon from "~/features/profile/ProfileIcon"

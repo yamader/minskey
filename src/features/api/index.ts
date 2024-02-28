@@ -1,8 +1,8 @@
 import { atom, useAtom, useAtomValue } from "jotai"
 import { Channels, Endpoints, Stream, api, entities } from "misskey-js"
-import { accountsAtom, currentAccountIndexAtom, useAuth } from "../auth"
 
 import { use, useState } from "react"
+import { accountsAtom, currentAccountIndexAtom, useAuth } from "~/features/auth"
 import { APIClient, detect } from "./clients"
 
 // types
