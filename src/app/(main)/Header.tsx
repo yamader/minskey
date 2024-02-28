@@ -6,7 +6,7 @@ import { Suspense } from "react"
 import BrandLogo from "~/components/BrandLogo"
 import LinkButton from "~/components/LinkButton"
 
-import { useAccounts, useAuth, useLogin } from "~/features/auth"
+import { useAuth, useLogin } from "~/features/auth"
 import { useProfile } from "~/features/profile"
 import ProfileIcon from "~/features/profile/ProfileIcon"
 import UserIcon from "~/features/profile/UserIcon"
@@ -51,10 +51,7 @@ function HeaderLink({ href, children }: { href: string; children: string }) {
 
 function UserMenu() {
   const { account, logout } = useAuth()
-  const { accounts } = useAccounts()
   const profile = useProfile()
-
-  console.log(accounts)
 
   const host = profile?.host ?? account?.host
 
