@@ -12,7 +12,7 @@ type ArrElement<ArrType> = ArrType extends readonly (infer ElementType)[] ? Elem
 //  atoms
 ////////////////////////////////////////////////////////////////
 
-type Account = {
+export type Account = {
   proto: string
   host: string
   token: string

@@ -2,12 +2,11 @@
 
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
 import Link from "next/link"
-import { Suspense } from "react"
+import { ReactNode, Suspense } from "react"
 
 import BrandLogo from "~/components/BrandLogo"
 import LinkButton from "~/components/LinkButton"
-import { useAuth, useLogin } from "~/features/auth"
-import { useProfile } from "~/features/profile"
+import { Account, useAccounts, useAuth, useLogin } from "~/features/auth"
 import ProfileIcon from "~/features/profile/ProfileIcon"
 import UserIcon from "~/features/profile/UserIcon"
 
@@ -50,10 +49,7 @@ function HeaderLink({ href, children }: { href: string; children: string }) {
 }
 
 function UserMenu() {
-  const { account, logout } = useAuth()
-  const profile = useProfile()
-
-  const host = profile?.host ?? account?.host
+  const { logout } = useAuth()
 
   return (
     <DropdownMenu.Root>
@@ -67,24 +63,7 @@ function UserMenu() {
       <DropdownMenu.Portal>
         <DropdownMenu.Content className="m-2 w-48 rounded-lg border bg-white p-2 drop-shadow">
           <DropdownMenu.Item asChild>
-            {profile ? (
-              <Link
-                className="flex flex-col rounded-lg px-3 py-2 outline-none hover:bg-neutral-100 active:bg-neutral-200"
-                href={`/profile?user=@${profile.username}@${host}`}>
-                <span className="overflow-hidden text-ellipsis text-lg font-bold">
-                  {profile.name}
-                </span>
-                <span className="overflow-hidden text-ellipsis font-inter text-sm font-bold text-neutral-500">
-                  @{profile.username}@{host}
-                </span>
-              </Link>
-            ) : (
-              <Link
-                className="flex rounded-lg bg-gradient-to-r from-red-500 to-red-400 px-3 py-2 italic text-white outline-none hover:underline"
-                href="/help">
-                Error
-              </Link>
-            )}
+            <UserSwitchBtn />
           </DropdownMenu.Item>
           <DropdownMenu.Separator className="m-2 h-px bg-neutral-200" />
           <DropdownMenu.Item asChild>
@@ -111,5 +90,57 @@ function UserMenu() {
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>
+  )
+}
+
+const UserSwitchBtn = () => {
+  const { accounts } = useAccounts()
+  const current = useLogin()
+  const { setAuth } = useAuth()
+
+  const Err = (
+    <Link
+      className="flex rounded-lg bg-gradient-to-r from-red-500 to-red-400 px-3 py-2 italic text-white outline-none hover:underline"
+      href="/help">
+      Error
+    </Link>
+  )
+
+  const AccoutLink = ({ account, children }: { account: Account; children: ReactNode }) =>
+    account.host === current?.host && account.token === current?.token ? (
+      <Link
+        key={account.token}
+        className="flex flex-col rounded-lg px-3 py-2 outline-none hover:bg-neutral-100 active:bg-neutral-200"
+        href={`/profile?user=@${account.user.username}@${account.host}`}>
+        {children}
+      </Link>
+    ) : (
+      <button
+        key={account.token}
+        className="flex flex-col rounded-lg px-3 py-2 outline-none hover:bg-neutral-100 active:bg-neutral-200"
+        onClick={() => setAuth({ account: accounts?.indexOf(account) })}>
+        {children}
+      </button>
+    )
+
+  return (
+    // 現在のアカウントを先頭に持ってくる
+    [
+      current,
+      ...(accounts?.filter(a => a.host !== current?.host && a.token !== current?.token) ?? []),
+    ].map(account => {
+      return (
+        account && (
+          <AccoutLink account={account} key={account.token}>
+            <span className="overflow-hidden text-ellipsis text-lg font-bold">
+              {account.user.name}
+            </span>
+            <span className="overflow-hidden text-ellipsis font-inter text-sm font-bold text-neutral-500">
+              @{account.user.username}@{account.host}
+            </span>
+          </AccoutLink>
+        )
+      )
+    }) || Err
   )
 }
