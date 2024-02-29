@@ -24,7 +24,7 @@ Node.js開発環境とPNpm実行環境を構築してください。Minskeyで�
 ```bash
 volta setup
 volta install node@lts corepack
-corepack use pnpm
+corepack enable pnpm
 corepack install
 pnpm install
 ```
