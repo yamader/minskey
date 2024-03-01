@@ -164,7 +164,7 @@ function ManualLogin({ go, host }: LoginProps) {
   } = useForm<ManualLoginForm>()
   const router = useRouter()
   const { setAuth } = useAuth()
-  const { addAccount ,accounts} = useAccounts()
+  const { addAccount, accounts } = useAccounts()
 
   const onSubmit = async ({ host, token }: ManualLoginForm) => {
     const srv = ensureProto(host),
