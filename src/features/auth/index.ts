@@ -2,7 +2,6 @@ import { atom, useAtom, useAtomValue } from "jotai"
 import { atomWithStorage } from "jotai/utils"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
-
 import { useClient } from "~/features/common"
 
 ////////////////////////////////////////////////////////////////
@@ -10,32 +9,31 @@ import { useClient } from "~/features/common"
 ////////////////////////////////////////////////////////////////
 
 type Account = {
-  proto: string
   host: string
+  uid: string
   token: string
 }
 
-// todo: multiple account, and rename key
-export const accountAtom = atomWithStorage<Account | null>("minsk::account::v1", null)
+export const accountAtom = atomWithStorage<Account | null>("minsk::auth::account", null)
+export const multiAccountsAtom = atomWithStorage<Account[]>("minsk::auth::multiAccounts", [])
 
 type AuthSession = {
-  id: string
-  proto: string
+  sid: string
   host: string
 }
 
 export const authSessionAtom = atomWithStorage<AuthSession | null>("minsk::auth::session", null)
-
 export const authErrorAtom = atom<string | null>(null)
 
 ////////////////////////////////////////////////////////////////
 //  hooks
 ////////////////////////////////////////////////////////////////
 
+// 現在のアカウントを取得する
 export function useLogin(login?: boolean) {
   const account = useAtomValue(accountAtom)
-  const router = useRouter()
   const client = useClient()
+  const router = useRouter()
 
   useEffect(() => {
     if (login && client && !account) router.push("/")
@@ -48,6 +46,7 @@ export function useAuth() {
   const [authAccount, setAccount] = useAtom(accountAtom)
   const [authSession, setAuthSession] = useAtom(authSessionAtom)
   const [authError, setAuthError] = useAtom(authErrorAtom)
+  const { multiAccounts, addMultiAccount, removeMultiAccount } = useMultiAccounts()
 
   const setAuth = ({
     account,
@@ -64,7 +63,16 @@ export function useAuth() {
   }
 
   const logout = () => {
-    setAuth({ account: null, session: null, error: null })
+    if (multiAccounts.length) {
+      const idx = multiAccounts.findIndex(
+        e => e.host == authAccount?.host && e.uid == authAccount?.uid,
+      )
+      const nextAccount = multiAccounts[idx + 1] ?? multiAccounts[idx - 1] ?? null
+      setAuth({ account: nextAccount, session: null, error: null })
+      removeMultiAccount(idx)
+    } else {
+      setAuth({ account: null, session: null, error: null })
+    }
   }
 
   return {
@@ -74,4 +82,19 @@ export function useAuth() {
     setAuth,
     logout,
   }
+}
+
+export function useMultiAccounts() {
+  const [multiAccounts, setMultiAccounts] = useAtom(multiAccountsAtom)
+
+  const addMultiAccount = (account: Account) => {
+    setMultiAccounts([...multiAccounts, account])
+  }
+
+  // -1が渡されることも想定
+  const removeMultiAccount = (index: number) => {
+    setMultiAccounts([...multiAccounts.slice(0, index), ...multiAccounts.slice(index + 1)])
+  }
+
+  return { multiAccounts, addMultiAccount, removeMultiAccount }
 }

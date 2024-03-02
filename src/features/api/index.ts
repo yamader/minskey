@@ -1,8 +1,8 @@
 import { atom, useAtom, useAtomValue } from "jotai"
 import { Channels, Endpoints, Stream, api, entities } from "misskey-js"
-
 import { use, useState } from "react"
-import { accountAtom } from "~/features/auth"
+import { accountAtom, useAuth } from "~/features/auth"
+import { ensureproto } from "~/utils"
 import { APIClient, detect } from "./clients"
 
 // types
@@ -21,7 +21,6 @@ export const TLChanNameToAPIEndpoint: Record<TLChanNames, keyof Endpoints> = {
 }
 
 // atoms
-
 export const clientsAtom = atom<{ [host: string]: APIClient | null }>({})
 
 /** @deprecated */
@@ -29,7 +28,7 @@ export const misskeyJSAtom = atom(get => {
   const account = get(accountAtom)
   if (!account) return null
   return new api.APIClient({
-    origin: `${account.proto}://${account.host}`,
+    origin: account.host,
     credential: account.token,
   })
 })
@@ -37,27 +36,25 @@ export const misskeyJSAtom = atom(get => {
 export const streamConnectAtom = atom(get => {
   const account = get(accountAtom)
   if (!account) return null
-  return new Stream(`${account.proto}://${account.host}`, { token: account.token })
+  return new Stream(account.host, { token: account.token })
 })
 
 // hooks
 
 export function useAPI(host?: string) {
-  const account = useAtomValue(accountAtom)
+  const { account } = useAuth()
   const [clients, setClients] = useAtom(clientsAtom)
   const [clientFetch, setClientFetch] = useState<Promise<APIClient | null>>()
 
-  let _host = host
-  if (!host?.match(/^https?:\/\//)) _host = "https://" + host
-  _host ??= account?.host && `${account.proto}://${account.host}`
+  const _host = account?.host ?? (host && ensureproto(host))
   if (!_host) return null
-
   if (_host in clients) return clients[_host]
   if (!clientFetch) {
     const task = detect(_host)
     setClientFetch(task)
     return use(task)
   }
+
   const api = use(clientFetch)
   setClients({ ...clients, [_host]: api })
   return api
