@@ -1,7 +1,7 @@
 import { atom, useAtomValue } from "jotai"
 import { entities } from "misskey-js"
-
 import { useMisskeyJS } from "~/features/api"
+import { hostname } from "~/utils"
 
 // utils
 
@@ -19,7 +19,8 @@ export function statusEmoji(status: entities.UserLite["onlineStatus"] = "unknown
 }
 
 export function profileLink(user: entities.UserLite) {
-  return `/profile?user=@${user.username}@${user.host}`
+  const host = user.host && hostname(user.host)
+  return `/profile?user=@${user.username}@${host}`
 }
 
 // atoms

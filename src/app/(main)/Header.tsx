@@ -10,6 +10,7 @@ import { useAuth, useLogin } from "~/features/auth"
 import { useProfile } from "~/features/profile"
 import ProfileIcon from "~/features/profile/ProfileIcon"
 import UserIcon from "~/features/profile/UserIcon"
+import { hostname } from "~/utils"
 
 export default function Header() {
   const account = useLogin()
@@ -53,7 +54,8 @@ function UserMenu() {
   const { account, logout } = useAuth()
   const profile = useProfile()
 
-  const host = profile?.host ?? account?.host
+  const _host = profile?.host ?? account?.host
+  const host = _host && hostname(_host)
 
   return (
     <DropdownMenu.Root>

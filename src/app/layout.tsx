@@ -39,7 +39,7 @@ const firaCode = Fira_Code({
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ja" suppressHydrationWarning>
+    <html lang="ja">
       <body className={"max-h-screen" /* todo: fix */}>
         <Theme
           className={clsx(

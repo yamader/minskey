@@ -9,6 +9,7 @@ import { CustomEmojiCtx, CustomEmojiStr } from "~/features/api/CustomEmoji"
 import { useLogin } from "~/features/auth"
 import FilePreview from "~/features/drive/FilePreview"
 import { profileLink } from "~/features/profile"
+import { hostname } from "~/utils"
 import NavMore from "./NavMore"
 import NavRN from "./NavRN"
 import NavReact from "./NavReact"
@@ -36,7 +37,8 @@ function NotePreview({ note }: NotePreviewProps) {
     }
   }
 
-  const host = note.user.host ?? account?.host ?? null
+  const _host = note.user.host ?? account?.host ?? null
+  const host = _host && hostname(_host)
 
   return (
     <CustomEmojiCtx.Provider value={{ host }}>

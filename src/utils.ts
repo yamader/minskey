@@ -11,7 +11,7 @@ export function dbg(...args: unknown[]) {
 }
 
 export function hostname(url: string) {
-  return new URL(url).host
+  return URL.canParse(url) ? new URL(url).host : url
 }
 
 export function ensureproto(host: string) {
