@@ -20,6 +20,11 @@ export const TLChanNameToAPIEndpoint: Record<TLChanNames, keyof Endpoints> = {
   hybridTimeline: "notes/hybrid-timeline",
 }
 
+export type Emoji = {
+  name: string
+  url: string
+}
+
 // atoms
 export const clientsAtom = atom<{ [host: string]: APIClient | null }>({})
 

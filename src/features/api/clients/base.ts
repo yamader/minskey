@@ -11,7 +11,7 @@ export default class BaseClient {
     return fetch(this.host + "/api/" + path, opts).then(res => res.json())
   }
 
-  post(path: string, opts?: RequestInit, body?: Object) {
+  post(path: string, opts?: RequestInit, body?: unknown) {
     return fetch(this.host + "/api/" + path, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

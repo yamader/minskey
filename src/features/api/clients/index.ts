@@ -14,7 +14,7 @@ export async function detect(host: string, token?: string): Promise<APIClient | 
     })
     if (res.ok) {
       const { version } = await res.json()
-      const [major, minor] = (version as String).split(".").map(Number)
+      const [major, minor] = (version.toString() as string).split(".").map(Number)
       let ctor = MisskeyLatestClient
       switch (true) {
         case major < 13:
