@@ -6,13 +6,11 @@ import { Fragment, Suspense, createContext, use, useContext, useState } from "re
 import { CustomEmojiProps } from "react-mfm"
 import { useAPI } from "~/features/api"
 
-// internal
+const emojiCacheAtom = atomWithStorage<{
+  [host: string]: { [name: string]: string | null }
+}>("minsk::emoji::cache", {})
 
-// todo: invalidate
-const emojiCacheAtom = atomWithStorage<{ [host: string]: { [name: string]: string | null } }>(
-  "minsk::api::emojiCache",
-  {},
-)
+// internal
 
 const EmojiImg = ({ name, url }: { name: string; url?: string | null }) =>
   !url ? `:${name}:` : <img src={url} alt={name} className="mfm-customEmoji" />

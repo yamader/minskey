@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import { useMfmConfig } from "react-mfm"
-import CustomEmoji from "~/features/api/CustomEmoji"
+import CustomEmoji from "./CustomEmoji"
 
 export function useMfmProvider() {
   const [, setMfmConfig] = useMfmConfig()

@@ -1,18 +1,46 @@
-import * as Popover from "@radix-ui/react-popover"
+"use client"
+
+import { Popover } from "@radix-ui/themes"
 import { Plus } from "lucide-react"
 import { entities } from "misskey-js"
+import { useRouter } from "next/navigation"
+import { Suspense, useState } from "react"
+import { useAPI } from "~/features/api"
+import { useCurrentPath } from "~/features/common"
+import { EmojiPicker } from "~/features/common/EmojiPicker"
 
-export default function NavReact({ note }: { note: entities.Note }) {
+export default function NavReact(props: { note: entities.Note }) {
   return (
-    <Popover.Root>
-      <Popover.Trigger asChild>
+    <Suspense>
+      <NavReactSuspense {...props} />
+    </Suspense>
+  )
+}
+
+function NavReactSuspense({ note }: { note: entities.Note }) {
+  const [open, setOpen] = useState(false)
+  const api = useAPI()
+  const router = useRouter()
+  const currentPath = useCurrentPath()
+
+  return (
+    <Popover.Root
+      open={open}
+      onOpenChange={v => {
+        setOpen(v && !!api)
+        if (v && !api) router.push(`/login?go=${encodeURIComponent(currentPath)}`)
+      }}>
+      <Popover.Trigger>
         <Plus size={20} />
       </Popover.Trigger>
-      <Popover.Portal>
-        <Popover.Content className="rounded-lg border bg-white p-4 shadow-md focus:outline-none" sideOffset={4}>
-          (空気)
-        </Popover.Content>
-      </Popover.Portal>
+      <Popover.Content>
+        <EmojiPicker
+          onPicked={emoji => {
+            alert(`react: ${emoji}`)
+            setOpen(false)
+          }}
+        />
+      </Popover.Content>
     </Popover.Root>
   )
 }

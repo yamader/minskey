@@ -1,4 +1,5 @@
 import { useScroll, useSize } from "ahooks"
+import { usePathname, useSearchParams } from "next/navigation"
 import { DependencyList, useEffect, useState } from "react"
 export * from "./keysym"
 
@@ -20,6 +21,12 @@ export function useBottom(f: () => void) {
   useEffect(() => {
     if ((size?.height ?? 0) + (pos?.top ?? 0) >= document.body.scrollHeight) f()
   }, [size?.height, pos?.top, f])
+}
+
+export function useCurrentPath() {
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  return `${pathname}?${searchParams.toString()}`
 }
 
 // asyncなAPIとかで使うかも

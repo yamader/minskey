@@ -51,7 +51,7 @@ export function useAPI(host?: string) {
   const [clients, setClients] = useAtom(clientsAtom)
   const [clientFetch, setClientFetch] = useState<Promise<APIClient | null>>()
 
-  const _host = account?.host ?? (host && ensureproto(host))
+  const _host = (host && ensureproto(host)) ?? account?.host
   if (!_host) return null
   if (_host in clients) return clients[_host]
   if (!clientFetch) {
@@ -73,13 +73,4 @@ export function useMisskeyJS() {
 export function useStream<T extends keyof Channels>(channel: T) {
   const stream = useAtomValue(streamConnectAtom)
   return stream?.useChannel(channel) ?? null
-}
-
-/** @deprecated */
-export async function fetchEmojiUrl(name: string, host: string): Promise<string | null> {
-  const json = await fetch(`https://${host}/api/emoji?name=${name}`)
-    .then(res => res.json())
-    .catch(e => (console.warn(e), {}))
-
-  return json.url ?? null
 }

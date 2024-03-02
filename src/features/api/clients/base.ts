@@ -1,8 +1,10 @@
 export default class BaseClient {
+  id: string
   host: string
   token?: string
 
   constructor(host: string, token?: string) {
+    this.id = "unknown"
     this.host = host
     this.token = token
   }
