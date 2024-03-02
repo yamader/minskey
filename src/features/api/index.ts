@@ -1,7 +1,7 @@
 import { atom, useAtom, useAtomValue } from "jotai"
 import { Channels, Endpoints, Stream, api, entities } from "misskey-js"
 import { use, useState } from "react"
-import { accountAtom, useAuth } from "~/features/auth"
+import { accountAtom, useAccount } from "~/features/auth"
 import { ensureproto } from "~/utils"
 import { APIClient, detect } from "./clients"
 
@@ -47,7 +47,7 @@ export const streamConnectAtom = atom(get => {
 // hooks
 
 export function useAPI(host?: string) {
-  const { account } = useAuth()
+  const account = useAccount()
   const [clients, setClients] = useAtom(clientsAtom)
   const [clientFetch, setClientFetch] = useState<Promise<APIClient | null>>()
 

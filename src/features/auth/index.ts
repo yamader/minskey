@@ -29,11 +29,15 @@ export const authErrorAtom = atom<string | null>(null)
 //  hooks
 ////////////////////////////////////////////////////////////////
 
+export function useAccount() {
+  return useAtomValue(accountAtom)
+}
+
 // 現在のアカウントを取得する
 export function useLogin(login?: boolean) {
-  const account = useAtomValue(accountAtom)
-  const client = useClient()
+  const account = useAccount()
   const router = useRouter()
+  const client = useClient()
 
   useEffect(() => {
     if (login && client && !account) router.push("/")
@@ -79,6 +83,7 @@ export function useAuth() {
     account: authAccount,
     session: authSession,
     error: authError,
+    addMultiAccount,
     setAuth,
     logout,
   }

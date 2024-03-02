@@ -1,10 +1,10 @@
 "use client"
 
-import { useAuth } from "~/features/auth"
+import { useAccount } from "~/features/auth"
 import { useSettings } from "~/features/settings"
 
 export default function SetingsPage() {
-  const { account } = useAuth()
+  const account = useAccount()
   const [settings] = useSettings()
 
   const h2class = "pt-6 pb-2.5 text-xl font-bold"

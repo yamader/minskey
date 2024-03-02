@@ -2,7 +2,7 @@ import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
 import { Item } from "@radix-ui/react-dropdown-menu"
 import { MoreHorizontal } from "lucide-react"
 import { entities } from "misskey-js"
-import { useAuth } from "~/features/auth"
+import { useAccount } from "~/features/auth"
 
 const menuItem =
   "focus:outline-none focus:bg-lime-200 mx-1 text-sm cursor-pointer px-2.5 py-1.5 font-bold rounded-md"
@@ -27,7 +27,7 @@ function NavMoreRoot({ children }: { note: entities.Note; children?: React.React
 }
 
 export default function NavMore({ note }: { note: entities.Note }) {
-  const { account } = useAuth()
+  const account = useAccount()
 
   return (
     <NavMoreRoot note={note}>

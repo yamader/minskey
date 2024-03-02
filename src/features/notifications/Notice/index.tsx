@@ -3,7 +3,7 @@ import Link from "next/link"
 import { ReactNode } from "react"
 import TimeText from "~/components/TimeText"
 import { profileLink } from "~/features/profile"
-import TLUserIcon from "~/features/profile/TLUserIcon"
+import UserIcon from "~/features/profile/UserIcon"
 import NoticeNotePreview from "./NoticeNotePreview"
 
 export default function Notice({ notice }: { notice: Notification }) {
@@ -20,7 +20,7 @@ export default function Notice({ notice }: { notice: Notification }) {
 export const NoticeUser = ({ user, children }: { user: User; children?: ReactNode }) => {
   return (
     <div className="flex gap-1.5">
-      <TLUserIcon user={user} />
+      <UserIcon user={user} />
       <div className="flex w-full flex-col gap-0.5">
         <div className="flex justify-between">
           <div className="flex gap-1 font-bold">

@@ -1,13 +1,27 @@
+import { entities } from "misskey-js"
 import Image from "next/image"
-
+import Link from "next/link"
 import Anon from "~/assets/anon.png"
+import { profileLink } from "."
 
-export default function UserIcon({ src }: { src?: string | null }) {
-  const className = "h-full overflow-hidden rounded-full"
+export function Icon({ src }: { src: string | null }) {
+  return (
+    <Image
+      className="m-1 h-fit w-fit overflow-hidden rounded-[48px] shadow transition-all hover:rounded-md"
+      src={src ?? Anon}
+      width={48}
+      height={48}
+      alt="icon"
+    />
+  )
+}
 
-  return src ? (
-    <img className={className} src={src} alt="icon" />
+export default function UserIcon({ user }: { user: entities.User | null }) {
+  return !user ? (
+    <Icon src={null} />
   ) : (
-    <Image className={className} src={Anon} alt="icon" />
+    <Link href={profileLink(user)} passHref>
+      <Icon src={user.avatarUrl} />
+    </Link>
   )
 }

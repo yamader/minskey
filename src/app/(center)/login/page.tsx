@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { Suspense, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { v4 as uuidv4 } from "uuid"
-import { useAuth, useMultiAccounts } from "~/features/auth"
+import { useAuth } from "~/features/auth"
 import { ensureproto } from "~/utils"
 
 export default function LoginPage() {
@@ -158,8 +158,7 @@ function ManualLogin({ go, host }: LoginProps) {
     handleSubmit,
   } = useForm<ManualLoginForm>()
   const router = useRouter()
-  const { setAuth } = useAuth()
-  const { addMultiAccount } = useMultiAccounts()
+  const { setAuth, addMultiAccount } = useAuth()
 
   const onSubmit = async ({ host, token }: ManualLoginForm) => {
     const realHost = ensureproto(host),

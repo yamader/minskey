@@ -3,13 +3,12 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
 import Link from "next/link"
 import { Suspense } from "react"
-
 import BrandLogo from "~/components/BrandLogo"
 import LinkButton from "~/components/LinkButton"
 import { useAuth, useLogin } from "~/features/auth"
 import { useProfile } from "~/features/profile"
-import ProfileIcon from "~/features/profile/ProfileIcon"
 import UserIcon from "~/features/profile/UserIcon"
+import UesrStatusIcon from "~/features/profile/UserStatusIcon"
 import { hostname } from "~/utils"
 
 export default function Header() {
@@ -29,7 +28,7 @@ export default function Header() {
           <Suspense
             fallback={
               <div className="h-12 w-12 animate-pulse">
-                <UserIcon />
+                <UserIcon user={null} />
               </div>
             }>
             <UserMenu />
@@ -63,7 +62,7 @@ function UserMenu() {
         <button
           className="rounded-full bg-white outline-none hover:brightness-95"
           aria-label="User menu">
-          <ProfileIcon />
+          <UesrStatusIcon />
         </button>
       </DropdownMenu.Trigger>
       <DropdownMenu.Portal>

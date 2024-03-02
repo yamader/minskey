@@ -22,7 +22,6 @@
     "react-hook-form": "7.50.1",
     "react-mfm": "0.5.1",
     "react-textarea-autosize": "8.5.3",
-    "swr": "2.2.5",
     "uuid": "9.0.1"
   },
   "devDependencies": {

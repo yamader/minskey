@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation"
 import { Suspense, useState } from "react"
 import NBSK from "~/components/NBSK"
-import { useAuth, useMultiAccounts } from "~/features/auth"
+import { useAuth } from "~/features/auth"
 import { useClient, useMutex } from "~/features/common"
 import { dbg } from "~/utils"
 
@@ -18,8 +18,7 @@ export default function AuthPage() {
 function AuthSuspense() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const { session, setAuth } = useAuth()
-  const { addMultiAccount } = useMultiAccounts()
+  const { session, addMultiAccount, setAuth } = useAuth()
   const client = useClient()
   const [once, setOnce] = useState(false) // 💩
 
