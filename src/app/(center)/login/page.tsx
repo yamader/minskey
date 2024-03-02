@@ -6,8 +6,8 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { Suspense, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { v4 as uuidv4 } from "uuid"
-
-import { useAccounts, useAuth } from "~/features/auth"
+import { useAuth, useMultiAccounts } from "~/features/auth"
+import { ensureproto } from "~/utils"
 
 export default function LoginPage() {
   return (
@@ -80,10 +80,6 @@ function LoginSuspense() {
   )
 }
 
-function ensureProto(host: string) {
-  return /^(http(|s):\/\/).+/.test(host) ? host : `https://${host}`
-}
-
 type LoginProps = {
   go: string
   host?: string
@@ -110,17 +106,16 @@ function MiAuthLogin({ go, host }: LoginProps) {
   }, [])
 
   const onSubmit = async ({ host }: MiAuthForm) => {
-    const srv = ensureProto(host),
-      id = uuidv4(),
+    const realHost = ensureproto(host),
+      sid = uuidv4(),
       name = "minskey",
       icon = location?.origin + "/favicon.png",
       callback = location?.origin + `/auth?go=${go}`,
       permission = permissions.join(",")
-    const [hd, tl] = srv.split("://")
 
     try {
-      const url = `${srv}/miauth/${id}?name=${name}&icon=${icon}&callback=${callback}&permission=${permission}`
-      setAuth({ session: { id, proto: hd, host: tl } })
+      const url = `${realHost}/miauth/${sid}?name=${name}&icon=${icon}&callback=${callback}&permission=${permission}`
+      setAuth({ session: { sid, host: realHost } })
       router.push(url)
     } catch (e) {
       setError("host", { type: "manual", message: e + "" })
@@ -164,27 +159,28 @@ function ManualLogin({ go, host }: LoginProps) {
   } = useForm<ManualLoginForm>()
   const router = useRouter()
   const { setAuth } = useAuth()
-  const { addAccount ,accounts} = useAccounts()
+  const { addMultiAccount } = useMultiAccounts()
 
   const onSubmit = async ({ host, token }: ManualLoginForm) => {
-    const srv = ensureProto(host),
-      testurl = `${srv}/api/i`
+    const realHost = ensureproto(host),
+      testurl = `${realHost}/api/i`
     const req = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ i: token }),
     }
-    const [hd, tl] = srv.split("://")
 
     try {
       const res = await fetch(testurl, req)
       if (res.ok) {
-        const account = { proto: hd, host: tl, token }
-        addAccount(account)
+        const { id } = await res.json()
+        const account = { host: realHost, uid: id, token }
         setAuth({
-          account: accounts?.length ?? 0,
+          account: account,
           session: null,
+          error: null,
         })
+        addMultiAccount(account)
         router.push(go)
       } else {
         setError("token", { type: "manual", message: "auth failed" })

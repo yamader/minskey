@@ -2,35 +2,27 @@ import { atom, useAtom, useAtomValue } from "jotai"
 import { atomWithStorage } from "jotai/utils"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
-
 import { useClient } from "~/features/common"
-
-type ArrElement<ArrType> = ArrType extends readonly (infer ElementType)[] ? ElementType : never
 
 ////////////////////////////////////////////////////////////////
 //  atoms
 ////////////////////////////////////////////////////////////////
 
 type Account = {
-  proto: string
   host: string
+  uid: string
   token: string
 }
 
-export const accountsAtom = atomWithStorage<Account[] | null>("minsk::accounts", null)
-export const currentAccountIndexAtom = atomWithStorage<number | null>(
-  "minsk::accounts::current",
-  null,
-)
+export const accountAtom = atomWithStorage<Account | null>("minsk::auth::account", null)
+export const multiAccountsAtom = atomWithStorage<Account[]>("minsk::auth::multiAccounts", [])
 
 type AuthSession = {
-  id: string
-  proto: string
+  sid: string
   host: string
 }
 
 export const authSessionAtom = atomWithStorage<AuthSession | null>("minsk::auth::session", null)
-
 export const authErrorAtom = atom<string | null>(null)
 
 ////////////////////////////////////////////////////////////////
@@ -38,52 +30,53 @@ export const authErrorAtom = atom<string | null>(null)
 ////////////////////////////////////////////////////////////////
 
 // 現在のアカウントを取得する
-export const useLogin = (login?: boolean) => {
-  const [currentAccount, setCurrentAccount] = useAtom(currentAccountIndexAtom)
-  const accounts = useAtomValue(accountsAtom)
+export function useLogin(login?: boolean) {
+  const account = useAtomValue(accountAtom)
   const client = useClient()
   const router = useRouter()
 
   useEffect(() => {
-    if (accounts && !currentAccount) setCurrentAccount(0)
-    if (login && client && (!accounts || currentAccount == null)) router.push("/")
-  }, [login, client, currentAccount, router, accounts])
-  return accounts ? accounts[currentAccount ?? 0] : null
+    if (login && client && !account) router.push("/")
+  }, [login, client, account, router])
+
+  return account
 }
 
 export function useAuth() {
-  const [currentAccount, setCurrentAccount] = useAtom(currentAccountIndexAtom)
+  const [authAccount, setAccount] = useAtom(accountAtom)
   const [authSession, setAuthSession] = useAtom(authSessionAtom)
   const [authError, setAuthError] = useAtom(authErrorAtom)
-  const { accounts, removeAccount } = useAccounts()
+  const { multiAccounts, addMultiAccount, removeMultiAccount } = useMultiAccounts()
 
   const setAuth = ({
     account,
     session,
     error,
   }: {
-    account?: typeof currentAccount
+    account?: typeof authAccount
     session?: typeof authSession
     error?: typeof authError
   }) => {
-    if (account !== undefined) setCurrentAccount(account)
+    if (account !== undefined) setAccount(account)
     if (session !== undefined) setAuthSession(session)
     if (error !== undefined) setAuthError(error)
   }
 
   const logout = () => {
-    if (currentAccount !== null) removeAccount(currentAccount)
-
-    if (accounts && accounts.length >= 1) {
-      setAuth({ account: 0, session: null, error: null })
+    if (multiAccounts.length) {
+      const idx = multiAccounts.findIndex(
+        e => e.host == authAccount?.host && e.uid == authAccount?.uid,
+      )
+      const nextAccount = multiAccounts[idx + 1] ?? multiAccounts[idx - 1] ?? null
+      setAuth({ account: nextAccount, session: null, error: null })
+      removeMultiAccount(idx)
     } else {
-      setCurrentAccount(null)
       setAuth({ account: null, session: null, error: null })
     }
   }
 
   return {
-    account: accounts ? accounts[currentAccount ?? 0] : null,
+    account: authAccount,
     session: authSession,
     error: authError,
     setAuth,
@@ -91,31 +84,17 @@ export function useAuth() {
   }
 }
 
-export function useAccounts(login?: boolean) {
-  const [accounts, setAccounts] = useAtom(accountsAtom)
+export function useMultiAccounts() {
+  const [multiAccounts, setMultiAccounts] = useAtom(multiAccountsAtom)
 
-  const router = useRouter()
-  const client = useClient()
-
-  useEffect(() => {
-    if (login && client && !accounts) router.push("/")
-  }, [login, client, accounts, router])
-
-  const addAccount = (account: ArrElement<NonNullable<typeof accounts>>) => {
-    if (accounts) setAccounts([...accounts, account])
-    else setAccounts([account])
+  const addMultiAccount = (account: Account) => {
+    setMultiAccounts([...multiAccounts, account])
   }
 
-  const removeAccount = (index: number) => {
-    if (accounts) {
-      const newAccounts = accounts.filter((_, i) => i !== index)
-      setAccounts(newAccounts)
-    }
+  // -1が渡されることも想定
+  const removeMultiAccount = (index: number) => {
+    setMultiAccounts([...multiAccounts.slice(0, index), ...multiAccounts.slice(index + 1)])
   }
 
-  return {
-    accounts,
-    addAccount,
-    removeAccount,
-  }
+  return { multiAccounts, addMultiAccount, removeMultiAccount }
 }
