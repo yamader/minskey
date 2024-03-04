@@ -24,7 +24,7 @@ function FetchEmoji({ name, host }: { name: string; host: string }) {
   if (host in cache && name in cache[host]) return <Cached />
   if (!api) return <Cached />
   if (!task) {
-    setTask(api.getEmojiUrl(name))
+    setTask(api.fetchEmojiUrl(name))
     return <Cached />
   }
 
