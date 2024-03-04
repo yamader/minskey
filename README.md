@@ -11,15 +11,15 @@ Next.jsのStatic Exportsによってビルドされ、状態はすべてロー�
 
 ## 使い方
 
-安定版は[minskey.dyama.net](https://minskey.dyama.net/)で公開されています。
+[master](https://github.com/yamader/minskey/tree/master)ブランチは[minskey.dyama.net](https://minskey.dyama.net/)にデプロイされています。
 
 使い方はなんとなくでわかると思います。
 
 ## 開発
 
-Node.js開発環境とPNpm実行環境を構築してください。Minskeyでは[Corepack](https://nodejs.org/api/corepack.html)を推奨しています。
-
 指定されている[Node.js](./.node-version)と[PNpm](./package.json)を使用できる環境を構築してください。
+
+Minskeyでは[Corepack](https://nodejs.org/api/corepack.html)を推奨しています。
 
 ```bash
 corepack enable pnpm
