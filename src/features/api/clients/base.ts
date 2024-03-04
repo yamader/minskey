@@ -17,7 +17,10 @@ export default class BaseClient {
     return fetch(this.host + "/api/" + path, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: body ? JSON.stringify(body) : "{}",
+      body: JSON.stringify({
+        i: this.token,
+        ...(body ?? {}),
+      }),
       ...opts,
     }).then(res => res.json())
   }
