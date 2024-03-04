@@ -52,7 +52,7 @@ function NotePreview({ note }: NotePreviewProps) {
           </Link>
           <div className="flex w-full flex-col gap-0.5">
             <div className="flex justify-between">
-              <div className="flex gap-1 font-bold">
+              <div className="flex gap-1 font-bold break-words">
                 <Link className="mfm-plainCE hover:underline" href={profileLink(note.user)}>
                   <CustomEmojiStr text={note.user.name ?? "" /* wtf */} />
                 </Link>
