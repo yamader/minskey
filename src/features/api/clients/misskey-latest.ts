@@ -1,4 +1,5 @@
 import BaseClient from "./base"
+import { UserDetail } from "./entities"
 
 export default class MisskeyLatestClient extends BaseClient {
   type: "misskey" = "misskey" as const
@@ -7,5 +8,9 @@ export default class MisskeyLatestClient extends BaseClient {
   async fetchEmojiUrl(name: string): Promise<string | null> {
     const json = await this.get(`emoji?name=${name}`)
     return json.url ?? null
+  }
+
+  async getMe(): Promise<UserDetail> {
+    return await this.post("i")
   }
 }

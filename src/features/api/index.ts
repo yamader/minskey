@@ -55,7 +55,7 @@ export function useAPI(host?: string) {
   if (!_host) return null
   if (_host in clients) return clients[_host]
   if (!clientFetch) {
-    const task = detect(_host)
+    const task = detect(_host, account?.host === _host ? account.token : undefined)
     setClientFetch(task)
     return use(task)
   }
