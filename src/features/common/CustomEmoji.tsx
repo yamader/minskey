@@ -4,7 +4,7 @@ import { useAtom, useAtomValue } from "jotai"
 import { atomWithStorage } from "jotai/utils"
 import { Fragment, Suspense, createContext, use, useContext, useState } from "react"
 import { CustomEmojiProps } from "react-mfm"
-import { useAPI } from "~/features/api"
+import { useForeignAPI } from "~/features/api"
 
 const emojiCacheAtom = atomWithStorage<{
   [host: string]: { [name: string]: string | null }
@@ -16,7 +16,7 @@ const EmojiImg = ({ name, url }: { name: string; url?: string | null }) =>
   !url ? `:${name}:` : <img src={url} alt={name} className="mfm-customEmoji" />
 
 function FetchEmoji({ name, host }: { name: string; host: string }) {
-  const api = useAPI(host)
+  const api = useForeignAPI(host)
   const [task, setTask] = useState<Promise<string | null>>() // たぶん要る
   const [cache, setCache] = useAtom(emojiCacheAtom)
 

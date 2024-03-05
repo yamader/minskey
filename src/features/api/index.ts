@@ -26,7 +26,9 @@ export type Emoji = {
 }
 
 // atoms
-export const clientsAtom = atom<{ [host: string]: APIClient | null }>({})
+
+export const clientsAtom = atom<{ [host: string]: { [id: string]: APIClient | null } }>({})
+export const foreignClientsAtom = atom<{ [host: string]: APIClient | null }>({})
 
 /** @deprecated */
 export const misskeyJSAtom = atom(get => {
@@ -46,23 +48,50 @@ export const streamConnectAtom = atom(get => {
 
 // hooks
 
-export function useAPI(host?: string) {
-  const account = useAccount()
+export function useAPI() {
   const [clients, setClients] = useAtom(clientsAtom)
   const [clientFetch, setClientFetch] = useState<Promise<APIClient | null>>()
+  const account = useAccount()
+  if (!account) return null
 
-  const _host = (host && ensureproto(host)) ?? account?.host
-  if (!_host) return null
-  if (_host in clients) return clients[_host]
   if (!clientFetch) {
-    const task = detect(_host, account?.host === _host ? account.token : undefined)
+    if (account.host in clients && account.uid in clients[account.host])
+      return clients[account.host][account.uid]
+    const task = detect(account.host, account.token)
     setClientFetch(task)
     return use(task)
   }
 
-  const api = use(clientFetch)
-  setClients({ ...clients, [_host]: api })
-  return api
+  const client = use(clientFetch)
+  const host = account.host
+  const uid = account.uid
+  setClients({
+    ...clients,
+    [host]: {
+      ...clients[host],
+      [uid]: client,
+    },
+  })
+  setClientFetch(undefined)
+  return client
+}
+
+export function useForeignAPI(host: string) {
+  const [foreignClients, setForeignClients] = useAtom(foreignClientsAtom)
+  const [clientFetch, setClientFetch] = useState<Promise<APIClient | null>>()
+  const _host = ensureproto(host)
+
+  if (!clientFetch) {
+    if (_host in foreignClients) return foreignClients[_host]
+    const task = detect(_host)
+    setClientFetch(task)
+    return use(task)
+  }
+
+  const client = use(clientFetch)
+  setForeignClients({ ...foreignClients, [_host]: client })
+  setClientFetch(undefined)
+  return client
 }
 
 /** @deprecated */
