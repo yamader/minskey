@@ -6,7 +6,9 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { Suspense, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { v4 as uuidv4 } from "uuid"
+import { UserDetail } from "~/features/api/clients/entities"
 import { useAuth } from "~/features/auth"
+import { useLogginedCache } from "~/features/user"
 import { ensureproto } from "~/utils"
 
 export default function LoginPage() {
@@ -159,6 +161,7 @@ function ManualLogin({ go, host }: LoginProps) {
   } = useForm<ManualLoginForm>()
   const router = useRouter()
   const { setAuth, addMultiAccount } = useAuth()
+  const { addLoggined } = useLogginedCache()
 
   const onSubmit = async ({ host, token }: ManualLoginForm) => {
     const realHost = ensureproto(host),
@@ -172,14 +175,15 @@ function ManualLogin({ go, host }: LoginProps) {
     try {
       const res = await fetch(testurl, req)
       if (res.ok) {
-        const { id } = await res.json()
-        const account = { host: realHost, uid: id, token }
+        const user: UserDetail = await res.json()
+        const account = { host: realHost, uid: user.id, token }
         setAuth({
           account: account,
           session: null,
           error: null,
         })
         addMultiAccount(account)
+        addLoggined(user)
         router.push(go)
       } else {
         setError("token", { type: "manual", message: "auth failed" })

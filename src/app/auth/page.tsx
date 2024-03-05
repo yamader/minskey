@@ -3,8 +3,10 @@
 import { useRouter, useSearchParams } from "next/navigation"
 import { Suspense, useState } from "react"
 import NBSK from "~/components/NBSK"
+import { UserDetail } from "~/features/api/clients/entities"
 import { useAuth } from "~/features/auth"
 import { useClient, useMutex } from "~/features/common"
+import { useLogginedCache } from "~/features/user"
 import { dbg } from "~/utils"
 
 export default function AuthPage() {
@@ -20,6 +22,7 @@ function AuthSuspense() {
   const searchParams = useSearchParams()
   const { session, addMultiAccount, setAuth } = useAuth()
   const client = useClient()
+  const { addLoggined } = useLogginedCache()
   const [once, setOnce] = useState(false) // 💩
 
   useMutex(async () => {
@@ -34,12 +37,19 @@ function AuthSuspense() {
       if (cid !== sid) throw new Error("invalid auth session")
 
       const url = `${host}/api/miauth/${sid}/check`
-      const res = await fetch(url, { method: "POST" }).then(r => r.json())
+      const res: {
+        ok?: boolean
+        user: UserDetail
+        token: string
+      } = await fetch(url, { method: "POST" }).then(r => r.json())
+
       if (!res.ok) throw new Error("miauth failed")
       if (!res.user.id) {
         // todo: re-fetch
       }
-      dbg("auth success", res.user.id, res.token)
+      addLoggined(res.user)
+
+      dbg("auth success", res.user?.id, res.token)
 
       const account = {
         host,
