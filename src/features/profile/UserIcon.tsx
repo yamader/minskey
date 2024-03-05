@@ -1,8 +1,8 @@
 import Image from "next/image"
 import Link from "next/link"
 import Anon from "~/assets/anon.png"
+import { User } from "~/features/api/clients/entities"
 import { profileLink } from "."
-import { User } from "../api/clients/entities"
 
 export function Icon({ src }: { src: string | null }) {
   return (
