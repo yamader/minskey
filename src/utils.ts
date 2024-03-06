@@ -11,7 +11,8 @@ export function dbg(...args: unknown[]) {
 }
 
 export function hostname(url: string) {
-  return URL.canParse(url) ? new URL(url).host : url
+  //return URL.canParse(url) ? new URL(url).host : url
+  return isValidURL(url) ? new URL(url).host : url
 }
 
 export function ensureproto(host: string) {
@@ -24,4 +25,13 @@ export function sleep(ms: number) {
 
 export function promisify<T>(v: T) {
   return new Promise<T>(res => res(v))
+}
+
+export function isValidURL(url: string) {
+  try {
+    new URL(url)
+    return true
+  } catch {
+    return false
+  }
 }
