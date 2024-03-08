@@ -3,53 +3,20 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
 import Link from "next/link"
 import { Suspense } from "react"
-import BrandLogo from "~/components/BrandLogo"
-import LinkButton from "~/components/LinkButton"
-import { useAuth, useLogin } from "~/features/auth"
+import { useAuth } from "~/features/auth"
 import { useProfile } from "~/features/profile"
-import UserIcon from "~/features/profile/UserIcon"
 import UesrStatusIcon from "~/features/profile/UserStatusIcon"
 import { hostname } from "~/utils"
 
-export default function Header() {
-  const account = useLogin()
-
+export default function UserMenu() {
   return (
-    <header className="flex items-center justify-between">
-      <Link className="py-1" href={account ? "/home" : "/"}>
-        <BrandLogo />
-      </Link>
-      <nav className="flex items-center space-x-4 font-inter">
-        <ul className="flex space-x-4 font-bold text-stone-700">
-          <HeaderLink href="/about">About</HeaderLink>
-          <HeaderLink href="/help">Help</HeaderLink>
-        </ul>
-        {account ? (
-          <Suspense
-            fallback={
-              <div className="h-12 w-12 animate-pulse">
-                <UserIcon user={null} />
-              </div>
-            }>
-            <UserMenu />
-          </Suspense>
-        ) : (
-          <LinkButton href="/login">Login</LinkButton>
-        )}
-      </nav>
-    </header>
+    <Suspense>
+      <UserMenuSuspense />
+    </Suspense>
   )
 }
 
-function HeaderLink({ href, children }: { href: string; children: string }) {
-  return (
-    <li className="flex hover:underline">
-      <Link href={href}>{children}</Link>
-    </li>
-  )
-}
-
-function UserMenu() {
+function UserMenuSuspense() {
   const { account, logout } = useAuth()
   const profile = useProfile()
 

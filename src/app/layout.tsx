@@ -40,17 +40,14 @@ const firaCode = Fira_Code({
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ja">
-      <body className={"max-h-screen" /* todo: fix */}>
-        <Theme
-          className={clsx(
-            inter.variable,
-            firaCode.variable,
-            zenKakuGothicNew.variable,
-            zenKakuGothicNew.className,
-          )}
-          asChild>
-          {children}
-        </Theme>
+      <body
+        className={clsx(
+          inter.variable,
+          firaCode.variable,
+          zenKakuGothicNew.variable,
+          zenKakuGothicNew.className,
+        )}>
+        <Theme asChild>{children}</Theme>
       </body>
     </html>
   )
