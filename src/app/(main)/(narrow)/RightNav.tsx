@@ -10,7 +10,7 @@ export default function RightNav() {
           <a className="hover:underline" href="/about/">
             minskeyについて
           </a>
-          <p className="mt-1">&copy; 2024 YamaD</p>
+          <span className="mt-1">&copy; 2024 YamaD</span>
         </p>
       </div>
     </div>
