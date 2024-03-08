@@ -24,4 +24,10 @@ export default class BaseClient {
       ...opts,
     }).then(res => res.json())
   }
+
+  requireToken() {
+    if (!this.token) {
+      throw new Error("token required")
+    }
+  }
 }

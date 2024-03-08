@@ -11,6 +11,7 @@ export default class MisskeyLatestClient extends BaseClient {
   }
 
   async getMe(): Promise<UserDetail> {
+    this.requireToken()
     return await this.post("i")
   }
 }
