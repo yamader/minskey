@@ -28,6 +28,6 @@ export function profileLink(user: entities.UserLite) {
 export function useProfile() {
   // todo: ユーザのキャッシュを見るようにする
   const api = useAPI()
-  const iFetch = useMemo(async () => api?.getMe() ?? null, [api])
+  const iFetch = useMemo(async () => api?.me() ?? null, [api])
   return use(iFetch)
 }

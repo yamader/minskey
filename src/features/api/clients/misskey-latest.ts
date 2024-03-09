@@ -1,16 +1,29 @@
 import BaseClient from "./base"
-import { UserDetail } from "./entities"
+import { Note, UserDetail } from "./entities"
+
+interface NotesOpts {
+  local?: boolean
+  reply?: boolean
+  renote?: boolean
+  withFiles?: boolean
+  poll?: boolean
+  limit?: number
+  sinceId?: string
+  untilId?: string
+}
+
+interface NotesResponse extends Array<Note> {}
 
 export default class MisskeyLatestClient extends BaseClient {
   type: "misskey" = "misskey" as const
   id = "misskey-latest"
 
-  async getEmojiUrl(name: string) {
+  async emojiUrl(name: string) {
     const json = await this.get<{ url: string }>(`emoji?name=${name}`)
     return json?.url ?? null
   }
 
-  async getMe() {
+  async me() {
     return this.post<UserDetail>("i")
   }
 
@@ -19,10 +32,11 @@ export default class MisskeyLatestClient extends BaseClient {
   }
 
   async show(username: string, host: string | null = null) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return this.post<any>(`users/show`, { username, host })
   }
 
-  async notes(userId: string, opts: {} = {}) {
-    return this.post<any>("notes", { userId, ...opts })
+  async notes(userId: string, opts: NotesOpts = {}) {
+    return this.post<NotesResponse>("notes", { userId, ...opts })
   }
 }
