@@ -10,7 +10,11 @@ export default class MisskeyLatestClient extends BaseClient {
     return json.url ?? null
   }
 
-  async getMe(): Promise<UserDetail> {
-    return await this.post("i")
+  getMe() {
+    return this.post("i") as Promise<UserDetail>
+  }
+
+  ping() {
+    return this.get("ping") as Promise<{ pong: number }>
   }
 }
