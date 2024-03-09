@@ -5,16 +5,24 @@ export default class MisskeyLatestClient extends BaseClient {
   type: "misskey" = "misskey" as const
   id = "misskey-latest"
 
-  async getEmojiUrl(name: string): Promise<string | null> {
-    const json = await this.get(`emoji?name=${name}`)
-    return json.url ?? null
+  async getEmojiUrl(name: string) {
+    const json = await this.get<{ url: string }>(`emoji?name=${name}`)
+    return json?.url ?? null
   }
 
-  getMe() {
-    return this.post("i") as Promise<UserDetail>
+  async getMe() {
+    return this.post<UserDetail>("i")
   }
 
-  ping() {
-    return this.get("ping") as Promise<{ pong: number }>
+  async ping() {
+    return this.get<{ pong: number }>("ping")
+  }
+
+  async show(username: string, host: string | null = null) {
+    return this.post<any>(`users/show`, { username, host })
+  }
+
+  async notes(userId: string, opts: {} = {}) {
+    return this.post<any>("notes", { userId, ...opts })
   }
 }

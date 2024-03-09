@@ -1,6 +1,6 @@
-import { atom, useAtomValue } from "jotai"
 import { entities } from "misskey-js"
-import { useMisskeyJS } from "~/features/api"
+import { use, useMemo } from "react"
+import { useAPI } from "~/features/api"
 import { hostname } from "~/utils"
 
 // utils
@@ -23,15 +23,11 @@ export function profileLink(user: entities.UserLite) {
   return `/profile?user=@${user.username}@${host}`
 }
 
-// atoms
-
-export const profileAtom = atom(async get => {
-  const api = useMisskeyJS()
-  return api?.request("i").catch(() => null) ?? null
-})
-
 // hooks
 
 export function useProfile() {
-  return useAtomValue(profileAtom)
+  // todo: ユーザのキャッシュを見るようにする
+  const api = useAPI()
+  const iFetch = useMemo(async () => api?.getMe() ?? null, [api])
+  return use(iFetch)
 }

@@ -9,12 +9,14 @@ export default class BaseClient {
     this.token = token
   }
 
-  get(path: string, opts?: RequestInit) {
-    return fetch(this.host + "/api/" + path, opts).then(res => res.json())
+  async get<T>(path: string, opts?: RequestInit) {
+    const res = await fetch(this.host + "/api/" + path, opts)
+    if (!res.ok) return null
+    return (await res.json()) as T
   }
 
-  post(path: string, opts?: RequestInit, body?: unknown) {
-    return fetch(this.host + "/api/" + path, {
+  async post<T>(path: string, body?: unknown, opts?: RequestInit) {
+    const res = await fetch(this.host + "/api/" + path, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -22,6 +24,8 @@ export default class BaseClient {
         ...(body ?? {}),
       }),
       ...opts,
-    }).then(res => res.json())
+    })
+    if (!res.ok) return null
+    return (await res.json()) as T
   }
 }
