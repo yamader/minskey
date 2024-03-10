@@ -44,7 +44,7 @@ function useTLRaw(chan: TLChanNames) {
   const api = useMisskeyJS()
   const [notes, setNotes] = useState<entities.Note[]>([])
 
-  const account = useLogin(true)
+  const account = useLogin()
   const host = account?.host ?? null
 
   const tlName = useAtomValue(tlNameAtom)
