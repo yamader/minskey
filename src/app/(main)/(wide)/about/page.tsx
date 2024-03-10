@@ -2,7 +2,7 @@ export default function AboutPage() {
   const h2class = "pt-6 pb-2.5 text-xl font-bold"
 
   return (
-    <>
+    <div>
       <h1 className="pb-8 pt-16 text-4xl font-black">minskeyについて</h1>
       <h2 className={h2class}>概要</h2>
       <p>
@@ -44,6 +44,6 @@ export default function AboutPage() {
           </a>
         </li>
       </ul>
-    </>
+    </div>
   )
 }
