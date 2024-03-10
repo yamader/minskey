@@ -3,6 +3,7 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
 import Link from "next/link"
 import { Suspense } from "react"
+import Button from "~/components/Button"
 import { useAuth } from "~/features/auth"
 import { useProfile } from "~/features/profile"
 import UesrStatusIcon from "~/features/profile/UserStatusIcon"
@@ -26,11 +27,15 @@ function UserMenuSuspense() {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
-        <button
-          className="rounded-full bg-white outline-none hover:brightness-95"
-          aria-label="User menu">
-          <UesrStatusIcon />
-        </button>
+        {account ? (
+          <button
+            className="rounded-full bg-white outline-none hover:brightness-95"
+            aria-label="User menu">
+            <UesrStatusIcon />
+          </button>
+        ) : (
+          <Button>ログイン</Button>
+        )}
       </DropdownMenu.Trigger>
       <DropdownMenu.Portal>
         <DropdownMenu.Content className="m-2 w-48 rounded-lg border bg-white p-2 drop-shadow">
