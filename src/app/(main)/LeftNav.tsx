@@ -17,7 +17,7 @@ export default function LeftNav() {
 
   const w = "w-32 xl:w-72"
   return (
-    <div className={w}>
+    <div className={clsx(w, "hidden lg:block")}>
       <nav className={clsx(w, "fixed flex h-full flex-col gap-5 border-r p-2")}>
         <div className="flex flex-col">
           <Link
