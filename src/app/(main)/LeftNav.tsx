@@ -41,7 +41,8 @@ export default function LeftNav() {
         <Link
           className={clsx(
             btnBase,
-            "bg-misskey px-20 py-4 font-bold text-white hover:bg-misskey hover:brightness-90",
+            "bg-misskey px-20 py-4 font-bold hover:bg-misskey hover:brightness-90",
+            account ? "text-white" : "text-gray-300",
           )}
           href="/compose/note/"
           onClick={() => setNoteDialog(true)}>
@@ -77,7 +78,7 @@ function NavLink({
       <span
         className={clsx(
           btnBase,
-          "my-1 select-none gap-4 p-3 pr-6 text-xl text-gray-300",
+          "my-1 select-none gap-4 p-3 pr-6 text-xl text-gray-400",
           pathname == href && "font-bold",
         )}>
         {children}
