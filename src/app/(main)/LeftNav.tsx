@@ -25,15 +25,15 @@ export default function LeftNav() {
             href={account ? "/home/" : "/"}>
             <BrandLogo />
           </Link>
-          <NavLink href="/home/">
+          <NavLink href="/home/" available={account ? true : false}>
             <Home size={24} />
             ホーム
           </NavLink>
-          <NavLink href="/notifications/">
+          <NavLink href="/notifications/" available={account ? true : false}>
             <Bell size={24} />
             通知
           </NavLink>
-          <NavLink href="/settings/">
+          <NavLink href="/settings/" available={account ? true : false}>
             <Settings size={24} />
             設定
           </NavLink>
@@ -55,14 +55,33 @@ export default function LeftNav() {
   )
 }
 
-function NavLink({ children, href }: { children: React.ReactNode; href: string }) {
+function NavLink({
+  children,
+  href,
+  available,
+}: {
+  children: React.ReactNode
+  href: string
+  available: boolean
+}) {
   const pathname = usePathname()
-  return (
+  return available ? (
     <Link className="*:hover:bg-neutral-200" href={href}>
       <span
         className={clsx(btnBase, "my-1 gap-4 p-3 pr-6 text-xl", pathname == href && "font-bold")}>
         {children}
       </span>
     </Link>
+  ) : (
+    <span>
+      <span
+        className={clsx(
+          btnBase,
+          "my-1 select-none gap-4 p-3 pr-6 text-xl text-gray-300",
+          pathname == href && "font-bold",
+        )}>
+        {children}
+      </span>
+    </span>
   )
 }
