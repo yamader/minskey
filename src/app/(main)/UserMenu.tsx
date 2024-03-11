@@ -4,16 +4,19 @@ import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
 import Link from "next/link"
 import { Suspense } from "react"
 import Button from "~/components/Button"
-import { useAuth } from "~/features/auth"
+import { useAccount, useAuth } from "~/features/auth"
 import { useProfile } from "~/features/profile"
 import UesrStatusIcon from "~/features/profile/UserStatusIcon"
 import { hostname } from "~/utils"
 
 export default function UserMenu() {
-  return (
+  const account = useAccount()
+  return account ? (
     <Suspense>
       <UserMenuSuspense />
     </Suspense>
+  ) : (
+    <Button>ログイン</Button>
   )
 }
 
@@ -27,15 +30,11 @@ function UserMenuSuspense() {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
-        {account ? (
-          <button
-            className="rounded-full bg-white outline-none hover:brightness-95"
-            aria-label="User menu">
-            <UesrStatusIcon />
-          </button>
-        ) : (
-          <Button>ログイン</Button>
-        )}
+        <button
+          className="rounded-full bg-white outline-none hover:brightness-95"
+          aria-label="User menu">
+          <UesrStatusIcon />
+        </button>
       </DropdownMenu.Trigger>
       <DropdownMenu.Portal>
         <DropdownMenu.Content className="m-2 w-48 rounded-lg border bg-white p-2 drop-shadow">
