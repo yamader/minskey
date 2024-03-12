@@ -25,15 +25,15 @@ export default function LeftNav() {
             href={account ? "/home/" : "/"}>
             <BrandLogo />
           </Link>
-          <NavLink href="/home/" available={account ? true : false}>
+          <NavLink href="/home/" available={!!account}>
             <Home size={24} />
             ホーム
           </NavLink>
-          <NavLink href="/notifications/" available={account ? true : false}>
+          <NavLink href="/notifications/" available={!!account}>
             <Bell size={24} />
             通知
           </NavLink>
-          <NavLink href="/settings/" available={account ? true : false}>
+          <NavLink href="/settings/" available={!!account}>
             <Settings size={24} />
             設定
           </NavLink>
