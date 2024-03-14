@@ -25,15 +25,15 @@ export default function LeftNav() {
             href={account ? "/home/" : "/"}>
             <BrandLogo />
           </Link>
-          <NavLink href="/home/">
+          <NavLink href="/home/" available={!!account}>
             <Home size={24} />
             ホーム
           </NavLink>
-          <NavLink href="/notifications/">
+          <NavLink href="/notifications/" available={!!account}>
             <Bell size={24} />
             通知
           </NavLink>
-          <NavLink href="/settings/">
+          <NavLink href="/settings/" available={!!account}>
             <Settings size={24} />
             設定
           </NavLink>
@@ -41,7 +41,8 @@ export default function LeftNav() {
         <Link
           className={clsx(
             btnBase,
-            "bg-misskey px-20 py-4 font-bold text-white hover:bg-misskey hover:brightness-90",
+            "bg-misskey px-20 py-4 font-bold hover:bg-misskey hover:brightness-90",
+            account ? "text-white" : "text-gray-300",
           )}
           href="/compose/note/"
           onClick={() => setNoteDialog(true)}>
@@ -55,14 +56,33 @@ export default function LeftNav() {
   )
 }
 
-function NavLink({ children, href }: { children: React.ReactNode; href: string }) {
+function NavLink({
+  children,
+  href,
+  available,
+}: {
+  children: React.ReactNode
+  href: string
+  available: boolean
+}) {
   const pathname = usePathname()
-  return (
+  return available ? (
     <Link className="*:hover:bg-neutral-200" href={href}>
       <span
         className={clsx(btnBase, "my-1 gap-4 p-3 pr-6 text-xl", pathname == href && "font-bold")}>
         {children}
       </span>
     </Link>
+  ) : (
+    <span>
+      <span
+        className={clsx(
+          btnBase,
+          "my-1 select-none gap-4 p-3 pr-6 text-xl text-gray-400",
+          pathname == href && "font-bold",
+        )}>
+        {children}
+      </span>
+    </span>
   )
 }
