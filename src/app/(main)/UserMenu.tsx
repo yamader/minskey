@@ -3,20 +3,16 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
 import Link from "next/link"
 import { Suspense } from "react"
-import Button from "~/components/Button"
-import { useAccount, useAuth } from "~/features/auth"
+import { useAuth } from "~/features/auth"
 import { useProfile } from "~/features/profile"
 import UesrStatusIcon from "~/features/profile/UserStatusIcon"
 import { hostname } from "~/utils"
 
 export default function UserMenu() {
-  const account = useAccount()
-  return account ? (
+  return (
     <Suspense>
       <UserMenuSuspense />
     </Suspense>
-  ) : (
-    <Button>ログイン</Button>
   )
 }
 
