@@ -1,7 +1,7 @@
 "use client"
 
 import clsx from "clsx"
-import { Bell, Home, Settings } from "lucide-react"
+import { Bell, Home, Pen, Settings } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import BrandLogo from "~/components/BrandLogo"
@@ -15,7 +15,7 @@ export default function LeftNav() {
   const [, setNoteDialog] = useNoteDialog()
   const account = useLogin()
 
-  const w = "w-32 xl:w-72"
+  const w = "w-36 xl:w-72"
   return (
     <div className={clsx(w, "hidden lg:block")}>
       <nav className={clsx(w, "fixed flex h-full flex-col gap-5 border-r p-2")}>
@@ -27,25 +27,26 @@ export default function LeftNav() {
           </Link>
           <NavLink href="/home/">
             <Home size={24} />
-            ホーム
+            <span className="hidden xl:block">ホーム</span>
           </NavLink>
           <NavLink href="/notifications/">
             <Bell size={24} />
-            通知
+            <span className="hidden xl:block">通知</span>
           </NavLink>
           <NavLink href="/settings/">
             <Settings size={24} />
-            設定
+            <span className="hidden xl:block">設定</span>
           </NavLink>
         </div>
         <Link
           className={clsx(
             btnBase,
-            "bg-misskey px-20 py-4 font-bold text-white hover:bg-misskey hover:brightness-90",
+            "mx-auto rounded-full bg-misskey p-3 font-bold text-white hover:bg-misskey hover:brightness-90  xl:px-20 xl:py-4",
           )}
           href="/compose/note/"
           onClick={() => setNoteDialog(true)}>
-          ノートする
+          <span className="hidden xl:block">ノートする</span>
+          <Pen size={16} />
         </Link>
         <div className="mt-auto">
           <UserMenu />
@@ -58,7 +59,7 @@ export default function LeftNav() {
 function NavLink({ children, href }: { children: React.ReactNode; href: string }) {
   const pathname = usePathname()
   return (
-    <Link className="*:hover:bg-neutral-200" href={href}>
+    <Link className="mx-auto *:hover:bg-neutral-200 xl:mx-0" href={href}>
       <span
         className={clsx(btnBase, "my-1 gap-4 p-3 pr-6 text-xl", pathname == href && "font-bold")}>
         {children}

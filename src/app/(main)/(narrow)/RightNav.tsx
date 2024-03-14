@@ -1,7 +1,7 @@
 import clsx from "clsx"
 
 export default function RightNav() {
-  const w = "w-96"
+  const w = "w-72 xl:w-96 "
   return (
     <div className={clsx(w, "hidden lg:block")}>
       <div className={clsx(w, "fixed flex h-full flex-col gap-4 border-l pl-8 pt-2.5")}>
