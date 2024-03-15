@@ -24,7 +24,7 @@ export default class MisskeyLatestClient extends BaseClient {
    * @memberof MisskeyLatestClient
    */
   async emojiUrl(name: string) {
-    const json = await this.get<{ url: string }>(`emoji?name=${name}`)
+    const json = await this.get<{ url: string }>(`emoji?name=${name}`, {})
     return json?.url ?? null
   }
 
@@ -33,19 +33,21 @@ export default class MisskeyLatestClient extends BaseClient {
    * @memberof MisskeyLatestClient
    */
   async me() {
-    return this.post<UserDetail>("i")
+    return this.post<UserDetail>("i", {})
   }
 
   /**
    * サーバーにpingを送信
    */
   async ping() {
-    return this.get<{ pong: number }>("ping")
+    return this.get<{ pong: number }>("ping", {}, true)
   }
 
   async showId(userId: string, host: string | null = null) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return this.post<any>(`users/show`, { userId, host })
+    return this.post<any>(`users/show`, {
+      body: { userId, host },
+    })
   }
 
   /**
@@ -54,7 +56,9 @@ export default class MisskeyLatestClient extends BaseClient {
    */
   async showName(username: string, host: string | null = null) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return this.post<any>(`users/show`, { username, host })
+    return this.post<any>(`users/show`, {
+      body: { username, host },
+    })
   }
 
   /**
@@ -64,6 +68,8 @@ export default class MisskeyLatestClient extends BaseClient {
    * @returns
    */
   async notes(userId: string, opts: NotesOpts = {}) {
-    return this.post<NotesResponse>("notes", { userId, ...opts })
+    return this.post<NotesResponse>("notes", {
+      body: { userId, ...opts },
+    })
   }
 }
