@@ -18,24 +18,46 @@ export default class MisskeyLatestClient extends BaseClient {
   type: "misskey" = "misskey" as const
   id = "misskey-latest"
 
+  /**
+   * サーバーから絵文字のURLを取得
+   * @param name - 絵文字の名前
+   * @memberof MisskeyLatestClient
+   */
   async emojiUrl(name: string) {
     const json = await this.get<{ url: string }>(`emoji?name=${name}`)
     return json?.url ?? null
   }
 
+  /**
+   * ユーザー情報を取得
+   * @memberof MisskeyLatestClient
+   */
   async me() {
     return this.post<UserDetail>("i")
   }
 
+  /**
+   * サーバーにpingを送信
+   */
   async ping() {
     return this.get<{ pong: number }>("ping")
   }
 
+  /**
+   * ユーザー情報を取得
+   * @memberof MisskeyLatestClient
+   */
   async show(username: string, host: string | null = null) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return this.post<any>(`users/show`, { username, host })
   }
 
+  /**
+   * ノートを取得
+   * @param userId - 対象のユーザーID
+   * @param opts - オプション
+   * @returns
+   */
   async notes(userId: string, opts: NotesOpts = {}) {
     return this.post<NotesResponse>("notes", { userId, ...opts })
   }
