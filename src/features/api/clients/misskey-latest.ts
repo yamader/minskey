@@ -23,19 +23,36 @@ export default class MisskeyLatestClient extends BaseClient {
     return json?.url ?? null
   }
 
+  /**
+   * ユーザー情報を取得します
+   * @memberof MisskeyLatestClient
+   */
   async me() {
     return this.post<UserDetail>("i")
   }
 
+  /**
+   * サーバーにpingを送信します
+   */
   async ping() {
     return this.get<{ pong: number }>("ping")
   }
 
+  /**
+   * ユーザー情報を取得します
+   * @memberof MisskeyLatestClient
+   */
   async show(username: string, host: string | null = null) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return this.post<any>(`users/show`, { username, host })
   }
 
+  /**
+   * ノートを取得します
+   * @param userId - 対象のユーザーID
+   * @param opts - オプション
+   * @returns
+   */
   async notes(userId: string, opts: NotesOpts = {}) {
     return this.post<NotesResponse>("notes", { userId, ...opts })
   }
