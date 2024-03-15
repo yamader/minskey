@@ -11,8 +11,16 @@ interface NotesOpts {
   sinceId?: string
   untilId?: string
 }
-
 interface NotesResponse extends Array<Note> {}
+
+interface MentionsOpts {
+  following?: boolean
+  limit?: number
+  sinceId?: string
+  untilId?: string
+  visibility?: Note["visibility"]
+}
+interface MentionsResponse extends Array<Note> {}
 
 export default class MisskeyLatestClient extends BaseClient {
   type: "misskey" = "misskey" as const
@@ -38,5 +46,13 @@ export default class MisskeyLatestClient extends BaseClient {
 
   async notes(userId: string, opts: NotesOpts = {}) {
     return this.post<NotesResponse>("notes", { userId, ...opts })
+  }
+
+  async mentions(opts: MentionsOpts = {}) {
+    return this.post<MentionsResponse>("notes/mentions", opts)
+  }
+
+  async dmSentToMe(opts: Omit<MentionsOpts, "visibility"> = {}) {
+    return this.post<MentionsResponse>("notes/mentions", { visibility: "specified", ...opts })
   }
 }
