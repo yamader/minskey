@@ -43,11 +43,16 @@ export default class MisskeyLatestClient extends BaseClient {
     return this.get<{ pong: number }>("ping")
   }
 
+  async showId(userId: string, host: string | null = null) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return this.post<any>(`users/show`, { userId, host })
+  }
+
   /**
    * ユーザー情報を取得
    * @memberof MisskeyLatestClient
    */
-  async show(username: string, host: string | null = null) {
+  async showName(username: string, host: string | null = null) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return this.post<any>(`users/show`, { username, host })
   }

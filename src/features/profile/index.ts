@@ -1,11 +1,12 @@
 import { entities } from "misskey-js"
 import { use, useMemo } from "react"
 import { useAPI } from "~/features/api"
+import { UserStatus } from "~/features/api/types"
 import { hostname } from "~/utils"
 
 // utils
 
-export function statusEmoji(status: entities.UserLite["onlineStatus"] = "unknown") {
+export function statusEmoji(status: UserStatus = "unknown") {
   switch (status) {
     case "online":
       return "🟢"

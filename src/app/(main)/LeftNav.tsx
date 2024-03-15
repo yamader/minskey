@@ -1,7 +1,7 @@
 "use client"
 
 import clsx from "clsx"
-import { Bell, Home, Settings } from "lucide-react"
+import { Bell, Home, Settings, User } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import BrandLogo from "~/components/BrandLogo"
@@ -18,7 +18,7 @@ export default function LeftNav() {
   const w = "w-32 xl:w-72"
   return (
     <div className={w}>
-      <nav className={clsx(w, "fixed flex h-full flex-col gap-5 border-r p-2")}>
+      <nav className={clsx(w, "fixed flex h-full flex-col gap-5 border-r p-2 pb-3")}>
         <div className="flex flex-col">
           <Link
             className={clsx(btnBase, "mb-1 p-1 pr-3 hover:bg-neutral-200")}
@@ -32,6 +32,10 @@ export default function LeftNav() {
           <NavLink href="/notifications/" available={!!account}>
             <Bell size={24} />
             通知
+          </NavLink>
+          <NavLink href="/profile/" available={!!account}>
+            <User size={24} />
+            プロフィール
           </NavLink>
           <NavLink href="/settings/" available={!!account}>
             <Settings size={24} />

@@ -4,18 +4,20 @@ import { Tooltip } from "@radix-ui/themes"
 import { useSearchParams } from "next/navigation"
 import { Suspense, use, useMemo } from "react"
 import { useAPI } from "~/features/api"
+import { Note, User } from "~/features/api/clients/entities"
 import { statusEmoji } from "~/features/profile"
 import UserIcon from "~/features/profile/UserIcon"
 
+// todo: cache
 export default function ProfilePage() {
   return (
-    <Suspense fallback={null /* todo */}>
-      <ProfileSuspense />
+    <Suspense fallback={<ProfileContent user={null} notes={[]} />}>
+      <ProfileFetch />
     </Suspense>
   )
 }
 
-function ProfileSuspense() {
+function ProfileFetch() {
   const api = useAPI()
   const searchParams = useSearchParams()
   const id = searchParams.get("user")
@@ -23,7 +25,7 @@ function ProfileSuspense() {
   const userFetch = useMemo(async () => {
     if (!api || !id) return null
     const [, username, host] = id.split("@")
-    return api.show(username, host)
+    return api.showName(username, host)
   }, [api, id])
   const notesFetch = useMemo(async () => {
     const user = await userFetch
@@ -32,7 +34,13 @@ function ProfileSuspense() {
   }, [api, userFetch])
 
   const user = use(userFetch)
-  const notes = use(notesFetch)
+  const notes = use(notesFetch) ?? []
+  if (user) user.onlineStatus ??= "unknown"
+
+  return <ProfileContent user={user} notes={notes} />
+}
+
+function ProfileContent({ user, notes }: { user: User | null; notes: Note[] }) {
   const onlineStatus = user?.onlineStatus ?? "unknown"
 
   return (
