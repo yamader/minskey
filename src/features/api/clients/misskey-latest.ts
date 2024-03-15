@@ -18,6 +18,11 @@ export default class MisskeyLatestClient extends BaseClient {
   type: "misskey" = "misskey" as const
   id = "misskey-latest"
 
+  /**
+   * サーバーから絵文字のURLを取得
+   * @param name - 絵文字の名前
+   * @memberof MisskeyLatestClient
+   */
   async emojiUrl(name: string) {
     const json = await this.get<{ url: string }>(`emoji?name=${name}`)
     return json?.url ?? null
