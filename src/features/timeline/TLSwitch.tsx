@@ -2,7 +2,7 @@
 
 import { ReactNode } from "react"
 import { useTLName } from "."
-import { TLChanNames } from "../api"
+import { TLChanNames } from "../api/types"
 
 const TLButton = ({ tl, children }: { tl: TLChanNames; children: ReactNode }) => {
   const [currentTl, setCurrentTl] = useTLName()

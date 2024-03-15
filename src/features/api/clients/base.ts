@@ -52,7 +52,7 @@ export default class BaseClient {
    * @param opts - fetchのオプション
    * @memberof BaseClient
    */
-  async get<T>(path: string, props: GetProps, volatile?: boolean) {
+  async get<T>(path: string, props: GetProps = {}, volatile?: boolean) {
     const key = "g" + path + JSON.stringify(props)
 
     let cacheValid = key in this.cache
@@ -72,7 +72,7 @@ export default class BaseClient {
 
     if (!cacheValid) {
       this.cache[key] = {
-        res: this.realGet(path, props),
+        res: this.realGet<T>(path, props),
         issue: Date.now(),
         lifespan: props.lifespan,
       }
@@ -83,7 +83,7 @@ export default class BaseClient {
   private async realGet<T>(path: string, { opts }: GetProps) {
     const res = await fetch(this.host + "/api/" + path, opts)
     if (!res.ok) return null
-    return res.json()
+    return res.json() as Promise<T>
   }
 
   /**
@@ -93,7 +93,7 @@ export default class BaseClient {
    * @param opts - fetchのオプション
    * @memberof BaseClient
    */
-  async post<T>(path: string, props: PostProps, volatile?: boolean) {
+  async post<T>(path: string, props: PostProps = {}, volatile?: boolean) {
     const key = "p" + path + JSON.stringify(props)
 
     let cacheValid = key in this.cache
@@ -132,6 +132,6 @@ export default class BaseClient {
       ...opts,
     })
     if (!res.ok) return null
-    return res.json()
+    return res.json() as Promise<T>
   }
 }

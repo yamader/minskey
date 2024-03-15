@@ -1,4 +1,4 @@
-import { Emoji } from ".."
+import { Emoji } from "../types"
 import MisskeyLatestClient from "./misskey-latest"
 
 export default class MisskeyV12Client extends MisskeyLatestClient {
