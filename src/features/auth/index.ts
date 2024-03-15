@@ -4,11 +4,15 @@ import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 import { useClient } from "~/features/common"
 
+export function isSameAccount(a: Account | null, b: Account | null) {
+  return a && b && a.uid == b.uid && a.host == b.host
+}
+
 ////////////////////////////////////////////////////////////////
 //  atoms
 ////////////////////////////////////////////////////////////////
 
-type Account = {
+export type Account = {
   host: string
   uid: string
   token: string
@@ -34,7 +38,7 @@ export function useAccount() {
 }
 
 // 現在のアカウントを取得する
-export function useLogin(login?: boolean) {
+export function useLogin(login: boolean = false) {
   const account = useAccount()
   const router = useRouter()
   const client = useClient()
@@ -68,9 +72,7 @@ export function useAuth() {
 
   const logout = () => {
     if (multiAccounts.length) {
-      const idx = multiAccounts.findIndex(
-        e => e.host == authAccount?.host && e.uid == authAccount?.uid,
-      )
+      const idx = multiAccounts.findIndex(e => isSameAccount(e, authAccount))
       const nextAccount = multiAccounts[idx + 1] ?? multiAccounts[idx - 1] ?? null
       setAuth({ account: nextAccount, session: null, error: null })
       removeMultiAccount(idx)
@@ -83,6 +85,7 @@ export function useAuth() {
     account: authAccount,
     session: authSession,
     error: authError,
+    multiAccounts,
     addMultiAccount,
     setAuth,
     logout,

@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { Suspense, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { v4 as uuidv4 } from "uuid"
+import { detect } from "~/features/api/clients"
 import { useAuth } from "~/features/auth"
 import { ensureproto } from "~/utils"
 
@@ -112,6 +113,12 @@ function MiAuthLogin({ go, host }: LoginProps) {
       icon = location?.origin + "/favicon.png",
       callback = location?.origin + `/auth?go=${go}`,
       permission = permissions.join(",")
+
+    const client = await detect(realHost)
+    if (!client) {
+      setError("host", { type: "manual", message: "対応していないインスタンスか間違ったURLです" })
+      return
+    }
 
     try {
       const url = `${realHost}/miauth/${sid}?name=${name}&icon=${icon}&callback=${callback}&permission=${permission}`

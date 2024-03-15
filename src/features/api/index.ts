@@ -1,29 +1,9 @@
 import { atom, useAtom, useAtomValue } from "jotai"
-import { Channels, Endpoints, Stream, api, entities } from "misskey-js"
+import { Channels, Stream, api } from "misskey-js"
 import { use, useState } from "react"
 import { accountAtom, useAccount } from "~/features/auth"
 import { ensureproto } from "~/utils"
 import { APIClient, detect } from "./clients"
-
-// types
-
-type noteHandler = (payload: entities.Note) => void
-
-export type TLChanNames = {
-  [T in keyof Channels]: Channels[T]["events"] extends { note: noteHandler } ? T : never
-}[keyof Channels]
-
-export const TLChanNameToAPIEndpoint: Record<TLChanNames, keyof Endpoints> = {
-  globalTimeline: "notes/global-timeline",
-  homeTimeline: "notes/timeline",
-  localTimeline: "notes/local-timeline",
-  hybridTimeline: "notes/hybrid-timeline",
-}
-
-export type Emoji = {
-  name: string
-  url: string
-}
 
 // atoms
 

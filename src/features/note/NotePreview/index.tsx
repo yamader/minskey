@@ -1,4 +1,4 @@
-import { Repeat2 } from "lucide-react"
+import { Home, Lock, Repeat2 } from "lucide-react"
 import { entities } from "misskey-js"
 import Image from "next/image"
 import Link from "next/link"
@@ -42,34 +42,51 @@ function NotePreview({ note }: NotePreviewProps) {
 
   return (
     <CustomEmojiCtx.Provider value={{ host }}>
-      <div className="rounded-xl bg-white p-3 shadow">
+      <div className="bg-white p-3">
         {renotebar}
         <div className="flex gap-1.5">
+          {/* アイコン */}
           <Link
             className="m-1 h-fit w-fit overflow-hidden rounded-[48px] shadow transition-all hover:rounded-md"
             href={profileLink(note.user)}>
             <Image src={note.user.avatarUrl} width={48} height={48} alt="Icon" />
           </Link>
+
           <div className="flex w-full flex-col gap-0.5">
+            {/* メタ情報 */}
             <div className="flex justify-between">
-              <div className="flex gap-1 font-bold break-words">
+              <div className="flex gap-1 break-words font-bold">
+                {/* ユーザー名 */}
                 <Link className="mfm-plainCE hover:underline" href={profileLink(note.user)}>
                   <CustomEmojiStr text={note.user.name ?? "" /* wtf */} />
                 </Link>
+                {/* @ID@Host */}
                 <p>
                   <span>@{note.user.username}</span>
                   <span className="text-neutral-400">@{host}</span>
                 </p>
               </div>
-              <Link className="hover:underline" href={`/note?id=${note.id}`}>
-                <TimeText dateTime={note.createdAt} />
-              </Link>
+              {/* 右寄せテキスト */}
+              <div className="flex items-center">
+                {/* 投稿日時 */}
+                <Link className="hover:underline" href={`/note?id=${note.id}`}>
+                  <TimeText dateTime={note.createdAt} />
+                </Link>
+                {/* スコープ */}
+                {note.visibility == "home" ? (
+                  <Home size={16} />
+                ) : (
+                  note.visibility == "followers" && <Lock size={16} />
+                )}
+              </div>
             </div>
+            {/* 本文 */}
             {note.text && (
               <div>
                 <Mfm text={note.text} />
               </div>
             )}
+            {/* ファイル */}
             {!!note.files.length && (
               // todo: grid layout
               <div className="grid w-1/2 grid-cols-2">
@@ -80,7 +97,9 @@ function NotePreview({ note }: NotePreviewProps) {
                 ))}
               </div>
             )}
+            {/* 引用 */}
             {quoted}
+            {/* 操作 */}
             <div className="mt-1 flex gap-8">
               <NavReply note={note} />
               <NavRN note={note} />

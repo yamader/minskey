@@ -1,14 +1,13 @@
-import { statusEmoji, useProfile } from "."
+import { User } from "~/features/api/clients/entities"
+import { statusEmoji } from "."
 import UserIcon from "./UserIcon"
 
-export default function UesrStatusIcon() {
-  const profile = useProfile()
-
+export default function UesrStatusIcon({ user }: { user: User | null }) {
   return (
-    <div className="relative h-12 w-12">
-      <UserIcon user={profile} />
-      <span className="absolute bottom-0 right-0 rounded-full bg-white leading-none">
-        {statusEmoji(profile?.onlineStatus)}
+    <div className="relative">
+      <UserIcon user={user} />
+      <span className="absolute -bottom-0.5 -right-0.5 cursor-default text-sm leading-none">
+        {statusEmoji(user?.onlineStatus)}
       </span>
     </div>
   )
