@@ -24,7 +24,7 @@ export default class MisskeyLatestClient extends BaseClient {
   }
 
   /**
-   * ユーザー情報を取得します
+   * ユーザー情報を取得
    * @memberof MisskeyLatestClient
    */
   async me() {
@@ -32,14 +32,14 @@ export default class MisskeyLatestClient extends BaseClient {
   }
 
   /**
-   * サーバーにpingを送信します
+   * サーバーにpingを送信
    */
   async ping() {
     return this.get<{ pong: number }>("ping")
   }
 
   /**
-   * ユーザー情報を取得します
+   * ユーザー情報を取得
    * @memberof MisskeyLatestClient
    */
   async show(username: string, host: string | null = null) {
@@ -48,7 +48,7 @@ export default class MisskeyLatestClient extends BaseClient {
   }
 
   /**
-   * ノートを取得します
+   * ノートを取得
    * @param userId - 対象のユーザーID
    * @param opts - オプション
    * @returns
