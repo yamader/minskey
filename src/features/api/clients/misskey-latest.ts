@@ -52,7 +52,7 @@ export default class MisskeyLatestClient extends BaseClient {
     return this.post<MentionsResponse>("notes/mentions", opts)
   }
 
-  async dmSentToMe(opts: Omit<MentionsOpts, "visibility"> = {}) {
+  async directMessage(opts: Omit<MentionsOpts, "visibility"> = {}) {
     return this.post<MentionsResponse>("notes/mentions", { visibility: "specified", ...opts })
   }
 }
