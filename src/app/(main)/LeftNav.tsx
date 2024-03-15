@@ -35,7 +35,7 @@ export default function LeftNav() {
           </NavLink>
           <NavLink href="/profile/" available={!!account}>
             <User size={24} />
-            プロフィール
+            <span className="hidden xl:block">プロフィール</span>
           </NavLink>
           <NavLink href="/settings/" available={!!account}>
             <Settings size={24} />
@@ -45,7 +45,7 @@ export default function LeftNav() {
         <Link
           className={clsx(
             btnBase,
-            "bg-misskey px-20 py-4 font-bold hover:bg-misskey hover:brightness-90",
+            "bg-misskey px-4 py-4 font-bold hover:bg-misskey hover:brightness-90 xl:px-20",
             account ? "text-white" : "text-gray-300",
           )}
           href="/compose/note/"
