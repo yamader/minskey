@@ -9,18 +9,18 @@ import Button from "~/components/Button"
 import { isSameAccount, useAccount, useAuth } from "~/features/auth"
 import AccountBar from "./AccountBar"
 
-export default function UserMenu() {
+export default function AccountMenu() {
   const account = useAccount()
   return account ? (
     <Suspense>
-      <UserMenuSuspense />
+      <AccountMenuSuspense />
     </Suspense>
   ) : (
     <Button>ログイン</Button>
   )
 }
 
-function UserMenuSuspense() {
+function AccountMenuSuspense() {
   const { account, multiAccounts, setAuth, logout } = useAuth()
 
   const actionBtn =
@@ -28,7 +28,7 @@ function UserMenuSuspense() {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger>
-        <div className="flex cursor-pointer items-center justify-between rounded-full p-2 transition hover:bg-neutral-100">
+        <div className="flex cursor-pointer select-none items-center justify-between rounded-full p-2 transition hover:bg-neutral-100">
           <AccountBar
             account={account}
             omake={<Menu className="mr-2.5 text-neutral-500" size={18} />}

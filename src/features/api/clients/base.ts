@@ -1,5 +1,19 @@
 import { dbg } from "~/utils"
 
+declare global {
+  var _minsk_api_cache: {
+    [key: string]: {
+      res: Promise<unknown | null>
+      issue: number
+      lifespan?: number
+    }
+  }
+}
+
+globalThis._minsk_api_cache ??= {}
+
+////////////////////////////////////////////////////////////////
+
 /**
  * 各バージョンごとに異なるAPIクライアントを作成するための基底クラス
  */
@@ -19,20 +33,13 @@ export default class BaseClient {
   id: string
   host: string
   token?: string
+  _cachePrefix: string
 
   // 適当
   getLifespan = 10_000
   getClock = 500
   postLifespan = 10_000
   postClock = 500
-
-  private cache: {
-    [key: string]: {
-      res: Promise<unknown | null>
-      issue: number
-      lifespan?: number
-    }
-  }
 
   /**
    * @param host - プロトコルを含むホスト名
@@ -43,7 +50,7 @@ export default class BaseClient {
     this.id = "unknown"
     this.host = host
     this.token = token
-    this.cache = {}
+    this._cachePrefix = host + token
   }
 
   /**
@@ -53,11 +60,11 @@ export default class BaseClient {
    * @memberof BaseClient
    */
   async get<T>(path: string, props: GetProps, volatile?: boolean) {
-    const key = "g" + path + JSON.stringify(props)
+    const key = this._cachePrefix + "g" + path + JSON.stringify(props)
 
-    let cacheValid = key in this.cache
+    let cacheValid = key in _minsk_api_cache
     if (cacheValid) {
-      const { issue, lifespan } = this.cache[key]
+      const { issue, lifespan } = _minsk_api_cache[key]
       const age = Date.now() - issue
       if (lifespan) {
         cacheValid = age < lifespan
@@ -71,16 +78,16 @@ export default class BaseClient {
     else dbg("[api::clients::base] fetch:", key)
 
     if (!cacheValid) {
-      this.cache[key] = {
-        res: this.realGet(path, props),
+      _minsk_api_cache[key] = {
+        res: this.rawGet(path, props),
         issue: Date.now(),
         lifespan: props.lifespan,
       }
     }
-    return this.cache[key].res as Promise<T | null>
+    return _minsk_api_cache[key].res as Promise<T | null>
   }
 
-  private async realGet<T>(path: string, { opts }: GetProps) {
+  private async rawGet<T>(path: string, { opts }: GetProps) {
     const res = await fetch(this.host + "/api/" + path, opts)
     if (!res.ok) return null
     return res.json()
@@ -94,11 +101,11 @@ export default class BaseClient {
    * @memberof BaseClient
    */
   async post<T>(path: string, props: PostProps, volatile?: boolean) {
-    const key = "p" + path + JSON.stringify(props)
+    const key = this._cachePrefix + "p" + path + JSON.stringify(props)
 
-    let cacheValid = key in this.cache
+    let cacheValid = key in _minsk_api_cache
     if (cacheValid) {
-      const { issue, lifespan } = this.cache[key]
+      const { issue, lifespan } = _minsk_api_cache[key]
       const age = Date.now() - issue
       if (lifespan) {
         cacheValid = age < lifespan
@@ -112,16 +119,16 @@ export default class BaseClient {
     else dbg("[api::clients::base] fetch:", key)
 
     if (!cacheValid) {
-      this.cache[key] = {
-        res: this.realPost(path, props),
+      _minsk_api_cache[key] = {
+        res: this.rawPost(path, props),
         issue: Date.now(),
         lifespan: props.lifespan,
       }
     }
-    return this.cache[key].res as Promise<T | null>
+    return _minsk_api_cache[key].res as Promise<T | null>
   }
 
-  private async realPost<T>(path: string, { body, opts }: PostProps) {
+  private async rawPost<T>(path: string, { body, opts }: PostProps) {
     const res = await fetch(this.host + "/api/" + path, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

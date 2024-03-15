@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation"
 import BrandLogo from "~/components/BrandLogo"
 import { useLogin } from "~/features/auth"
 import { useNoteDialog } from "~/features/note"
-import UserMenu from "./UserMenu"
+import AccountMenu from "./AccountMenu"
 
 const btnBase = "flex w-fit items-center rounded-full leading-none transition"
 
@@ -53,7 +53,7 @@ export default function LeftNav() {
           ノートする
         </Link>
         <div className="mt-auto">
-          <UserMenu />
+          <AccountMenu />
         </div>
       </nav>
     </div>

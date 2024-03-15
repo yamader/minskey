@@ -1,6 +1,6 @@
 "use client"
 
-import { Suspense, use, useMemo } from "react"
+import { Suspense, use } from "react"
 import IdStr from "~/components/IdStr"
 import { useForeignAPI } from "~/features/api"
 import { User } from "~/features/api/clients/entities"
@@ -33,11 +33,8 @@ export default function AccountBar({
 
 function AccountBarFetch({ account }: { account: Account }) {
   const api = useForeignAPI(account.host)
-  const userFetch = useMemo(async () => {
-    if (!api) return null
-    return api.showId(account.uid, account.host)
-  }, [api, account])
-  return <AccountBarContent user={use(userFetch)} account={account} />
+  const fetch = api?.showId(account.uid, account.host)
+  return <AccountBarContent user={fetch && use(fetch)} account={account} />
 }
 
 function AccountBarContent({ user, account }: { user: User | null; account: Account | null }) {
