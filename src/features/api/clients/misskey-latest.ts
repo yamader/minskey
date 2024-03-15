@@ -67,8 +67,8 @@ export default class MisskeyLatestClient extends BaseClient {
    * @param opts - オプション
    * @returns
    */
-  async notes(userId: string, opts: NotesOpts = {}) {
-    return this.post<NotesResponse>("notes", {
+  async userNotes(userId: string, opts: NotesOpts = {}) {
+    return this.post<NotesResponse>("users/notes", {
       body: { userId, ...opts },
     })
   }

@@ -42,7 +42,7 @@ function NotePreview({ note }: NotePreviewProps) {
 
   return (
     <CustomEmojiCtx.Provider value={{ host }}>
-      <div className="rounded-xl bg-white p-3 shadow">
+      <div className="bg-white p-3">
         {renotebar}
         <div className="flex gap-1.5">
           {/* アイコン */}

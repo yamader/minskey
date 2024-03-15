@@ -1,4 +1,4 @@
-import { Emoji } from ".."
+import { Emoji } from "../types"
 import MisskeyLatestClient from "./misskey-latest"
 
 export default class MisskeyV13Client extends MisskeyLatestClient {
@@ -6,7 +6,7 @@ export default class MisskeyV13Client extends MisskeyLatestClient {
 
   override async emojiUrl(name: string): Promise<string | null> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { emojis } = await super.get<any>("emojis")
+    const { emojis } = await super.get<any>("emojis", {})
     return emojis?.find?.((e: Record<keyof Emoji, unknown>) => e.name == name)?.url ?? null
   }
 }
