@@ -82,10 +82,14 @@ export default class MisskeyLatestClient extends BaseClient {
   }
 
   async mentions(opts: MentionsOpts = {}) {
-    return this.post<MentionsResponse>("notes/mentions", opts)
+    return this.post<MentionsResponse>("notes/mentions", {
+      body: { opts },
+    })
   }
 
   async directMessage(opts: Omit<MentionsOpts, "visibility"> = {}) {
-    return this.post<MentionsResponse>("notes/mentions", { visibility: "specified", ...opts })
+    return this.post<MentionsResponse>("notes/mentions", {
+      body: { visibility: "specified", ...opts },
+    })
   }
 }
