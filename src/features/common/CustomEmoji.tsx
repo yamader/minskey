@@ -1,14 +1,16 @@
 "use client"
 
-import { useAtom, useAtomValue } from "jotai"
+import { atom, useAtom, useAtomValue } from "jotai"
 import { atomWithStorage } from "jotai/utils"
-import { Fragment, Suspense, createContext, use, useContext, useState } from "react"
+import { Fragment, Suspense, createContext, use, useContext } from "react"
 import { CustomEmojiProps } from "react-mfm"
 import { useForeignAPI } from "~/features/api"
 
 const emojiCacheAtom = atomWithStorage<{
   [host: string]: { [name: string]: string | null }
 }>("minsk::emoji::cache", {})
+
+const emojiFetchAtom = atom<{ [id: string]: Promise<string | null> }>({})
 
 // internal
 
@@ -17,20 +19,26 @@ const EmojiImg = ({ name, url }: { name: string; url?: string | null }) =>
 
 function FetchEmoji({ name, host }: { name: string; host: string }) {
   const api = useForeignAPI(host)
-  const [task, setTask] = useState<Promise<string | null>>() // たぶん要る
   const [cache, setCache] = useAtom(emojiCacheAtom)
+  const [fetches, setFetches] = useAtom(emojiFetchAtom)
+
+  const key = name + "@" + host
 
   const Cached = () => <EmojiImg name={name} url={cache[host]?.[name]} />
   if (host in cache && name in cache[host]) return <Cached />
   if (!api) return <Cached />
-  if (!task) {
-    setTask(api.emojiUrl(name))
-    return <Cached />
+
+  if (key in fetches) {
+    const url = use(fetches[key])
+    setCache({ ...cache, [host]: { ...cache[host], [name]: url } })
+    delete fetches[key]
+    setFetches({ ...fetches })
+    return <EmojiImg name={name} url={url} />
   }
 
-  const url = use(task)
-  setCache(cache => ({ ...cache, [host]: { ...cache[host], [name]: url } }))
-  return <EmojiImg name={name} url={url} />
+  const task = api.emojiUrl(name)
+  setFetches({ ...fetches, [key]: task })
+  return <EmojiImg name={name} url={use(task)} />
 }
 
 // Components

@@ -1,17 +1,17 @@
 import { atom, useAtom, useAtomValue } from "jotai"
 import { Channels, Stream, api } from "misskey-js"
-import { use, useState } from "react"
+import { use } from "react"
 import { accountAtom, useAccount } from "~/features/auth"
 import { ensureproto } from "~/utils"
 import { APIClient, detect } from "./clients"
 
 // atoms
 
-export const clientsAtom = atom<{ [host: string]: { [id: string]: APIClient | null } }>({})
-export const foreignClientsAtom = atom<{ [host: string]: APIClient | null }>({})
+const clientsAtom = atom<{ [id: string]: APIClient | null }>({})
+const clientsFetchAtom = atom<{ [id: string]: Promise<APIClient | null> }>({})
 
 /** @deprecated */
-export const misskeyJSAtom = atom(get => {
+const misskeyJSAtom = atom(get => {
   const account = get(accountAtom)
   if (!account) return null
   return new api.APIClient({
@@ -20,7 +20,8 @@ export const misskeyJSAtom = atom(get => {
   })
 })
 
-export const streamConnectAtom = atom(get => {
+/** @deprecated */
+const streamConnectAtom = atom(get => {
   const account = get(accountAtom)
   if (!account) return null
   return new Stream(account.host, { token: account.token })
@@ -29,49 +30,46 @@ export const streamConnectAtom = atom(get => {
 // hooks
 
 export function useAPI() {
-  const [clients, setClients] = useAtom(clientsAtom)
-  const [clientFetch, setClientFetch] = useState<Promise<APIClient | null>>()
   const account = useAccount()
-  if (!account) return null
+  const [clients, setClients] = useAtom(clientsAtom)
+  const [clientsFetch, setClientsFetch] = useAtom(clientsFetchAtom)
 
-  if (!clientFetch) {
-    if (account.host in clients && account.uid in clients[account.host])
-      return clients[account.host][account.uid]
-    const task = detect(account.host, account.token)
-    setClientFetch(task)
-    return use(task)
+  if (!account) return null
+  const key = account.uid + "@" + account.host
+
+  if (key in clients) return clients[key]
+
+  if (key in clientsFetch) {
+    const client = use(clientsFetch[key])
+    setClients({ ...clients, [key]: client })
+    delete clientsFetch[key]
+    setClientsFetch({ ...clientsFetch })
+    return client
   }
 
-  const client = use(clientFetch)
-  const host = account.host
-  const uid = account.uid
-  setClients({
-    ...clients,
-    [host]: {
-      ...clients[host],
-      [uid]: client,
-    },
-  })
-  setClientFetch(undefined)
-  return client
+  const task = detect(account.host, account.token)
+  setClientsFetch({ ...clientsFetch, [key]: task })
+  return use(task)
 }
 
 export function useForeignAPI(host: string) {
-  const [foreignClients, setForeignClients] = useAtom(foreignClientsAtom)
-  const [clientFetch, setClientFetch] = useState<Promise<APIClient | null>>()
+  const [clients, setClients] = useAtom(clientsAtom)
+  const [clientsFetch, setClientsFetch] = useAtom(clientsFetchAtom)
   const _host = ensureproto(host)
 
-  if (!clientFetch) {
-    if (_host in foreignClients) return foreignClients[_host]
-    const task = detect(_host)
-    setClientFetch(task)
-    return use(task)
+  if (_host in clients) return clients[_host]
+
+  if (_host in clientsFetch) {
+    const client = use(clientsFetch[_host])
+    setClients({ ...clients, [_host]: client })
+    delete clientsFetch[_host]
+    setClientsFetch({ ...clientsFetch })
+    return client
   }
 
-  const client = use(clientFetch)
-  setForeignClients({ ...foreignClients, [_host]: client })
-  setClientFetch(undefined)
-  return client
+  const task = detect(_host)
+  setClientsFetch({ ...clientsFetch, [_host]: task })
+  return use(task)
 }
 
 /** @deprecated */
@@ -79,6 +77,7 @@ export function useMisskeyJS() {
   return useAtomValue(misskeyJSAtom)
 }
 
+/** @deprecated */
 export function useStream<T extends keyof Channels>(channel: T) {
   const stream = useAtomValue(streamConnectAtom)
   return stream?.useChannel(channel) ?? null
