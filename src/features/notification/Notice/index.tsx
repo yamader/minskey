@@ -2,8 +2,8 @@ import { Notification, User } from "misskey-js/built/entities"
 import Link from "next/link"
 import { ReactNode } from "react"
 import TimeText from "~/components/TimeText"
-import { profileLink } from "~/features/profile"
-import UserIcon from "~/features/profile/UserIcon"
+import { profileLink } from "~/features/user"
+import UserIcon from "~/features/user/UserIcon"
 import NoticeNotePreview from "./NoticeNotePreview"
 
 export default function Notice({ notice }: { notice: Notification }) {

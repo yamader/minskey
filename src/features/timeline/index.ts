@@ -2,8 +2,8 @@ import { atom, useAtom, useAtomValue, useSetAtom } from "jotai"
 import { atomWithStorage } from "jotai/utils"
 import { entities } from "misskey-js"
 import { useCallback, useEffect, useState } from "react"
-
-import { TLChanNameToAPIEndpoint, TLChanNames, useMisskeyJS, useStream } from "~/features/api"
+import { useMisskeyJS, useStream } from "~/features/api"
+import { TLChanNameToAPIEndpoint, TLChanNames } from "~/features/api/types"
 import { useLogin } from "~/features/auth"
 
 ////////////////////////////////////////////////////////////////

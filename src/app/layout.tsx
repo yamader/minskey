@@ -1,8 +1,12 @@
 import { Theme } from "@radix-ui/themes"
 import "@radix-ui/themes/styles.css"
-import clsx from "clsx"
 import { Metadata } from "next"
-import { Fira_Code, Inter, Zen_Kaku_Gothic_New } from "next/font/google"
+
+import "@fontsource-variable/fira-code"
+import "@fontsource-variable/inter"
+import "@fontsource/zen-kaku-gothic-new/400.css"
+import "@fontsource/zen-kaku-gothic-new/700.css"
+import "@fontsource/zen-kaku-gothic-new/900.css"
 import "./global.css"
 
 export const metadata: Metadata = {
@@ -21,32 +25,10 @@ export const metadata: Metadata = {
   },
 }
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--f-inter",
-})
-
-const zenKakuGothicNew = Zen_Kaku_Gothic_New({
-  weight: ["400", "700", "900"],
-  preload: false,
-  variable: "--f-zkgn",
-})
-
-const firaCode = Fira_Code({
-  subsets: ["latin"],
-  variable: "--f-firacode",
-})
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ja">
-      <body
-        className={clsx(
-          inter.variable,
-          firaCode.variable,
-          zenKakuGothicNew.variable,
-          zenKakuGothicNew.className,
-        )}>
+      <body>
         <Theme asChild>{children}</Theme>
       </body>
     </html>

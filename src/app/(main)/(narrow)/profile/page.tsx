@@ -2,54 +2,92 @@
 
 import { Tooltip } from "@radix-ui/themes"
 import { useSearchParams } from "next/navigation"
-import { Suspense, use, useMemo } from "react"
+import { Suspense, use } from "react"
+import Anon from "~/assets/anon.png"
+import BottomSpinner from "~/components/BottomSpinner"
+import IdStr from "~/components/IdStr"
+import TopAppBar from "~/components/TopAppBar"
 import { useAPI } from "~/features/api"
-import { statusEmoji } from "~/features/profile"
-import UserIcon from "~/features/profile/UserIcon"
+import { Note, User } from "~/features/api/clients/entities"
+import NotePreview from "~/features/note/NotePreview"
+import { statusEmoji } from "~/features/user"
+import { hostname } from "~/utils"
 
 export default function ProfilePage() {
   return (
-    <Suspense fallback={null /* todo */}>
-      <ProfileSuspense />
+    <Suspense fallback={<ProfileContent />}>
+      <ProfileFetch />
     </Suspense>
   )
 }
 
-function ProfileSuspense() {
+function ProfileFetch() {
   const api = useAPI()
   const searchParams = useSearchParams()
+
+  if (!api) return <ProfileContent />
+
   const id = searchParams.get("user")
 
-  const userFetch = useMemo(async () => {
-    if (!api || !id) return null
+  let userFetch: ReturnType<typeof api.showName>
+  if (id) {
     const [, username, host] = id.split("@")
-    return api.show(username, host)
-  }, [api, id])
-  const notesFetch = useMemo(async () => {
-    const user = await userFetch
-    if (!api || !user) return []
-    return api.notes(user.id) ?? []
-  }, [api, userFetch])
-
+    userFetch = api.showName(username, host)
+  } else {
+    userFetch = api.me()
+  }
   const user = use(userFetch)
-  const notes = use(notesFetch)
+  if (user) user.host ??= hostname(api.host)
+
+  const notesFetch = user && api.userNotes(user.id)
+  const notes = (notesFetch && use(notesFetch)) ?? []
+
+  return <ProfileContent user={user} notes={notes} />
+}
+
+function ProfileContent({ user = null, notes = [] }: { user?: User | null; notes?: Note[] }) {
   const onlineStatus = user?.onlineStatus ?? "unknown"
 
   return (
     <>
-      <div className="relative h-fit w-fit rounded-full border-4 bg-white p-2">
-        <div className="h-36 w-36 rounded-full border-4">
-          <UserIcon user={user} />
+      <TopAppBar
+        content={
+          <div>
+            <p className="text-lg font-bold">{user?.name}</p>
+          </div>
+        }
+        back
+      />
+      <div className="min-h-48 w-full bg-black" />
+      <div className="-mb-20 ml-4 h-fit w-fit -translate-y-1/2">
+        {/* todo: grow */}
+        <div className="h-36 w-36 overflow-hidden rounded-[100%] border-4 transition-all hover:rounded-xl">
+          <img className="h-full w-full object-cover" src={user?.avatarUrl ?? Anon.src} />
         </div>
-        <div className="absolute bottom-1.5 right-1.5 flex h-11 w-11 rounded-full border-4 bg-white">
+        <div className="absolute bottom-2 right-2 flex">
           <Tooltip content={onlineStatus}>
-            <span className="m-auto cursor-default text-3xl leading-none">
+            <span className="cursor-default text-3xl leading-none">
               {statusEmoji(onlineStatus)}
             </span>
           </Tooltip>
-          {JSON.stringify(notes)}
         </div>
       </div>
+      {user ? (
+        <div className="p-4">
+          <div className="text-2xl font-bold">{user.name}</div>
+          <div className="text-sm">
+            <IdStr username={user.username} host={user.host!} />
+          </div>
+        </div>
+      ) : (
+        <div className="animate-pulse p-4">dummy</div>
+      )}
+      <div className="flex flex-col gap-px bg-gray-200 py-px">
+        {notes.map(note => (
+          <NotePreview note={note as any} key={note.id} />
+        ))}
+      </div>
+      <BottomSpinner />
     </>
   )
 }

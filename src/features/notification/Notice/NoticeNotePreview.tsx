@@ -1,7 +1,7 @@
 import { entities } from "misskey-js"
 import Image from "next/image"
 import Link from "next/link"
-import { profileLink } from "~/features/profile"
+import { profileLink } from "~/features/user"
 
 export default function NoticeNotePreview({ note }: { note: entities.Note }) {
   return (

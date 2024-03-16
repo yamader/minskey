@@ -39,7 +39,7 @@ export default function NavMore({ note }: { note: entities.Note }) {
         className={menuItem}
         onClick={() => {
           if (!account) return
-          window.open(`https://${account.host}/notes/${note.id}`, "_blank")
+          window.open(`${account.host}/notes/${note.id}`, "_blank")
         }}>
         Misskeyで開く
       </Item>

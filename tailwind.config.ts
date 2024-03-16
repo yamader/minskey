@@ -8,9 +8,9 @@ export default {
         misskey: "#86b300",
       },
       fontFamily: {
-        mono: ["var(--f-firacode)"],
-        inter: ["var(--f-inter)"],
-        zkgn: ["var(--f-zkgn)"],
+        inter: ["Inter Variable"],
+        mono: ["Fira Code Variable"],
+        zkgn: ["Zen Kaku Gothic New"],
       },
     },
   },

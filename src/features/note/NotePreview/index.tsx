@@ -8,7 +8,7 @@ import TimeText from "~/components/TimeText"
 import { useLogin } from "~/features/auth"
 import { CustomEmojiCtx, CustomEmojiStr } from "~/features/common/CustomEmoji"
 import FilePreview from "~/features/drive/FilePreview"
-import { profileLink } from "~/features/profile"
+import { profileLink } from "~/features/user"
 import { hostname } from "~/utils"
 import NavMore from "./NavMore"
 import NavRN from "./NavRN"
@@ -42,7 +42,7 @@ function NotePreview({ note }: NotePreviewProps) {
 
   return (
     <CustomEmojiCtx.Provider value={{ host }}>
-      <div className="rounded-xl bg-white p-3 shadow">
+      <div className="bg-white p-3">
         {renotebar}
         <div className="flex gap-1.5">
           {/* アイコン */}
