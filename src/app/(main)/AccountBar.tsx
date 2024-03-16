@@ -6,7 +6,7 @@ import { useForeignAPI } from "~/features/api"
 import { User } from "~/features/api/clients/entities"
 import { Account } from "~/features/auth"
 import { CustomEmojiStr } from "~/features/common/CustomEmoji"
-import UesrStatusIcon from "~/features/profile/UserStatusIcon"
+import UesrStatusIcon from "~/features/user/UserStatusIcon"
 import { hostname } from "~/utils"
 
 // todo: ユーザキャッシュを参照するなど

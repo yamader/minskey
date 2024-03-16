@@ -2,7 +2,7 @@
 
 import { useMfmProvider } from "~/features/common/mfm"
 import NoteDialog from "~/features/note/NoteDialog"
-import { useNotificationsStream } from "~/features/notifications"
+import { useNotificationsStream } from "~/features/notification"
 import { useTLStream } from "~/features/timeline"
 import LeftNav from "./LeftNav"
 

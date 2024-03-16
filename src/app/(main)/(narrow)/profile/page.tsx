@@ -10,7 +10,7 @@ import TopAppBar from "~/components/TopAppBar"
 import { useAPI } from "~/features/api"
 import { Note, User } from "~/features/api/clients/entities"
 import NotePreview from "~/features/note/NotePreview"
-import { statusEmoji } from "~/features/profile"
+import { statusEmoji } from "~/features/user"
 import { hostname } from "~/utils"
 
 export default function ProfilePage() {

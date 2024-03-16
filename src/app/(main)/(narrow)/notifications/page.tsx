@@ -2,8 +2,8 @@
 
 import BottomSpinner from "~/components/BottomSpinner"
 import { useBottom } from "~/features/common"
-import { useNotifications } from "~/features/notifications"
-import Notice from "~/features/notifications/Notice"
+import { useNotifications } from "~/features/notification"
+import Notice from "~/features/notification/Notice"
 
 export default function NotificationsPage() {
   const { notifications, more } = useNotifications()
