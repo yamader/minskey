@@ -12,7 +12,7 @@ export default function HomePage() {
 
   return (
     <>
-      <TLSwitch />
+      <TLSwitch className="bg-white sticky top-0" />
       <div className="flex flex-col">
         {notes.map((note, i) => (
           <div className="border-t" key={i}>
