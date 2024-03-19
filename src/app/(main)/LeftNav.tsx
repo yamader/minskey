@@ -46,7 +46,7 @@ export default function LeftNav() {
           className={clsx(
             btnBase,
             "bg-misskey px-4 py-4 font-bold hover:bg-misskey hover:brightness-90 xl:px-20",
-            account ? "text-white" : "text-gray-300",
+            account ? "text-white" : "hidden",
           )}
           href="/compose/note/"
           onClick={() => setNoteDialog(true)}>
