@@ -35,3 +35,7 @@ export function isValidURL(url: string) {
     return false
   }
 }
+
+export function unique<T>(arr: T[]) {
+  return Array.from(new Set(arr))
+}

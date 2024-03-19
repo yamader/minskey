@@ -1,10 +1,7 @@
 "use client"
 
-
 import { Suspense } from "react"
 import { useDirectMessages } from "~/features/messages"
-
-
 
 const MessagesLayoutSuspense = () => {
   const messages = useDirectMessages()
@@ -13,14 +10,14 @@ const MessagesLayoutSuspense = () => {
     <div className="flex">
       <div className="w-[36rem]">
         <hr />
-        {messages?.map(m => m.user.name)}
+        {messages?.map(m => m.user.name) ?? []}
       </div>
     </div>
   )
 }
 
 const MessagesLayout = () => (
-  <Suspense>
+  <Suspense fallback={<></>}>
     <MessagesLayoutSuspense />
   </Suspense>
 )

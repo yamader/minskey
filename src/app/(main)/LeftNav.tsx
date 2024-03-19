@@ -1,7 +1,7 @@
 "use client"
 
 import clsx from "clsx"
-import { Bell, Home, Pen, Settings, User } from "lucide-react"
+import { Bell, Home, Mail, Pen, Settings, User } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import BrandLogo from "~/components/BrandLogo"
@@ -33,6 +33,11 @@ export default function LeftNav() {
             <Bell size={24} />
             <span className="hidden xl:block">通知</span>
           </NavLink>
+          <NavLink href="/messages" available={!!account}>
+            <Mail size={24} />
+            <span className="hidden xl:block">メッセージ</span>
+          </NavLink>
+
           <NavLink href="/profile/" available={!!account}>
             <User size={24} />
             <span className="hidden xl:block">プロフィール</span>
