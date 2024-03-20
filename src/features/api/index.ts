@@ -1,11 +1,26 @@
 import { atom, useAtom, useAtomValue } from "jotai"
 import { Channels, Stream, api } from "misskey-js"
 import { use } from "react"
-import { accountAtom, useAccount } from "~/features/auth"
+import { Account, accountAtom, useAccount } from "~/features/auth"
 import { ensureproto } from "~/utils"
 import { APIClient, detect } from "./clients"
 
+// なんかいい名前無いかな
+function account2ClientIdx(account: Account) {
+  return account.uid + "@" + account.host
+}
+
 // atoms
+
+/** single user mode */
+export const apiAtom = atom(get => {
+  const account = get(accountAtom)
+  if (!account) return null
+  const clients = get(clientsAtom)
+  const key = account2ClientIdx(account)
+  if (!(key in clients)) return null
+  return clients[key]
+})
 
 const clientsAtom = atom<{ [id: string]: APIClient | null }>({})
 const clientsFetchAtom = atom<{ [id: string]: Promise<APIClient | null> }>({})
@@ -35,7 +50,7 @@ export function useAPI() {
   const [clientsFetch, setClientsFetch] = useAtom(clientsFetchAtom)
 
   if (!account) return null
-  const key = account.uid + "@" + account.host
+  const key = account2ClientIdx(account)
 
   if (key in clients) return clients[key]
 

@@ -56,7 +56,7 @@ export default function LeftNav() {
           href="/compose/note/"
           onClick={() => setNoteDialog(true)}>
           <span className="hidden xl:block">ノートする</span>
-          <Pen size={16} />
+          <Pen className="xl:hidden" size={16} />
         </Link>
         <div className="mt-auto">
           <AccountMenu />
