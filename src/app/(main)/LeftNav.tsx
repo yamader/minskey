@@ -46,11 +46,11 @@ export default function LeftNav() {
           className={clsx(
             btnBase,
             "bg-misskey px-4 py-4 font-bold hover:bg-misskey hover:brightness-90 xl:px-20",
-            account ? "text-white" : "text-gray-300",
+            account ? "text-white" : "pointer-events-none",
           )}
           href="/compose/note/"
           onClick={() => setNoteDialog(true)}>
-          <span className="hidden xl:block">ノートする</span>
+          <span className="hidden select-none text-gray-300 xl:block">ノートする</span>
           <Pen className="xl:hidden" size={16} />
         </Link>
         <div className="mt-auto">
