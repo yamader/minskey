@@ -25,19 +25,19 @@ export default function LeftNav() {
             href={account ? "/home/" : "/"}>
             <BrandLogo />
           </Link>
-          <NavLink href="/home/" available={!!account}>
+          <NavLink href="/home/" disabled={!account}>
             <Home size={24} />
             <span className="hidden xl:block">ホーム</span>
           </NavLink>
-          <NavLink href="/notifications/" available={!!account}>
+          <NavLink href="/notifications/" disabled={!account}>
             <Bell size={24} />
             <span className="hidden xl:block">通知</span>
           </NavLink>
-          <NavLink href="/profile/" available={!!account}>
+          <NavLink href="/profile/" disabled={!account}>
             <User size={24} />
             <span className="hidden xl:block">プロフィール</span>
           </NavLink>
-          <NavLink href="/settings/" available={!!account}>
+          <NavLink href="/settings/">
             <Settings size={24} />
             <span className="hidden xl:block">設定</span>
           </NavLink>
@@ -45,12 +45,12 @@ export default function LeftNav() {
         <Link
           className={clsx(
             btnBase,
-            "bg-misskey px-4 py-4 font-bold hover:bg-misskey hover:brightness-90 xl:px-20",
-            account ? "text-white" : "pointer-events-none",
+            "bg-misskey px-4 py-4 font-bold text-white hover:bg-misskey hover:brightness-90 xl:px-20",
+            !account && "pointer-events-none brightness-75",
           )}
           href="/compose/note/"
           onClick={() => setNoteDialog(true)}>
-          <span className="hidden select-none text-gray-300 xl:block">ノートする</span>
+          <span className="hidden select-none xl:block">ノートする</span>
           <Pen className="xl:hidden" size={16} />
         </Link>
         <div className="mt-auto">
@@ -64,31 +64,26 @@ export default function LeftNav() {
 function NavLink({
   children,
   href,
-  available,
+  disabled,
 }: {
   children: React.ReactNode
   href: string
-  available: boolean
+  disabled?: boolean
 }) {
   const pathname = usePathname()
 
-  return available ? (
-    <Link className="*:hover:bg-neutral-200" href={href}>
-      <span
-        className={clsx(btnBase, "my-1 gap-4 p-3 pr-6 text-xl", pathname == href && "font-bold")}>
-        {children}
-      </span>
-    </Link>
-  ) : (
-    <span>
-      <span
+  return (
+    <Link
+      className={clsx("*:hover:bg-neutral-200", disabled && "pointer-events-none text-neutral-400")}
+      href={href}>
+      <div
         className={clsx(
           btnBase,
-          "my-1 select-none gap-4 p-3 pr-6 text-xl text-gray-400",
+          "my-1 select-none gap-4 p-3 pr-6 text-xl",
           pathname.startsWith(href) && "font-bold",
         )}>
         {children}
-      </span>
-    </span>
+      </div>
+    </Link>
   )
 }
