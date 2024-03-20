@@ -3,6 +3,6 @@ import { useAPI } from "../api"
 
 export const useDirectMessages = () => {
   const api = useAPI()
-  const messages = useMemo(async () => await api?.directMessage(), [api])
+  const messages = useMemo(async () => await api?.directMessage() ?? null, [api])
   return use(messages)
 }
