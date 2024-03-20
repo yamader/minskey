@@ -4,7 +4,14 @@ import MisskeyV13Client from "./misskey-v13"
 
 export type APIClient = MisskeyLatestClient
 
-// host: `scheme:auth` ← ここ重要
+// host: `scheme:auth` ← ここ重要\
+/**
+ * ホスト名からバージョンを検出し、対応するAPIクライアントを返す
+ * @export
+ * @param host - プロトコルを含むホスト名
+ * @param token - APIトークン
+ * @return APIクライアント
+ */
 export async function detect(host: string, token?: string): Promise<APIClient | null> {
   try {
     const res = await fetch(host + "/api/meta", {

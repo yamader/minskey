@@ -11,7 +11,8 @@ interface NotesOpts {
   sinceId?: string
   untilId?: string
 }
-interface NotesResponse extends Array<Note> {}
+//interface NotesResponse extends Array<Note> {}
+type NotesResponse = Note[]
 
 interface MentionsOpts {
   following?: boolean
@@ -20,7 +21,8 @@ interface MentionsOpts {
   untilId?: string
   visibility?: Note["visibility"]
 }
-interface MentionsResponse extends Array<Note> {}
+//interface MentionsResponse extends Array<Note> {}
+type MentionsResponse = Note[]
 
 export default class MisskeyLatestClient extends BaseClient {
   type: "misskey" = "misskey" as const
