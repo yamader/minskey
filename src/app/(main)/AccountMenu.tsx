@@ -16,7 +16,9 @@ export default function AccountMenu() {
       <AccountMenuSuspense />
     </Suspense>
   ) : (
-    <Button>ログイン</Button>
+    <Link href="/login/">
+      <Button>ログイン</Button>
+    </Link>
   )
 }
 
