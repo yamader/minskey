@@ -15,14 +15,9 @@ import NavRN from "./NavRN"
 import NavReact from "./NavReact"
 import NavReply from "./NavReply"
 
-type NotePreviewProps = {
-  note: entities.Note
-  //asReply?: boolean
-}
-
 export default memo(NotePreview)
 
-function NotePreview({ note }: NotePreviewProps) {
+function NotePreview({ note, _nonav }: { note: entities.Note; _nonav?: boolean }) {
   const account = useLogin()
 
   let renotebar = null
@@ -100,12 +95,14 @@ function NotePreview({ note }: NotePreviewProps) {
             {/* 引用 */}
             {quoted}
             {/* 操作 */}
-            <div className="mt-1 flex gap-8">
-              <NavReply note={note} />
-              <NavRN note={note} />
-              <NavReact note={note} />
-              <NavMore note={note} />
-            </div>
+            {!_nonav && (
+              <div className="mt-1 flex gap-8">
+                <NavReply note={note} />
+                <NavRN note={note} />
+                <NavReact note={note} />
+                <NavMore note={note} />
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -133,5 +130,9 @@ function RenoteBar({ note, host }: { note: entities.Note; host: string | null })
 }
 
 function QuotedNote({ note }: { note: entities.Note }) {
-  return <NotePreview note={note} />
+  return (
+    <div className="overflow-hidden rounded border border-2 border-dashed">
+      <NotePreview note={note} _nonav />
+    </div>
+  )
 }

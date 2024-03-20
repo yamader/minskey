@@ -8,22 +8,22 @@ export default function AboutPage() {
     <>
       <TopAppBar content="戻る" back />
       <H1>minskeyについて</H1>
-      <H2 leading>概要</H2>
+      <H2>概要</H2>
       <P>
         minskeyとは，(消極的な理由によって)最小限の機能のみを実装したMisskeyクライアントです。
         個人で細々と開発しているので，開発速度は遅めです。
       </P>
-      <H2 leading>使い方</H2>
+      <H2>使い方</H2>
       <P>
         右上のログインボタンからアカウントを認証すれば使えるようになります。
         まだ仕様が固まっていないので，UI等はコロコロ変わるかもしれません。
       </P>
-      <H2 leading>開発者向けのメッセージ</H2>
+      <H2>開発者向けのメッセージ</H2>
       <P>
         なんとなくNext.jsで開発しています(他にオススメがあれば教えてください)。
         静的にエクスポートできることに拘っていて，状態はローカルに保存するようにしています。
       </P>
-      <H2 leading>ソースコードとライセンス</H2>
+      <H2>ソースコードとライセンス</H2>
       <P>
         ソースコードは
         <a
@@ -35,7 +35,7 @@ export default function AboutPage() {
         </a>
         で頒布しています。ライセンスはMITです。
       </P>
-      <H2 leading>Contributer</H2>
+      <H2>Contributer</H2>
       <ul className="list-disc pl-10">
         <li>
           <a className="hover:underline" href="https://yamad.me">
