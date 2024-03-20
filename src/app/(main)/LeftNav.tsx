@@ -71,6 +71,7 @@ function NavLink({
   available: boolean
 }) {
   const pathname = usePathname()
+
   return available ? (
     <Link className="*:hover:bg-neutral-200" href={href}>
       <span
@@ -84,7 +85,7 @@ function NavLink({
         className={clsx(
           btnBase,
           "my-1 select-none gap-4 p-3 pr-6 text-xl text-gray-400",
-          pathname == href && "font-bold",
+          pathname.startsWith(href) && "font-bold",
         )}>
         {children}
       </span>

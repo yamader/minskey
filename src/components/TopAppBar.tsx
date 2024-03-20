@@ -9,11 +9,11 @@ export default function TopAppBar({ content, back }: { content: React.ReactNode;
   const router = useRouter()
 
   return (
-    <div className="flex min-h-12 items-center border-b px-2">
+    <div className="flex min-h-12 items-center border-b px-3 font-bold">
       {back && (
         <Tooltip content="戻る">
           <Link
-            className="mr-5 rounded-full p-2 hover:bg-neutral-100"
+            className="-ml-1 mr-5 rounded-full p-2 hover:bg-neutral-100"
             href="/home/"
             onClick={router.back}>
             <ArrowLeft className="text-neutral-600" size={18} />
