@@ -1,4 +1,3 @@
-
 import { Emoji } from "./entities"
 import MisskeyLatestClient from "./misskey-latest"
 
