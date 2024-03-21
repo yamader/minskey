@@ -1,5 +1,5 @@
 import { Reply } from "lucide-react"
-import { entities } from "misskey-js"
+import * as entities from "~/features/api/clients/entities"
 
 export default function NavReply({ note }: { note: entities.Note }) {
   return (

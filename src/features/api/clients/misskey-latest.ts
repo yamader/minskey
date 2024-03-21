@@ -1,7 +1,8 @@
 import BaseClient from "./base"
 import { Note, UserDetail } from "./entities"
 
-interface NotesOpts {
+// Notes
+type NotesOpts = {
   local?: boolean
   reply?: boolean
   renote?: boolean
@@ -11,8 +12,18 @@ interface NotesOpts {
   sinceId?: string
   untilId?: string
 }
+type NotesResponse = Note[]
 
-interface NotesResponse extends Array<Note> {}
+// Note
+type NoteResponse = Note
+
+// Replies
+type RepliesResponse = Note[]
+type RepliesOpts = {
+  limit?: number
+  sinceId?: string
+  untilId?: string
+}
 
 export default class MisskeyLatestClient extends BaseClient {
   type: "misskey" = "misskey" as const
@@ -70,6 +81,18 @@ export default class MisskeyLatestClient extends BaseClient {
   async userNotes(userId: string, opts: NotesOpts = {}) {
     return this.post<NotesResponse>("users/notes", {
       body: { userId, ...opts },
+    })
+  }
+
+  async showNote(noteId: string) {
+    return this.post<NoteResponse>("notes/show", {
+      body: { noteId },
+    })
+  }
+
+  async noteReplies(noteId: string, opts: RepliesOpts = {}) {
+    return this.post<RepliesResponse>("notes/replies", {
+      body: { noteId, ...opts },
     })
   }
 }

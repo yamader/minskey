@@ -1,5 +1,5 @@
 import { entities } from "misskey-js"
-import { UserStatus } from "~/features/api/types"
+import { UserStatus } from "~/features/api/legacy"
 import { hostname } from "~/utils"
 
 // utils
