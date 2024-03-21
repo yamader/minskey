@@ -12,13 +12,8 @@ type NotesOpts = {
   sinceId?: string
   untilId?: string
 }
-type NotesResponse = Note[]
-
-// Note
-type NoteResponse = Note
 
 // Replies
-type RepliesResponse = Note[]
 type RepliesOpts = {
   limit?: number
   sinceId?: string
@@ -79,19 +74,19 @@ export default class MisskeyLatestClient extends BaseClient {
    * @returns
    */
   async userNotes(userId: string, opts: NotesOpts = {}) {
-    return this.post<NotesResponse>("users/notes", {
+    return this.post<Note[]>("users/notes", {
       body: { userId, ...opts },
     })
   }
 
   async showNote(noteId: string) {
-    return this.post<NoteResponse>("notes/show", {
+    return this.post<Note[]>("notes/show", {
       body: { noteId },
     })
   }
 
   async noteReplies(noteId: string, opts: RepliesOpts = {}) {
-    return this.post<RepliesResponse>("notes/replies", {
+    return this.post<Note[]>("notes/replies", {
       body: { noteId, ...opts },
     })
   }
