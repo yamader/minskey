@@ -4,7 +4,10 @@ import { ComponentProps } from "react"
 
 export type Visibility = Endpoints["notes/create"]["req"]["visibility"]
 
-export default function VisivilityIcon({ name, ...props }: ComponentProps<LucideIcon> & { name: Visibility }) {
+export default function VisivilityIcon({
+  name,
+  ...props
+}: ComponentProps<LucideIcon> & { name: Visibility }) {
   // prettier-ignore
   switch (name) {
     case "public":    return <Globe {...props} />

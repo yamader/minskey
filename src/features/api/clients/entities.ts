@@ -1,3 +1,5 @@
+import { DriveFile } from "misskey-js/built/entities" // TODO: やめる
+
 export interface UserLite {
   id: string
   name: string
@@ -29,19 +31,19 @@ export interface Note {
   cw: string | null
   userId: string
   user: UserLite
+  reply?: Note
   replyId: string | null
+  renote?: Note | null
   renoteId: string | null
-  reply: Note | null
-  renote: Note | null
   isHidden: boolean
   visibility: "public" | "home" | "followers" | "specified"
   mentions: string[]
   visibleUserIds: string[]
   fileIds: string[]
-  files: unknown[] // TODO
+  files: DriveFile[] // TODO
   tags: string[]
   poll: unknown | null // TODO
-  emojis: unknown[] // TODO
+  emojis: Emoji[]
   channelId: string | null
   channel: unknown | null // TODO
   localOnly: boolean
@@ -50,9 +52,14 @@ export interface Note {
   reactions: unknown // TODO
   renoteCount: number
   repliesCount: number
-  uri: string
-  url: string
+  uri?: string
+  url?: string
   reactionAndUserPairCache: string[]
   clippedCount: number
   myReaction: string | null
+}
+
+export type Emoji = {
+  name: string
+  url: string
 }

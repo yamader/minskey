@@ -1,9 +1,10 @@
 import { atom, useAtom } from "jotai"
 import { atomWithStorage } from "jotai/utils"
 import { Endpoints } from "misskey-js"
-import { Note } from "misskey-js/built/entities"
+import { Note as LegacyNote } from "misskey-js/built/entities"
 import { useEffect, useState } from "react"
-import { useMisskeyJS } from "../api"
+import { useAPI, useMisskeyJS } from "~/features/api"
+import * as entities from "~/features/api/clients/entities"
 
 // atoms
 
@@ -23,8 +24,8 @@ export function useNoteVisibility() {
 }
 
 export function useNote(noteId: string) {
-  const api = useMisskeyJS()
-  const [note, setNote] = useState<Note | null | "error">(null)
+  const api = useAPI()
+  const [note, setNote] = useState<entities.Note | null | "error">(null)
 
   // Set note
   useEffect(() => {
@@ -32,11 +33,9 @@ export function useNote(noteId: string) {
     if (note !== null) return
 
     api
-      .request("notes/show", {
-        noteId: noteId,
-      })
+      .showNote(noteId)
       .then(res => {
-        setNote(res)
+        setNote(res ?? null)
       })
       .catch(() => {
         setNote("error")
@@ -45,18 +44,15 @@ export function useNote(noteId: string) {
   return note
 }
 export function useNoteReplies(noteId: string) {
-  const api = useMisskeyJS()
-  const [replies, setReplies] = useState<Note[] | null>(null)
+  const api = useAPI()
+  const [replies, setReplies] = useState<entities.Note[] | null>(null)
 
   useEffect(() => {
     if (!api || !noteId) return
     if (replies !== null) return
 
     api
-      .request("notes/replies", {
-        noteId: noteId,
-        limit: 10,
-      })
+      .noteReplies(noteId, { limit: 10 })
       .then(res => {
         setReplies(res)
       })
@@ -70,7 +66,7 @@ export function useNoteReplies(noteId: string) {
 
 export function useRenotes(noteId: string) {
   const api = useMisskeyJS()
-  const [renotes, setRenotes] = useState<Note[] | null>(null)
+  const [renotes, setRenotes] = useState<LegacyNote[] | null>(null)
 
   useEffect(() => {
     if (!api || !noteId) return

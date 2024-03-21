@@ -2,7 +2,7 @@
 
 import clsx, { ClassValue } from "clsx"
 import { ReactNode } from "react"
-import { TLChanNames } from "~/features/api/types"
+import { TLChanNames } from "~/features/api/legacy"
 import { useTLName } from "."
 
 const TLButton = ({ tl, children }: { tl: TLChanNames; children: ReactNode }) => {

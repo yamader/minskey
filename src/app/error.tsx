@@ -22,7 +22,10 @@ export default function RootError({ error, reset }: { error: Error; reset: () =>
         </h1>
 
         <h2 className={h2class}>Message</h2>
-        <p>A serious error has occurred in this application. However, it may be fixed by simply reloading...</p>
+        <p>
+          A serious error has occurred in this application. However, it may be fixed by simply
+          reloading...
+        </p>
         <p>Nanka eigo de kaite mitakedo yousuruni oteage no joutai.</p>
 
         <h2 className={h2class}>Reason</h2>
@@ -38,7 +41,9 @@ export default function RootError({ error, reset }: { error: Error; reset: () =>
             onClick={reset}>
             reload
           </button>
-          <button className="rounded bg-red-500 px-3 py-1 font-bold uppercase hover:bg-red-600" onClick={armageddon}>
+          <button
+            className="rounded bg-red-500 px-3 py-1 font-bold uppercase hover:bg-red-600"
+            onClick={armageddon}>
             reset all data
           </button>
         </div>
