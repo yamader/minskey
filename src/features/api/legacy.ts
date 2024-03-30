@@ -1,3 +1,5 @@
+// Type utilities for legacy API
+
 import { Channels, Endpoints, entities } from "misskey-js"
 
 type noteHandler = (payload: entities.Note) => void
@@ -11,11 +13,6 @@ export const TLChanNameToAPIEndpoint: Record<TLChanNames, keyof Endpoints> = {
   homeTimeline: "notes/timeline",
   localTimeline: "notes/local-timeline",
   hybridTimeline: "notes/hybrid-timeline",
-}
-
-export type Emoji = {
-  name: string
-  url: string
 }
 
 export type UserStatus = entities.UserLite["onlineStatus"]

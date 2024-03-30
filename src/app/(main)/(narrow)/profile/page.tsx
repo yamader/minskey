@@ -84,7 +84,7 @@ function ProfileContent({ user = null, notes = [] }: { user?: User | null; notes
       )}
       <div className="flex flex-col gap-px bg-gray-200 py-px">
         {notes.map(note => (
-          <NotePreview note={note as any} key={note.id} />
+          <NotePreview note={note} key={note.id} />
         ))}
       </div>
       <BottomSpinner />

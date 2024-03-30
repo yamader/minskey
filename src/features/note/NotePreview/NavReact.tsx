@@ -2,10 +2,10 @@
 
 import { Popover } from "@radix-ui/themes"
 import { Plus } from "lucide-react"
-import { entities } from "misskey-js"
 import { useRouter } from "next/navigation"
 import { Suspense, useState } from "react"
 import { useAPI } from "~/features/api"
+import * as entities from "~/features/api/clients/entities"
 import { useCurrentPath } from "~/features/common"
 import { EmojiPicker } from "~/features/common/EmojiPicker"
 

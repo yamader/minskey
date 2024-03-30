@@ -1,7 +1,7 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
 import { Item } from "@radix-ui/react-dropdown-menu"
 import { MoreHorizontal } from "lucide-react"
-import { entities } from "misskey-js"
+import * as entities from "~/features/api/clients/entities"
 import { useAccount } from "~/features/auth"
 
 const menuItem =
