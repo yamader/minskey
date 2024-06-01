@@ -1,51 +1,30 @@
+export * from "./types"
+
 import { atom, useAtom } from "jotai"
-import { atomWithStorage } from "jotai/utils"
-import { Endpoints } from "misskey-js"
 import { Note as LegacyNote } from "misskey-js/built/entities"
-import { useEffect, useState } from "react"
+import { use, useEffect, useState } from "react"
 import { useAPI, useMisskeyJS } from "~/features/api"
-import * as entities from "~/features/api/clients/entities"
+import { Note } from "./types"
 
-// atoms
+// todo: timeline cache
+const localNoteCacheAtom = atom<{ [id: string]: Note | null }>({})
 
-const noteDialogAtom = atom(false)
-
-type Visibility = Endpoints["notes/create"]["req"]["visibility"]
-const noteVisibilityAtom = atomWithStorage<Visibility>("minsk::note::visibility", "public")
-
-// hooks
-
-export function useNoteDialog() {
-  return useAtom(noteDialogAtom)
-}
-
-export function useNoteVisibility() {
-  return useAtom(noteVisibilityAtom)
-}
-
-export function useNote(noteId: string) {
+export function useLocalNote(noteId: string) {
   const api = useAPI()
-  const [note, setNote] = useState<entities.Note | null | "error">(null)
+  const [localNoteCache, setNoteCache] = useAtom(localNoteCacheAtom)
 
-  // Set note
-  useEffect(() => {
-    if (!api || !noteId) return
-    if (note !== null) return
+  if (noteId in localNoteCache) return localNoteCache[noteId]
+  if (!api) return null
 
-    api
-      .showNote(noteId)
-      .then(res => {
-        setNote(res ?? null)
-      })
-      .catch(() => {
-        setNote("error")
-      })
-  }, [note, noteId, api])
+  const note = use(api.showNote(noteId))
+  setNoteCache({ ...localNoteCache, [noteId]: note })
+
   return note
 }
+
 export function useNoteReplies(noteId: string) {
   const api = useAPI()
-  const [replies, setReplies] = useState<entities.Note[] | null>(null)
+  const [replies, setReplies] = useState<Note[] | null>(null)
 
   useEffect(() => {
     if (!api || !noteId) return

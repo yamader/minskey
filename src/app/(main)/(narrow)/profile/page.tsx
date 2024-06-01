@@ -8,9 +8,9 @@ import BottomSpinner from "~/components/BottomSpinner"
 import IdStr from "~/components/IdStr"
 import TopAppBar from "~/components/TopAppBar"
 import { useAPI } from "~/features/api"
-import { Note, User } from "~/features/api/clients/entities"
+import { Note } from "~/features/note"
 import NotePreview from "~/features/note/NotePreview"
-import { statusEmoji } from "~/features/user"
+import { User, statusEmoji } from "~/features/user"
 import { hostname } from "~/utils"
 
 export default function ProfilePage() {

@@ -3,13 +3,13 @@
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 
-import { useNoteDialog, useNoteVisibility } from "~/features/note"
+import { useComposeNoteDialog, useComposeNoteLastVisibility } from "~/features/compose"
 
 export default function NotePage() {
   const router = useRouter()
-  const [, setNoteDialog] = useNoteDialog()
+  const [, setNoteDialog] = useComposeNoteDialog()
 
-  useNoteVisibility() // おまじない
+  useComposeNoteLastVisibility() // おまじない
 
   useEffect(() => {
     setNoteDialog(true)

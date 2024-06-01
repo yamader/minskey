@@ -1,7 +1,7 @@
 import { Reply } from "lucide-react"
-import * as entities from "~/features/api/clients/entities"
+import { Note } from ".."
 
-export default function NavReply({ note }: { note: entities.Note }) {
+export default function NavReply({ note }: { note: Note }) {
   return (
     <button
       onClick={() => {

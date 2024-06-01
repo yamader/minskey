@@ -1,7 +1,7 @@
 "use client"
 
 import { useMfmProvider } from "~/features/common/mfm"
-import NoteDialog from "~/features/note/NoteDialog"
+import NoteDialog from "~/features/compose/NoteDialog"
 import { useNotificationsStream } from "~/features/notification"
 import { useTLStream } from "~/features/timeline"
 import BottomNav from "./BottomNav"

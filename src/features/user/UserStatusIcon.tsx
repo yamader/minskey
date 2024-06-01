@@ -1,5 +1,4 @@
-import { User } from "~/features/api/clients/entities"
-import { statusEmoji } from "."
+import { User, statusEmoji } from "."
 import UserIcon from "./UserIcon"
 
 export default function UesrStatusIcon({ user }: { user: User | null }) {

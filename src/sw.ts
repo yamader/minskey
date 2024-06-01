@@ -1,18 +1,24 @@
-import { defaultCache } from "@serwist/next/browser"
-import { PrecacheEntry } from "@serwist/precaching"
-import { installSerwist } from "@serwist/sw"
+import { defaultCache } from "@serwist/next/worker"
+import { PrecacheEntry, Serwist, SerwistGlobalConfig } from "serwist"
 
-declare const self: ServiceWorkerGlobalScope & {
-  // Change this attribute's name to your `injectionPoint`.
-  // `injectionPoint` is an InjectManifest option.
-  // See https://serwist.pages.dev/docs/build/inject-manifest/configuring
-  __SW_MANIFEST: (PrecacheEntry | string)[] | undefined
+// This declares the value of `injectionPoint` to TypeScript.
+// `injectionPoint` is the string that will be replaced by the
+// actual precache manifest. By default, this string is set to
+// `"self.__SW_MANIFEST"`.
+declare global {
+  interface WorkerGlobalScope extends SerwistGlobalConfig {
+    __SW_MANIFEST: (PrecacheEntry | string)[] | undefined
+  }
 }
 
-installSerwist({
+declare const self: ServiceWorkerGlobalScope
+
+const serwist = new Serwist({
   precacheEntries: self.__SW_MANIFEST,
   skipWaiting: true,
   clientsClaim: true,
   navigationPreload: true,
   runtimeCaching: defaultCache,
 })
+
+serwist.addEventListeners()

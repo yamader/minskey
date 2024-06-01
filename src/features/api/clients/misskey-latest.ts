@@ -1,5 +1,6 @@
+import { Note } from "~/features/note"
+import { User } from "~/features/user"
 import BaseClient from "./base"
-import { Note, UserDetail } from "./entities"
 
 // Notes
 type NotesOpts = {
@@ -39,7 +40,7 @@ export default class MisskeyLatestClient extends BaseClient {
    * @memberof MisskeyLatestClient
    */
   async me() {
-    return this.post<UserDetail>("i", {})
+    return this.post<User>("i", {})
   }
 
   /**
@@ -80,7 +81,7 @@ export default class MisskeyLatestClient extends BaseClient {
   }
 
   async showNote(noteId: string) {
-    return this.post<Note[]>("notes/show", {
+    return this.post<Note>("notes/show", {
       body: { noteId },
     })
   }

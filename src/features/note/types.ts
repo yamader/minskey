@@ -1,36 +1,15 @@
-import { DriveFile } from "misskey-js/built/entities" // TODO: やめる
+import { Emoji } from "~/features/common"
+import { DriveFile } from "~/features/drive"
+import { User } from "~/features/user"
 
-export interface UserLite {
-  id: string
-  name: string
-  username: string
-  host: string | null
-  avatarUrl: string
-  avatarBlurhash: string
-  onlineStatus: "online" | "active" | "offline" | "unknown"
-  emojis: {
-    name: string
-    url: string
-  }[]
-}
-
-export interface UserDetail extends UserLite {
-  isAdmin: boolean
-  isModerator: boolean
-  isBot: boolean
-  isCat: boolean
-}
-
-export type User = UserLite | UserDetail
-
-export interface Note {
+export type Note = {
   id: string
   createdAt: string
   deletedAt: string | null
   text: string | null
   cw: string | null
   userId: string
-  user: UserLite
+  user: User
   reply?: Note
   replyId: string | null
   renote?: Note | null
@@ -57,9 +36,4 @@ export interface Note {
   reactionAndUserPairCache: string[]
   clippedCount: number
   myReaction: string | null
-}
-
-export type Emoji = {
-  name: string
-  url: string
 }

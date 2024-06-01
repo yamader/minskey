@@ -6,13 +6,13 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import BrandLogo from "~/components/BrandLogo"
 import { useLogin } from "~/features/auth"
-import { useNoteDialog } from "~/features/note"
+import { useComposeNoteDialog } from "~/features/compose"
 import AccountMenu from "./AccountMenu"
 
 const btnBase = "flex w-fit items-center rounded-full leading-none transition"
 
 export default function LeftNav() {
-  const [, setNoteDialog] = useNoteDialog()
+  const [, setNoteDialog] = useComposeNoteDialog()
   const account = useLogin()
 
   const w = "w-36 xl:w-72"

@@ -1,15 +1,15 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
 import { Item } from "@radix-ui/react-dropdown-menu"
 import { MoreHorizontal } from "lucide-react"
-import * as entities from "~/features/api/clients/entities"
 import { useAccount } from "~/features/auth"
+import { Note } from ".."
 
 const menuItem =
   "focus:outline-none focus:bg-lime-200 mx-1 text-sm cursor-pointer px-2.5 py-1.5 font-bold rounded-md"
 
 const Separator = () => <DropdownMenu.Separator className="h-px bg-neutral-200" />
 
-function NavMoreRoot({ children }: { note: entities.Note; children?: React.ReactNode }) {
+function NavMoreRoot({ children }: { note: Note; children?: React.ReactNode }) {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
@@ -26,7 +26,7 @@ function NavMoreRoot({ children }: { note: entities.Note; children?: React.React
   )
 }
 
-export default function NavMore({ note }: { note: entities.Note }) {
+export default function NavMore({ note }: { note: Note }) {
   const account = useAccount()
 
   return (

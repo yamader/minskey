@@ -5,11 +5,11 @@ import { Plus } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { Suspense, useState } from "react"
 import { useAPI } from "~/features/api"
-import * as entities from "~/features/api/clients/entities"
 import { useCurrentPath } from "~/features/common"
 import { EmojiPicker } from "~/features/common/EmojiPicker"
+import { Note } from ".."
 
-export default function NavReact(props: { note: entities.Note }) {
+export default function NavReact(props: { note: Note }) {
   return (
     <Suspense>
       <NavReactSuspense {...props} />
@@ -17,7 +17,7 @@ export default function NavReact(props: { note: entities.Note }) {
   )
 }
 
-function NavReactSuspense({ note }: { note: entities.Note }) {
+function NavReactSuspense({ note }: { note: Note }) {
   const [open, setOpen] = useState(false)
   const api = useAPI()
   const router = useRouter()

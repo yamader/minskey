@@ -1,8 +1,14 @@
-import { entities } from "misskey-js"
-import { UserStatus } from "~/features/api/legacy"
-import { hostname } from "~/utils"
+export * from "./types"
 
-// utils
+import { atom, useAtom } from "jotai"
+import { hostname } from "~/utils"
+import { User, UserStatus } from "./types"
+
+const userCacheAtom = atom<{ [id: string]: User }>({})
+
+export function useUsers() {
+  return useAtom(userCacheAtom)
+}
 
 export function statusEmoji(status: UserStatus = "unknown") {
   switch (status) {
@@ -17,7 +23,7 @@ export function statusEmoji(status: UserStatus = "unknown") {
   }
 }
 
-export function profileLink(user: entities.UserLite) {
+export function profileLink(user: User) {
   const host = user.host && hostname(user.host)
   return `/profile?user=@${user.username}@${host}`
 }

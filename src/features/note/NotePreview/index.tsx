@@ -4,12 +4,12 @@ import Link from "next/link"
 import { memo } from "react"
 import Mfm, { MfmSimple } from "react-mfm"
 import TimeText from "~/components/TimeText"
-import * as entities from "~/features/api/clients/entities"
 import { useLogin } from "~/features/auth"
 import { CustomEmojiCtx, CustomEmojiStr } from "~/features/common/CustomEmoji"
 import FilePreview from "~/features/drive/FilePreview"
 import { profileLink } from "~/features/user"
 import { hostname } from "~/utils"
+import { Note } from ".."
 import NavMore from "./NavMore"
 import NavRN from "./NavRN"
 import NavReact from "./NavReact"
@@ -17,7 +17,7 @@ import NavReply from "./NavReply"
 
 export default memo(NotePreview)
 
-function NotePreview({ note, _nonav }: { note: entities.Note; _nonav?: boolean }) {
+function NotePreview({ note, _nonav }: { note: Note; _nonav?: boolean }) {
   const account = useLogin()
 
   let renotebar = null
@@ -110,7 +110,7 @@ function NotePreview({ note, _nonav }: { note: entities.Note; _nonav?: boolean }
   )
 }
 
-function RenoteBar({ note, host }: { note: entities.Note; host: string | null }) {
+function RenoteBar({ note, host }: { note: Note; host: string | null }) {
   return (
     <CustomEmojiCtx.Provider value={{ host }}>
       <div className="mb-1 flex justify-between text-neutral-600">
@@ -129,7 +129,7 @@ function RenoteBar({ note, host }: { note: entities.Note; host: string | null })
   )
 }
 
-function QuotedNote({ note }: { note: entities.Note }) {
+function QuotedNote({ note }: { note: Note }) {
   return (
     <div className="overflow-hidden rounded border border-2 border-dashed">
       <NotePreview note={note} _nonav />

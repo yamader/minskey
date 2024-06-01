@@ -1,8 +1,8 @@
 "use client"
 
 import BottomSpinner from "~/components/BottomSpinner"
-import * as entities from "~/features/api/clients/entities"
 import { useBottom } from "~/features/common"
+import { Note } from "~/features/note"
 import NotePreview from "~/features/note/NotePreview"
 import { useTL } from "~/features/timeline"
 import TLSwitch from "~/features/timeline/TLSwitch"
@@ -18,7 +18,7 @@ export default function HomePage() {
         {notes.map((note, i) => (
           <div className="border-t" key={i}>
             {/* Todo: 型アサーションをやめる */}
-            <NotePreview note={note as entities.Note} />
+            <NotePreview note={note as Note} />
           </div>
         ))}
       </div>

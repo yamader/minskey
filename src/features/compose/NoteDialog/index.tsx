@@ -9,7 +9,7 @@ import TextareaAutosize from "react-textarea-autosize"
 
 import { useMisskeyJS } from "~/features/api"
 import { useKeysymWithOpts } from "~/features/common"
-import { useNoteDialog, useNoteVisibility } from "."
+import { useComposeNoteDialog, useComposeNoteLastVisibility } from ".."
 import VisibilityIcon, { Visibility } from "./VisibilityIcon"
 
 type FormData = {
@@ -18,10 +18,10 @@ type FormData = {
 }
 
 export default function NoteDialog() {
-  const [open, setOpen] = useNoteDialog()
+  const [open, setOpen] = useComposeNoteDialog()
 
   // NoteForm state
-  const [visibility] = useNoteVisibility()
+  const [visibility] = useComposeNoteLastVisibility()
   const form = useForm<FormData>({
     values: { text: "", visibility },
   })
@@ -63,7 +63,7 @@ function NoteForm({
   close,
 }: UseFormReturn<FormData> & { close: () => void }) {
   const api = useMisskeyJS()
-  const [, setVisibility] = useNoteVisibility()
+  const [, setVisibility] = useComposeNoteLastVisibility()
 
   const onSubmit = async (data: FormData) => {
     if (!api) return

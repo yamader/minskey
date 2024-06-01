@@ -1,10 +1,9 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
 import { Quote, Repeat2 } from "lucide-react"
-
 import { useMisskeyJS } from "~/features/api"
-import * as entities from "~/features/api/clients/entities"
+import { Note } from ".."
 
-export default function NavRN({ note }: { note: entities.Note }) {
+export default function NavRN({ note }: { note: Note }) {
   const api = useMisskeyJS()
 
   const menuItem =

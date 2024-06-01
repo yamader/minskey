@@ -3,9 +3,9 @@
 import { Suspense, use } from "react"
 import IdStr from "~/components/IdStr"
 import { useForeignAPI } from "~/features/api"
-import { User } from "~/features/api/clients/entities"
 import { Account } from "~/features/auth"
 import { CustomEmojiStr } from "~/features/common/CustomEmoji"
+import { User } from "~/features/user"
 import UesrStatusIcon from "~/features/user/UserStatusIcon"
 import { hostname } from "~/utils"
 
@@ -56,7 +56,7 @@ function AccountBarContent({ user, account }: { user: User | null; account: Acco
       ) : (
         <div className="flex animate-pulse flex-col gap-1 truncate">
           <div className="h-4 w-16 rounded-full bg-slate-300" />
-          <div className="h-3 w-32 rounded-full bg-slate-300 " />
+          <div className="h-3 w-32 rounded-full bg-slate-300" />
         </div>
       )}
     </>
