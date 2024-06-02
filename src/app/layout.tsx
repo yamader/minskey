@@ -1,6 +1,7 @@
 import { Theme } from "@radix-ui/themes"
 import "@radix-ui/themes/styles.css"
 import { Metadata } from "next"
+import dynamic from "next/dynamic"
 
 import "@fontsource-variable/fira-code"
 import "@fontsource-variable/inter"
@@ -25,11 +26,14 @@ export const metadata: Metadata = {
   },
 }
 
+const DebugWindow = dynamic(() => import("~/features/debug/DebugWindow"))
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ja">
       <body>
         <Theme asChild>{children}</Theme>
+        <DebugWindow />
       </body>
     </html>
   )

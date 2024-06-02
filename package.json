@@ -14,6 +14,7 @@
     "@serwist/next": "9.0.2",
     "ahooks": "3.8.0",
     "clsx": "2.1.1",
+    "immer": "10.1.1",
     "jotai": "2.8.2",
     "lucide-react": "0.381.0",
     "mfm-js": "0.24.0",
@@ -24,6 +25,7 @@
     "react-mfm": "0.5.1",
     "react-textarea-autosize": "8.5.3",
     "serwist": "9.0.2",
+    "use-immer": "0.9.0",
     "uuid": "9.0.1"
   },
   "devDependencies": {

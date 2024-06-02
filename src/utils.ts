@@ -35,3 +35,7 @@ export function isValidURL(url: string) {
     return false
   }
 }
+
+export function pick<T>(obj: T, ...keys: (keyof T)[]) {
+  return Object.fromEntries(keys.map(key => [key, obj[key]]))
+}
