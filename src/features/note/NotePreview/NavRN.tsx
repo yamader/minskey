@@ -1,10 +1,10 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
 import { Quote, Repeat2 } from "lucide-react"
-import { useMisskeyJS } from "~/features/api"
+import { useAPI } from "~/features/api"
 import { Note } from ".."
 
 export default function NavRN({ note }: { note: Note }) {
-  const api = useMisskeyJS()
+  const api = useAPI()
 
   const menuItem =
     "focus:outline-none focus:bg-lime-200 flex mx-1 gap-1.5 text-sm cursor-pointer items-center pl-2.5 pr-3.5 py-1.5 font-bold rounded-md"
@@ -22,7 +22,7 @@ export default function NavRN({ note }: { note: Note }) {
               className={menuItem}
               onClick={async () => {
                 if (!api) return
-                await api.request("notes/create", { renoteId: note.id })
+                await api.createNote({ renoteId: note.id })
               }}>
               <Repeat2 size={16} />
               RN

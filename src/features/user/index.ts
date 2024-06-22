@@ -2,7 +2,7 @@ export * from "./types"
 
 import { atom, useAtom } from "jotai"
 import { hostname } from "~/utils"
-import { User, UserStatus } from "./types"
+import { User, UserStatus } from "."
 
 const userCacheAtom = atom<{ [id: string]: User }>({})
 

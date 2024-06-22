@@ -1,10 +1,9 @@
 export * from "./types"
 
 import { atom, useAtom } from "jotai"
-import { Note as LegacyNote } from "misskey-js/built/entities"
-import { use, useEffect, useState } from "react"
-import { useAPI, useMisskeyJS } from "~/features/api"
-import { Note } from "./types"
+import { use } from "react"
+import { useAPI } from "~/features/api"
+import { Note } from "."
 
 // todo: timeline cache
 const localNoteCacheAtom = atom<{ [id: string]: Note | null }>({})
@@ -24,45 +23,12 @@ export function useLocalNote(noteId: string) {
 
 export function useNoteReplies(noteId: string) {
   const api = useAPI()
-  const [replies, setReplies] = useState<Note[] | null>(null)
-
-  useEffect(() => {
-    if (!api || !noteId) return
-    if (replies !== null) return
-
-    api
-      .noteReplies(noteId, { limit: 10 })
-      .then(res => {
-        setReplies(res)
-      })
-      .catch(() => {
-        setReplies(null)
-      })
-  }, [replies, noteId, api])
-
-  return replies
+  if (!api) return []
+  return use(api.noteReplies(noteId, { limit: 10 })) ?? []
 }
 
 export function useRenotes(noteId: string) {
-  const api = useMisskeyJS()
-  const [renotes, setRenotes] = useState<LegacyNote[] | null>(null)
-
-  useEffect(() => {
-    if (!api || !noteId) return
-    if (renotes !== null) return
-
-    api
-      .request("notes/renotes", {
-        noteId: noteId,
-        limit: 10,
-      })
-      .then(res => {
-        setRenotes(res)
-      })
-      .catch(() => {
-        setRenotes(null)
-      })
-  }, [renotes, noteId, api])
-
-  return renotes
+  const api = useAPI()
+  if (!api) return []
+  return use(api.noteRenotes(noteId, { limit: 10 })) ?? []
 }

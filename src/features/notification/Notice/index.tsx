@@ -1,8 +1,8 @@
-import { Notification, User } from "misskey-js/built/entities"
 import Link from "next/link"
 import { ReactNode } from "react"
 import TimeText from "~/components/TimeText"
-import { profileLink } from "~/features/user"
+import { Notification } from "~/features/notification"
+import { User, profileLink } from "~/features/user"
 import UserIcon from "~/features/user/UserIcon"
 import NoticeNotePreview from "./NoticeNotePreview"
 

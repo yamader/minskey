@@ -1,77 +1,62 @@
+export * from "./types"
+
 import { atom, useAtomValue, useSetAtom } from "jotai"
-import { entities } from "misskey-js"
-import { useCallback, useEffect, useState } from "react"
-import { useMisskeyJS, useStream } from "../api"
-import { useLogin } from "../auth"
+import { useEffect, useState } from "react"
+import { useAPI, useChannel } from "~/features/api"
+import { Notification } from "."
 
-////////////////////////////////////////////////////////////////
+//------------------------------------------------------------//
 //  atoms
-////////////////////////////////////////////////////////////////
+//------------------------------------------------------------//
 
-type Notifications = {
-  notifications: entities.Notification[]
-  more: () => Promise<void>
-}
+const notificationsAtom = atom<Notification[]>([])
+const notificationsMoreAtom = atom<[() => void]>([() => {}])
 
-export const notificationsAtom = atom<Notifications>({
-  notifications: [],
-  more: () => Promise.resolve(),
-})
-
-////////////////////////////////////////////////////////////////
+//------------------------------------------------------------//
 //  hooks
-////////////////////////////////////////////////////////////////
+//------------------------------------------------------------//
 
-export const useNotificationsStream = () => {
-  useSetAtom(notificationsAtom)(useNotificationsRaw())
+export function useNotifications() {
+  const notifications = useAtomValue(notificationsAtom)
+  const [more] = useAtomValue(notificationsMoreAtom)
+  return { notifications, more }
 }
 
-export const useNotifications = () => useAtomValue(notificationsAtom)
+export function useNotificationsStream() {
+  const chan = useChannel("main")
+  const api = useAPI()
+  const setNotifications = useSetAtom(notificationsAtom)
+  const setMore = useSetAtom(notificationsMoreAtom)
+  const [untilId, setUntilId] = useState<string>()
 
-export const useNotificationsRaw = () => {
-  const stream = useStream("main")
-  const api = useMisskeyJS()
-  const [notifications, setNotifications] = useState<entities.Notification[]>([])
-
-  const account = useLogin(true)
-  const host = account?.host ?? null
-
-  // first time
+  // reload
   useEffect(() => {
-    if (!api) return
-    ;(async () => {
-      const res = await api.request("i/notifications", {
-        limit: 10,
-      })
-      setNotifications(res)
-    })()
-  }, [api, host])
+    api?.notifications({ limit: 30 }).then(res => {
+      if (res?.length) {
+        setNotifications(res)
+        setUntilId(res[res.length - 1].id)
+      }
+    })
+  }, [api])
 
-  // streaming
+  // stream
   useEffect(() => {
-    if (!api) return
-
-    const conn = stream?.on("notification", notice => {
+    chan?.on("notification", notice => {
       setNotifications(prev => [notice, ...prev])
     })
-
-    return () => {
-      conn?.off("notification")
-    }
-  }, [api, stream, host])
+  }, [chan])
 
   // scroll
-  const more = useCallback(async () => {
-    if (!api || notifications.length < 1) return
-    //console.log(notifications[notifications.length - 1])
-    const res = await api.request("i/notifications", {
-      limit: 10,
-      //sinceId: notifications[notifications.length - 1].id,
-      untilId: notifications[notifications.length - 1].id,
-    })
-    //res.forEach(notice => (notice.user.host ??= host))
-    setNotifications(prev => prev.concat(res))
-  }, [api, notifications])
-
-  return { notifications, more }
+  useEffect(() => {
+    if (api)
+      setMore([
+        async () => {
+          const res = await api.notifications({ limit: 30, untilId })
+          if (res?.length) {
+            setNotifications(a => a.concat(res))
+            setUntilId(res[res.length - 1].id)
+          }
+        },
+      ])
+  }, [api, untilId])
 }

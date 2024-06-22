@@ -1,8 +1,8 @@
-import { entities } from "misskey-js"
 import { Suspense } from "react"
+import { User } from "~/features/user"
 
 type Props = {
-  user: entities.UserLite
+  user: User
 }
 
 export default function ProfileCard(props: Props) {

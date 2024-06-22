@@ -1,8 +1,7 @@
 import { Globe, Home, Lock, LucideIcon, Mail } from "lucide-react"
-import { Endpoints } from "misskey-js"
 import { ComponentProps } from "react"
 
-export type Visibility = Endpoints["notes/create"]["req"]["visibility"]
+export type Visibility = "public" | "home" | "followers" | "specified" | undefined
 
 export default function VisivilityIcon({
   name,

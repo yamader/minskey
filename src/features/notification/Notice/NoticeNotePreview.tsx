@@ -1,9 +1,9 @@
-import { entities } from "misskey-js"
 import Image from "next/image"
 import Link from "next/link"
+import { Note } from "~/features/note"
 import { profileLink } from "~/features/user"
 
-export default function NoticeNotePreview({ note }: { note: entities.Note }) {
+export default function NoticeNotePreview({ note }: { note: Note }) {
   return (
     <div className="p-3">
       <div className="flex gap-1.5">

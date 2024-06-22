@@ -1,8 +1,9 @@
+export * from "./types"
+
+import { APIClient } from "."
 import MisskeyLatestClient from "./misskey-latest"
 import MisskeyV12Client from "./misskey-v12"
 import MisskeyV13Client from "./misskey-v13"
-
-export type APIClient = MisskeyLatestClient
 
 // host: `scheme:auth` ← ここ重要
 export async function detect(host: string, token?: string): Promise<APIClient | null> {

@@ -1,48 +1,25 @@
-import { atom, useAtom, useAtomValue } from "jotai"
-import { Channels, Stream, api } from "misskey-js"
-import { use } from "react"
-import { Account, accountAtom, useAccount } from "~/features/auth"
+import { atom, useAtom } from "jotai"
+import { Emitter } from "mitt"
+import { use, useEffect, useRef } from "react"
+import { Account, useAccount } from "~/features/auth"
 import { ensureproto } from "~/utils"
-import { APIClient, detect } from "./clients"
+import { APIClient, MisskeyChannels, MisskeyStream, detect } from "./clients"
 
 // なんかいい名前無いかな
 function account2ClientIdx(account: Account) {
   return account.uid + "@" + account.host
 }
 
-// atoms
-
-/** single user mode */
-export const apiAtom = atom(get => {
-  const account = get(accountAtom)
-  if (!account) return null
-  const clients = get(clientsAtom)
-  const key = account2ClientIdx(account)
-  if (!(key in clients)) return null
-  return clients[key]
-})
+//------------------------------------------------------------//
+//  atoms
+//------------------------------------------------------------//
 
 const clientsAtom = atom<{ [id: string]: APIClient | null }>({})
 const clientsFetchAtom = atom<{ [id: string]: Promise<APIClient | null> }>({})
 
-/** @deprecated */
-const misskeyJSAtom = atom(get => {
-  const account = get(accountAtom)
-  if (!account) return null
-  return new api.APIClient({
-    origin: account.host,
-    credential: account.token,
-  })
-})
-
-/** @deprecated */
-const streamConnectAtom = atom(get => {
-  const account = get(accountAtom)
-  if (!account) return null
-  return new Stream(account.host, { token: account.token })
-})
-
-// hooks
+//------------------------------------------------------------//
+//  hooks
+//------------------------------------------------------------//
 
 export function useAPI() {
   const account = useAccount()
@@ -87,13 +64,40 @@ export function useForeignAPI(host: string) {
   return use(task)
 }
 
-/** @deprecated */
-export function useMisskeyJS() {
-  return useAtomValue(misskeyJSAtom)
+export function useChannel(chanName: keyof MisskeyChannels, params = {}) {
+  // todo:整理
+  type Chan = {
+    id: string
+    chan: Emitter<any>
+    off: () => void
+    send: (type: string, body: Object) => void
+  }
+
+  // todo: ウンコード直す
+  const api = useAPI()
+  const chanCache = useRef<Chan>()
+  useEffect(() => {
+    if (api) {
+      chanCache.current = api.channel(chanName, params)
+      return chanCache.current.off
+    }
+  }, [api, chanName])
+  return chanCache.current?.chan ?? null
 }
 
-/** @deprecated */
-export function useStream<T extends keyof Channels>(channel: T) {
-  const stream = useAtomValue(streamConnectAtom)
-  return stream?.useChannel(channel) ?? null
+export function useStream(
+  type: keyof MisskeyStream,
+  handler: (body: MisskeyStream[typeof type]) => void, // 再render要検証
+) {
+  // todo: 整理
+  type Stream = { off: () => void }
+
+  const api = useAPI()
+  const streamCache = useRef<Stream>()
+  useEffect(() => {
+    if (api) {
+      streamCache.current = api.stream(type, handler)
+      return streamCache.current.off
+    }
+  }, [api, type, handler])
 }

@@ -6,8 +6,7 @@ import { BarChartHorizontal, ChevronDown, EyeOff, Paperclip, User2, X } from "lu
 import { ComponentProps, forwardRef, useEffect, useRef } from "react"
 import { UseFormReturn, useForm } from "react-hook-form"
 import TextareaAutosize from "react-textarea-autosize"
-
-import { useMisskeyJS } from "~/features/api"
+import { useAPI } from "~/features/api"
 import { useKeysymWithOpts } from "~/features/common"
 import { useComposeNoteDialog, useComposeNoteLastVisibility } from ".."
 import VisibilityIcon, { Visibility } from "./VisibilityIcon"
@@ -62,13 +61,13 @@ function NoteForm({
   setValue,
   close,
 }: UseFormReturn<FormData> & { close: () => void }) {
-  const api = useMisskeyJS()
+  const api = useAPI()
   const [, setVisibility] = useComposeNoteLastVisibility()
 
   const onSubmit = async (data: FormData) => {
     if (!api) return
     setVisibility(data.visibility)
-    await api.request("notes/create", data)
+    await api.createNote(data)
     close()
     setValue("text", "")
   }

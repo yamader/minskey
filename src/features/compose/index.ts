@@ -1,8 +1,7 @@
 import { atom, useAtom } from "jotai"
 import { atomWithStorage } from "jotai/utils"
-import { Endpoints } from "misskey-js"
 
-type Visibility = Endpoints["notes/create"]["req"]["visibility"]
+type Visibility = "public" | "home" | "followers" | "specified" | undefined
 
 const noteDialogAtom = atom(false)
 const noteLastVisibilityAtom = atomWithStorage<Visibility>("minsk::note::visibility", "public")

@@ -1,8 +1,8 @@
 import { Link } from "lucide-react"
-import { entities } from "misskey-js"
 import Image from "next/image"
+import { DriveFile } from "~/features/drive"
 
-export default function FilePreview({ file }: { file: entities.DriveFile }) {
+export default function FilePreview({ file }: { file: DriveFile }) {
   if (file.type.startsWith("image/")) {
     return <Image className="w-fit" src={file.url} width={125} height={125} alt="File" />
   } else if (file.type.startsWith("video/")) {

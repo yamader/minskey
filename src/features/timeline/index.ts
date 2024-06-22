@@ -1,89 +1,74 @@
+export type TLNames = "homeTimeline" | "localTimeline" | "hybridTimeline" | "globalTimeline"
+
 import { atom, useAtom, useAtomValue, useSetAtom } from "jotai"
 import { atomWithStorage } from "jotai/utils"
-import { entities } from "misskey-js"
-import { useCallback, useEffect, useState } from "react"
-import { useMisskeyJS, useStream } from "~/features/api"
-import { TLChanNameToAPIEndpoint, TLChanNames } from "~/features/api/legacy"
-import { useLogin } from "~/features/auth"
+import { useEffect, useState } from "react"
+import { useAPI, useChannel } from "~/features/api"
+import { Note } from "~/features/note"
 
-////////////////////////////////////////////////////////////////
+//------------------------------------------------------------//
 //  atoms
-////////////////////////////////////////////////////////////////
+//------------------------------------------------------------//
 
-type TL = {
-  notes: entities.Note[]
-  more: () => Promise<void>
-}
+const tlNameAtom = atomWithStorage<TLNames>("minsk::tl::name", "homeTimeline")
+const tlNotesAtom = atom<Note[]>([])
+const tlMoreAtom = atom<[() => void]>([() => {}])
 
-// ストリーミングするTLを選択
-export const tlNameAtom = atomWithStorage<TLChanNames>("minsk::tl::name", "homeTimeline")
-
-export const tlAtom = atom<TL>({ notes: [], more: () => Promise.resolve() })
-
-////////////////////////////////////////////////////////////////
+//------------------------------------------------------------//
 //  hooks
-////////////////////////////////////////////////////////////////
+//------------------------------------------------------------//
 
-// TLのストリーミングを管理する
-export function useTLStream() {
-  const chan = useAtomValue(tlNameAtom)
-  useSetAtom(tlAtom)(useTLRaw(chan))
+export function useTL() {
+  const notes = useAtomValue(tlNotesAtom)
+  const [more] = useAtomValue(tlMoreAtom)
+  return { notes, more }
 }
 
 export function useTLName() {
   return useAtom(tlNameAtom)
 }
 
-export function useTL() {
-  return useAtomValue(tlAtom)
-}
-
 // todo: ノートの内容をいい感じにキャッシュ
-function useTLRaw(chan: TLChanNames) {
-  const stream = useStream(chan)
-  const api = useMisskeyJS()
-  const [notes, setNotes] = useState<entities.Note[]>([])
-
-  const account = useLogin()
-  const host = account?.host ?? null
-
+export function useTLStream() {
   const tlName = useAtomValue(tlNameAtom)
+  const chan = useChannel(tlName)
+  const api = useAPI()
+  const setNotes = useSetAtom(tlNotesAtom)
+  const setMore = useSetAtom(tlMoreAtom)
+  const [untilId, setUntilId] = useState("")
+  const [beginStream, setBeginStream] = useState(false)
 
-  // first time
+  // reload
   useEffect(() => {
-    if (!api) return
-    setNotes([])
-    ;(async () => {
-      const res: entities.Note[] = await api.request(TLChanNameToAPIEndpoint[tlName], {
-        limit: 10,
+    if (api) {
+      setBeginStream(false)
+      setNotes([])
+      api.notes(tlName, { limit: 10 }).then(res => {
+        if (res?.length) {
+          setNotes(res)
+          setUntilId(res[res.length - 1].id)
+          setBeginStream(true)
+        }
       })
-      res.forEach(note => (note.user.host ??= host))
-      setNotes(res)
-    })()
-  }, [api, host, tlName])
-
-  // streaming
-  useEffect(() => {
-    if (!stream) return
-    const conn = stream?.on("note", note => {
-      note.user.host ??= host
-      setNotes(notes => [note, ...notes])
-    })
-    return () => {
-      conn?.off("note")
     }
-  }, [stream, host])
+  }, [api, tlName])
+
+  // stream
+  useEffect(() => {
+    if (beginStream) chan?.on("note", note => setNotes(notes => [note, ...notes]))
+  }, [chan, beginStream])
 
   // scroll
-  const more = useCallback(async () => {
-    if (!api || !notes.length) return
-    const res: entities.Note[] = await api.request(TLChanNameToAPIEndpoint[tlName], {
-      limit: 30,
-      untilId: notes[notes.length - 1].id,
-    })
-    res.forEach(note => (note.user.host ??= host))
-    setNotes(notes => notes.concat(res))
-  }, [api, notes, host, tlName])
-
-  return { notes, more }
+  useEffect(() => {
+    if (api)
+      setMore([
+        async () => {
+          const res = await api.notes(tlName, { limit: 30, untilId })
+          if (res?.length) {
+            setNotes(notes => notes.concat(res))
+            setUntilId(res[res.length - 1].id)
+          }
+        },
+      ])
+  }, [api, untilId])
 }

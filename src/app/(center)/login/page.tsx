@@ -1,13 +1,12 @@
 "use client"
 
 import * as RadioGroup from "@radix-ui/react-radio-group"
-import { permissions } from "misskey-js"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Suspense, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { v4 as uuidv4 } from "uuid"
 import { detect } from "~/features/api/clients"
-import { useAuth } from "~/features/auth"
+import { permissions, useAuth } from "~/features/auth"
 import { ensureproto } from "~/utils"
 
 export default function LoginPage() {

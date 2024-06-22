@@ -2,10 +2,9 @@
 
 import clsx, { ClassValue } from "clsx"
 import { ReactNode } from "react"
-import { TLChanNames } from "~/features/api/legacy"
-import { useTLName } from "."
+import { TLNames, useTLName } from "."
 
-const TLButton = ({ tl, children }: { tl: TLChanNames; children: ReactNode }) => {
+const TLButton = ({ tl, children }: { tl: TLNames; children: ReactNode }) => {
   const [currentTl, setCurrentTl] = useTLName()
   return (
     <button

@@ -1,5 +1,7 @@
 import { dbg } from "~/utils"
 
+//------------------------------------------------------------//
+
 declare global {
   var _minsk_api_cache: {
     [key: string]: {
@@ -12,11 +14,7 @@ declare global {
 
 globalThis._minsk_api_cache ??= {}
 
-////////////////////////////////////////////////////////////////
-
-/**
- * 各バージョンごとに異なるAPIクライアントを作成するための基底クラス
- */
+//------------------------------------------------------------//
 
 type GetProps = Partial<{
   opts: RequestInit
@@ -31,7 +29,7 @@ type PostProps = Partial<{
 
 export default class BaseClient {
   id: string
-  host: string
+  host: string // プロトコルを含む
   token?: string
   _cachePrefix: string
 
@@ -41,11 +39,6 @@ export default class BaseClient {
   postLifespan = 10_000
   postClock = 500
 
-  /**
-   * @param host - プロトコルを含むホスト名
-   * @param token - APIトークン
-   * @memberof BaseClient
-   */
   constructor(host: string, token?: string) {
     this.id = "unknown"
     this.host = host
@@ -53,12 +46,10 @@ export default class BaseClient {
     this._cachePrefix = host + token
   }
 
-  /**
-   * GETリクエストを送信する
-   * @param path - APIのパス
-   * @param opts - fetchのオプション
-   * @memberof BaseClient
-   */
+  //----------------------------//
+  //  GET
+  //----------------------------//
+
   async get<T>(path: string, props: GetProps, volatile?: boolean) {
     const key = this._cachePrefix + "g" + path + JSON.stringify(props)
 
@@ -87,19 +78,16 @@ export default class BaseClient {
     return _minsk_api_cache[key].res as Promise<T | null>
   }
 
-  private async rawGet<T>(path: string, { opts }: GetProps) {
+  private async rawGet(path: string, { opts }: GetProps) {
     const res = await fetch(this.host + "/api/" + path, opts)
     if (!res.ok) return null
     return res.json()
   }
 
-  /**
-   * POSTリクエストを送信する
-   * @param path - APIのパス
-   * @param body - リクエストボディ
-   * @param opts - fetchのオプション
-   * @memberof BaseClient
-   */
+  //----------------------------//
+  //  POST
+  //----------------------------//
+
   async post<T>(path: string, props: PostProps, volatile?: boolean) {
     const key = this._cachePrefix + "p" + path + JSON.stringify(props)
 
@@ -128,7 +116,7 @@ export default class BaseClient {
     return _minsk_api_cache[key].res as Promise<T | null>
   }
 
-  private async rawPost<T>(path: string, { body, opts }: PostProps) {
+  private async rawPost(path: string, { body, opts }: PostProps) {
     const res = await fetch(this.host + "/api/" + path, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
