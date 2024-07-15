@@ -1,36 +1,21 @@
-"use client"
-
 import { DropdownMenu } from "@radix-ui/themes"
 import clsx from "clsx"
 import { Check, Menu } from "lucide-react"
 import Link from "next/link"
-import { Suspense } from "react"
-import Button from "~/components/Button"
-import { isSameAccount, useAccount, useAuth } from "~/features/auth"
+import { isSameAccount, useAuth } from "~/features/auth"
 import AccountBar from "./AccountBar"
 
 export default function AccountMenu() {
-  const account = useAccount()
-  return account ? (
-    <Suspense>
-      <AccountMenuSuspense />
-    </Suspense>
-  ) : (
-    <Button>ログイン</Button>
-  )
-}
-
-function AccountMenuSuspense() {
   const { account, multiAccounts, setAuth, logout } = useAuth()
 
   const actionBtn =
-    "text-black outline-none cursor-pointer transition hover:bg-neutral-100 rounded-lg active:bg-neutral-200 active:bg-neutral-300"
+    "!cursor-pointer rounded-lg outline-none transition hover:bg-neutral-100 hover:text-inherit active:bg-neutral-200"
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger>
         <div className="flex cursor-pointer select-none items-center justify-between rounded-full p-2 transition hover:bg-neutral-100">
           <AccountBar
-            account={account}
+            account={account!} // <AccountMenu /> should only show when logged in
             omake={<Menu className="mr-2.5 text-neutral-500" size={18} />}
           />
         </div>
@@ -47,7 +32,7 @@ function AccountMenuSuspense() {
               </div>
             ) : (
               <DropdownMenu.Item
-                className="h-fit cursor-pointer rounded-lg p-2 outline-none transition hover:bg-neutral-100"
+                className="!h-fit !cursor-pointer rounded-lg !p-2 outline-none transition hover:bg-neutral-100"
                 onSelect={() => setAuth({ account: e })}
                 key={i}>
                 <AccountBar account={e} omake={null} />

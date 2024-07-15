@@ -1,10 +1,9 @@
-"use client"
-
 import clsx from "clsx"
 import { Bell, Home, Pen, Settings, User } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import BrandLogo from "~/components/BrandLogo"
+import Button from "~/components/Button"
 import { useLogin } from "~/features/auth"
 import { useComposeNoteDialog } from "~/features/compose"
 import AccountMenu from "./AccountMenu"
@@ -54,7 +53,13 @@ export default function LeftNav() {
           <Pen className="xl:hidden" size={16} />
         </Link>
         <div className="mt-auto">
-          <AccountMenu />
+          {account ? (
+            <AccountMenu />
+          ) : (
+            <Link href="/login">
+              <Button>ログイン</Button>
+            </Link>
+          )}
         </div>
       </nav>
     </div>

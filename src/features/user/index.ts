@@ -1,14 +1,7 @@
 export * from "./types"
 
-import { atom, useAtom } from "jotai"
 import { hostname } from "~/utils"
 import { User, UserStatus } from "."
-
-const userCacheAtom = atom<{ [id: string]: User }>({})
-
-export function useUsers() {
-  return useAtom(userCacheAtom)
-}
 
 export function statusEmoji(status: UserStatus = "unknown") {
   switch (status) {

@@ -1,5 +1,4 @@
-"use client"
-
+import { atom, useAtomValue, useSetAtom } from "jotai"
 import { Suspense, use } from "react"
 import IdStr from "~/components/IdStr"
 import { useForeignAPI } from "~/features/api"
@@ -9,21 +8,30 @@ import { User } from "~/features/user"
 import UesrStatusIcon from "~/features/user/UserStatusIcon"
 import { hostname } from "~/utils"
 
-// todo: ユーザキャッシュを参照するなど
+const acct2UserAtom = atom<{ [key: string]: User }>({})
+
+// features/api/index.tsにも似たようなのがある
+function acct2Key(account: Account) {
+  return account.uid + "@" + account.host
+}
+
 export default function AccountBar({
   account,
   omake,
 }: {
-  account: Account | null
+  account: Account
   omake: React.ReactNode
 }) {
+  const acct2User = useAtomValue(acct2UserAtom)
+  const key = acct2Key(account)
+
   return (
     <div className="flex w-full items-center gap-2.5 text-black">
       <Suspense fallback={<AccountBarContent user={null} account={account} />}>
-        {account ? (
-          <AccountBarFetch account={account} />
+        {key in acct2User ? (
+          <AccountBarContent user={acct2User[key]} account={account} />
         ) : (
-          <AccountBarContent user={null} account={account} />
+          <AccountBarFetch account={account} />
         )}
       </Suspense>
       {omake && <div className="ml-auto">{omake}</div>}
@@ -33,8 +41,14 @@ export default function AccountBar({
 
 function AccountBarFetch({ account }: { account: Account }) {
   const api = useForeignAPI(account.host)
+  const setAccount2User = useSetAtom(acct2UserAtom)
+
   const fetch = api?.showId(account.uid, account.host)
-  return <AccountBarContent user={fetch && use(fetch)} account={account} />
+  const user = fetch && use(fetch)
+
+  if (user) setAccount2User(prev => ({ ...prev, [acct2Key(account)]: user }))
+
+  return <AccountBarContent user={user} account={account} />
 }
 
 function AccountBarContent({ user, account }: { user: User | null; account: Account | null }) {
