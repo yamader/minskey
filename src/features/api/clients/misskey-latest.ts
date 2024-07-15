@@ -106,6 +106,18 @@ export default class MisskeyLatestClient extends BaseClient {
     })
   }
 
+  async reactNote(noteId: string, reaction: string) {
+    return this.post<void>("notes/reactions/create", {
+      body: { noteId, reaction },
+    })
+  }
+
+  async unReactNote(noteId: string) {
+    return this.post<void>("notes/reactions/delete", {
+      body: { noteId },
+    })
+  }
+
   async noteRenotes(noteId: string, opts: NotesOpts = {}) {
     return this.post<Note[]>("notes/renotes", {
       body: { noteId, ...opts },
