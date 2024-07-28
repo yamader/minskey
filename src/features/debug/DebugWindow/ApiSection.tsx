@@ -19,10 +19,10 @@ export default function ApiSection() {
         <div>api: {JSON.stringify(api && pick(api, "id", "host", "token", "_cachePrefix"))}</div>
         <div>
           _minsk_api_cache[{ckeys.length}]: [
-          {ckeys.map(key => (
-            <>
+          {ckeys.map((key, index) => (
+            <div key={index}>
               <span className="rounded bg-neutral-300 px-1">{key}</span>,
-            </>
+            </div>
           ))}
           ]
         </div>
