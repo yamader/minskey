@@ -33,7 +33,7 @@ function NoteSuspense() {
     <>
       <NotePreview note={note} />
 
-      {replies !== null ?? <h2>Replies</h2>}
+      {replies || <h2>Replies</h2>}
       {replies?.map(reply => (
         <div key={reply.id}>
           <NotePreview note={reply} />
