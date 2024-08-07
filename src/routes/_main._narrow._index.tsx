@@ -1,17 +1,14 @@
-"use client"
-
-import { useRouter } from "next/navigation"
+import { useNavigate } from "@remix-run/react"
 import { useEffect } from "react"
-
 import { useLogin } from "~/features/auth"
 
 export default function IndexPage() {
-  const router = useRouter()
+  const navigate = useNavigate()
   const login = useLogin()
 
   useEffect(() => {
-    if (login) router.replace("/home")
-  }, [router, login])
+    if (login) navigate("/home", { replace: true })
+  }, [navigate, login])
 
   return (
     <>

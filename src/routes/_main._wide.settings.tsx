@@ -1,5 +1,5 @@
+import SettingsSectionBar from "~/components/SettingsSectionBar"
 import TopAppBar from "~/components/TopAppBar"
-import SettingsSectionBar from "./SettingsSectionBar"
 
 export default function SetingsPage({ children }: { children: React.ReactNode }) {
   return (

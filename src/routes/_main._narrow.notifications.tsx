@@ -1,5 +1,3 @@
-"use client"
-
 import BottomSpinner from "~/components/BottomSpinner"
 import { useBottom } from "~/features/common"
 import { useNotifications } from "~/features/notification"

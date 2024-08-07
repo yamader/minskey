@@ -1,18 +1,15 @@
-"use client"
-
-import { useRouter } from "next/navigation"
+import { useNavigate } from "@remix-run/react"
 import { useEffect } from "react"
-
 import { useComposeNoteDialog, useComposeNoteLastVisibility } from "~/features/compose"
 
 export default function NotePage() {
-  const router = useRouter()
+  const navigate = useNavigate()
   const [, setNoteDialog] = useComposeNoteDialog()
 
   useComposeNoteLastVisibility() // おまじない
 
   useEffect(() => {
     setNoteDialog(true)
-    router.replace("/home")
-  }, [router, setNoteDialog])
+    navigate("/home", { replace: true })
+  }, [navigate, setNoteDialog])
 }

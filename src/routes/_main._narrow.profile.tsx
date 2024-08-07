@@ -1,7 +1,5 @@
-"use client"
-
 import { Tooltip } from "@radix-ui/themes"
-import { useSearchParams } from "next/navigation"
+import { useSearchParams } from "@remix-run/react"
 import { Suspense, use } from "react"
 import Anon from "~/assets/anon.png"
 import BottomSpinner from "~/components/BottomSpinner"
@@ -23,7 +21,7 @@ export default function ProfilePage() {
 
 function ProfileFetch() {
   const api = useAPI()
-  const searchParams = useSearchParams()
+  const [searchParams] = useSearchParams()
 
   if (!api) return <ProfileContent />
 
@@ -62,7 +60,7 @@ function ProfileContent({ user = null, notes = [] }: { user?: User | null; notes
       <div className="-mb-20 ml-4 h-fit w-fit -translate-y-1/2">
         {/* todo: grow */}
         <div className="h-36 w-36 overflow-hidden rounded-[100%] border-4 transition-all hover:rounded-xl">
-          <img className="h-full w-full object-cover" src={user?.avatarUrl ?? Anon.src} />
+          <img className="h-full w-full object-cover" src={user?.avatarUrl ?? Anon} />
         </div>
         <div className="absolute bottom-2 right-2 flex">
           <Tooltip content={onlineStatus}>

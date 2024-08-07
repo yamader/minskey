@@ -1,6 +1,6 @@
+import { useNavigate } from "@remix-run/react"
 import { atom, useAtom, useAtomValue } from "jotai"
 import { atomWithStorage } from "jotai/utils"
-import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 import { useClient } from "~/features/common"
 
@@ -75,12 +75,12 @@ export function useAccount() {
 // 現在のアカウントを取得する
 export function useLogin(login: boolean = false) {
   const account = useAccount()
-  const router = useRouter()
+  const navigate = useNavigate()
   const client = useClient()
 
   useEffect(() => {
-    if (login && client && !account) router.push("/")
-  }, [login, client, account, router])
+    if (login && client && !account) navigate("/")
+  }, [login, client, account, navigate])
 
   return account
 }

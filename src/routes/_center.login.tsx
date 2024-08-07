@@ -1,7 +1,5 @@
-"use client"
-
 import * as RadioGroup from "@radix-ui/react-radio-group"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useNavigate, useSearchParams } from "@remix-run/react"
 import { Suspense, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { v4 as uuidv4 } from "uuid"
@@ -20,8 +18,8 @@ export default function LoginPage() {
 // todo: MiAuthとManualでUIのガタつきをなくす
 // todo: authErrorを表示する
 function LoginSuspense() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
+  const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   const [method, setMethod] = useState("miauth") // "miauth" | "direct"
 
   const { error, setAuth } = useAuth()
@@ -72,7 +70,7 @@ function LoginSuspense() {
         {method === "direct" && <ManualLogin go={go} host={host} />}
         <button
           className="w-full rounded-md border-2 bg-neutral-100 py-2 font-inter text-xl font-bold text-lime-500 hover:bg-lime-200 active:bg-lime-300"
-          onClick={router.back}>
+          onClick={() => navigate(-1)}>
           back
         </button>
       </div>
@@ -96,7 +94,7 @@ function MiAuthLogin({ go, host }: LoginProps) {
     formState: { errors },
     handleSubmit,
   } = useForm<MiAuthForm>()
-  const router = useRouter()
+  const navigate = useNavigate()
   const { setAuth } = useAuth()
 
   const [location, setLocation] = useState<Location | null>(null)
@@ -122,7 +120,7 @@ function MiAuthLogin({ go, host }: LoginProps) {
     try {
       const url = `${realHost}/miauth/${sid}?name=${name}&icon=${icon}&callback=${callback}&permission=${permission}`
       setAuth({ session: { sid, host: realHost } })
-      router.push(url)
+      navigate(url)
     } catch (e) {
       setError("host", { type: "manual", message: e + "" })
     }
@@ -163,7 +161,7 @@ function ManualLogin({ go, host }: LoginProps) {
     formState: { errors },
     handleSubmit,
   } = useForm<ManualLoginForm>()
-  const router = useRouter()
+  const navigate = useNavigate()
   const { setAuth, addMultiAccount } = useAuth()
 
   const onSubmit = async ({ host, token }: ManualLoginForm) => {
@@ -186,7 +184,7 @@ function ManualLogin({ go, host }: LoginProps) {
           error: null,
         })
         addMultiAccount(account)
-        router.push(go)
+        navigate(go)
       } else {
         setError("token", { type: "manual", message: "auth failed" })
       }

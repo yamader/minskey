@@ -1,5 +1,3 @@
-"use client"
-
 import * as Dialog from "@radix-ui/react-dialog"
 import * as Select from "@radix-ui/react-select"
 import { BarChartHorizontal, ChevronDown, EyeOff, Paperclip, User2, X } from "lucide-react"

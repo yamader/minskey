@@ -1,5 +1,3 @@
-"use client"
-
 import Window from "~/components/Window"
 import { useDebugWindow } from "~/features/debug"
 import ApiSection from "./ApiSection"

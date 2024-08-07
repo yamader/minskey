@@ -1,7 +1,9 @@
-"use client"
-
-export default function RootError({ error, reset }: { error: Error; reset: () => void }) {
+export default function BSOD({ error }: { error: unknown }) {
   const h2class = "mt-6 mb-3 text-4xl font-bold after:content-[':']"
+
+  function reset() {
+    location.reload()
+  }
 
   const armageddon = () => {
     localStorage.clear()
@@ -29,7 +31,7 @@ export default function RootError({ error, reset }: { error: Error; reset: () =>
         <p>Nanka eigo de kaite mitakedo yousuruni oteage no joutai.</p>
 
         <h2 className={h2class}>Reason</h2>
-        <pre className="whitespace-normal break-all font-mono">{`"${error.message}"`}</pre>
+        <pre className="whitespace-normal break-all font-mono">{error + ""}</pre>
 
         <h2 className={h2class}>Action</h2>
         <p>

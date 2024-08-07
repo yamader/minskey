@@ -1,11 +1,10 @@
-import Link from "next/link"
 import { ReactNode } from "react"
-
-import Button from "./Button"
+import Button from "~/components/Button"
+import Link from "~/components/Link"
 
 export default function LinkButton({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <Link href={href}>
+    <Link to={href}>
       <Button>{children}</Button>
     </Link>
   )

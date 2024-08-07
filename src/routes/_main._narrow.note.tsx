@@ -1,6 +1,4 @@
-"use client"
-
-import { useSearchParams } from "next/navigation"
+import { useSearchParams } from "@remix-run/react"
 import { Suspense } from "react"
 import { useLocalNote, useNoteReplies } from "~/features/note"
 import NotePreview from "~/features/note/NotePreview"
@@ -14,7 +12,7 @@ export default function NotePage() {
 }
 
 function NoteSuspense() {
-  const params = useSearchParams()
+  const [params] = useSearchParams()
   let noteId = params.get("id")
   if (!noteId) noteId = ""
 

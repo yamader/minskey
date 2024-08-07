@@ -1,6 +1,4 @@
-"use client"
-
-import { useRouter, useSearchParams } from "next/navigation"
+import { useNavigate, useSearchParams } from "@remix-run/react"
 import { Suspense, useState } from "react"
 import NBSK from "~/components/NBSK"
 import { useAuth } from "~/features/auth"
@@ -16,8 +14,8 @@ export default function AuthPage() {
 }
 
 function AuthSuspense() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
+  const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   const { session, addMultiAccount, setAuth } = useAuth()
   const client = useClient()
   const [once, setOnce] = useState(false) // 💩
@@ -49,17 +47,18 @@ function AuthSuspense() {
       setAuth({ account, session: null, error: null })
       addMultiAccount(account)
 
-      router.replace(go)
+      navigate(go, { replace: true })
     } catch (e) {
       const host = session?.host ?? null
       setAuth({ session: null, error: e + "" })
-      router.replace(
+      navigate(
         `/login?go=${encodeURIComponent(go)}` + (host ? `&host=${encodeURIComponent(host)}` : ""),
+        { replace: true },
       )
     } finally {
       setOnce(true)
     }
-  }, [router, searchParams, session, setAuth, addMultiAccount, client, once, setOnce])
+  }, [navigate, searchParams, session, setAuth, addMultiAccount, client, once, setOnce])
 
   return <NBSK />
 }

@@ -1,5 +1,3 @@
-"use client"
-
 import clsx, { ClassValue } from "clsx"
 import { ReactNode } from "react"
 import { TLNames, useTLName } from "."
