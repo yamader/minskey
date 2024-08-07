@@ -1,7 +1,6 @@
 import { Theme } from "@radix-ui/themes"
 import "@radix-ui/themes/styles.css"
-import { Metadata } from "next"
-import dynamic from "next/dynamic"
+import { lazy } from "react"
 
 import "@fontsource-variable/fira-code"
 import "@fontsource-variable/inter"
@@ -10,7 +9,7 @@ import "@fontsource/zen-kaku-gothic-new/700.css"
 import "@fontsource/zen-kaku-gothic-new/900.css"
 import "./global.css"
 
-export const metadata: Metadata = {
+export const metadata = {
   metadataBase: new URL("https://minskey.dyama.net"),
   title: {
     default: "minskey",
@@ -26,7 +25,7 @@ export const metadata: Metadata = {
   },
 }
 
-const DebugWindow = dynamic(() => import("~/features/debug/DebugWindow"))
+const DebugWindow = lazy(() => import("~/features/debug/DebugWindow"))
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
