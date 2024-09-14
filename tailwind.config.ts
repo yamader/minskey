@@ -18,8 +18,5 @@ export default {
     require("tailwindcss-radix")({
       variantPrefix: "rdx",
     }),
-    function ({ addVariant }: { addVariant: (name: string, selector: string) => void }) {
-      addVariant("child", "& > *")
-    },
   ],
 } satisfies Config

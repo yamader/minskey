@@ -73,7 +73,7 @@ export function useAccount() {
 }
 
 // 現在のアカウントを取得する
-export function useLogin(login: boolean = false) {
+export function useLogin(login = false) {
   const account = useAccount()
   const router = useRouter()
   const client = useClient()

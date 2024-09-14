@@ -10,17 +10,18 @@ function reltime(rawdate: string): string {
   const diffhour = Math.round(diffmin / 60) //時間
   const diffday = Math.round(diffhour / 24)
   if (diffsec < 20) {
-    return `今`
+    return "今"
   }
   if (diffmin < 1) {
     return `${diffsec}秒前`
-  } else if (diffhour < 1) {
-    return `${diffmin}分前`
-  } else if (diffday < 1) {
-    return `${diffhour}時間前`
-  } else {
-    return `${diffday}日前`
   }
+  if (diffhour < 1) {
+    return `${diffmin}分前`
+  }
+  if (diffday < 1) {
+    return `${diffhour}時間前`
+  }
+  return `${diffday}日前`
 }
 
 function abstime(rawdate: string): string {

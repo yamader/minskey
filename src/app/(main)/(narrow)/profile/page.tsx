@@ -53,18 +53,18 @@ function ProfileContent({ user = null, notes = [] }: { user?: User | null; notes
       <TopAppBar
         content={
           <div>
-            <p className="text-lg font-bold">{user?.name}</p>
+            <p className="font-bold text-lg">{user?.name}</p>
           </div>
         }
         back
       />
       <div className="min-h-48 w-full bg-black" />
-      <div className="-mb-20 ml-4 h-fit w-fit -translate-y-1/2">
+      <div className="-mb-20 -translate-y-1/2 ml-4 h-fit w-fit">
         {/* todo: grow */}
         <div className="h-36 w-36 overflow-hidden rounded-[100%] border-4 transition-all hover:rounded-xl">
           <img className="h-full w-full object-cover" src={user?.avatarUrl ?? Anon.src} />
         </div>
-        <div className="absolute bottom-2 right-2 flex">
+        <div className="absolute right-2 bottom-2 flex">
           <Tooltip content={onlineStatus}>
             <span className="cursor-default text-3xl leading-none">
               {statusEmoji(onlineStatus)}
@@ -74,7 +74,7 @@ function ProfileContent({ user = null, notes = [] }: { user?: User | null; notes
       </div>
       {user ? (
         <div className="p-4">
-          <div className="text-2xl font-bold">{user.name}</div>
+          <div className="font-bold text-2xl">{user.name}</div>
           <div className="text-sm">
             <IdStr username={user.username} host={user.host!} />
           </div>

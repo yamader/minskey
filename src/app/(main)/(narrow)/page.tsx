@@ -16,7 +16,7 @@ export default function IndexPage() {
   return (
     <>
       <div className="my-16 rounded-[2rem] border bg-lime-500 py-32 text-white">
-        <h1 className="text-center font-inter text-8xl font-black">minskey</h1>
+        <h1 className="text-center font-black font-inter text-8xl">minskey</h1>
       </div>
     </>
   )

@@ -11,7 +11,7 @@ export default function Notice({ notice }: { notice: Notification }) {
     <div className="flex justify-between border-t p-3">
       <NoticeContent notice={notice} />
       <span>
-        <TimeText dateTime={notice.createdAt}></TimeText>
+        <TimeText dateTime={notice.createdAt} />
       </span>
     </div>
   )

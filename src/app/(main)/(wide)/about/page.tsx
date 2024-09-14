@@ -1,7 +1,7 @@
+import TopAppBar from "~/components/TopAppBar"
 import H1 from "~/components/html/H1"
 import H2 from "~/components/html/H2"
 import P from "~/components/html/P"
-import TopAppBar from "~/components/TopAppBar"
 
 export default function AboutPage() {
   return (

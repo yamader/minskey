@@ -1,7 +1,6 @@
 import Link from "next/link"
 import { ReactNode } from "react"
-
-import Button from "./Button"
+import Button from "~/components/Button"
 
 export default function LinkButton({ href, children }: { href: string; children: ReactNode }) {
   return (

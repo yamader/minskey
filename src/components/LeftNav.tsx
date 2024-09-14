@@ -2,11 +2,11 @@ import clsx from "clsx"
 import { Bell, Home, Pen, Settings, User } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import AccountMenu from "~/components/AccountMenu"
 import BrandLogo from "~/components/BrandLogo"
 import Button from "~/components/Button"
 import { useLogin } from "~/features/auth"
 import { useComposeNoteDialog } from "~/features/compose"
-import AccountMenu from "./AccountMenu"
 
 const btnBase = "flex w-fit items-center rounded-full leading-none transition"
 

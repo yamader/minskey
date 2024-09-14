@@ -14,9 +14,9 @@ export default function RootError({ error, reset }: { error: Error; reset: () =>
   }
 
   return (
-    <div className="flex h-screen bg-sky-600 px-2 font-inter text-xl text-white">
+    <div className="flex h-screen bg-sky-600 px-2 font-inter text-white text-xl">
       <div className="m-auto flex w-full max-w-5xl flex-col">
-        <h1 className="mb-2 flex space-x-6 text-9xl font-black">
+        <h1 className="mb-2 flex space-x-6 font-black text-9xl">
           <span className="hover:animate-spin">🤯</span>
           <span>Error!</span>
         </h1>
@@ -29,7 +29,7 @@ export default function RootError({ error, reset }: { error: Error; reset: () =>
         <p>Nanka eigo de kaite mitakedo yousuruni oteage no joutai.</p>
 
         <h2 className={h2class}>Reason</h2>
-        <pre className="whitespace-normal break-all font-mono">{`"${error.message}"`}</pre>
+        <pre className="whitespace-normal break-all font-mono">{error.message}</pre>
 
         <h2 className={h2class}>Action</h2>
         <p>

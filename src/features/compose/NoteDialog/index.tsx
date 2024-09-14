@@ -46,7 +46,7 @@ export default function NoteDialog() {
     <Dialog.Root open={open} onOpenChange={open => setOpen(open)}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black/50" />
-        <Dialog.Content className="fixed left-1/2 top-14 max-h-[85vh] w-[32rem] translate-x-[-50%]">
+        <Dialog.Content className="fixed top-14 left-1/2 max-h-[85vh] w-[32rem] translate-x-[-50%]">
           <NoteForm {...form} close={() => setOpen(false)} />
         </Dialog.Content>
       </Dialog.Portal>
@@ -121,7 +121,7 @@ function NoteForm({
               onValueChange={val => setValue("visibility", val as Visibility)}
             />
             <button
-              className="rounded-lg bg-misskey px-4 pb-2.5 pt-2 text-lg font-black leading-none text-white hover:brightness-95 active:brightness-90"
+              className="rounded-lg bg-misskey px-4 pt-2 pb-2.5 font-black text-lg text-white leading-none hover:brightness-95 active:brightness-90"
               type="submit">
               Note
             </button>
@@ -143,7 +143,7 @@ function NFSelectVisibility(props: ComponentProps<typeof Select.Root>) {
       {...props}
       ref={ref}>
       <Select.ItemText>
-        <div className="flex items-center gap-1 text-sm font-bold">
+        <div className="flex items-center gap-1 font-bold text-sm">
           <VisibilityIcon name={value} size={18} />
           <p className="-mt-0.5">{children}</p>
         </div>

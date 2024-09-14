@@ -1,7 +1,0 @@
-{
-  "printWidth": 100,
-  "semi": false,
-  "bracketSameLine": true,
-  "arrowParens": "avoid",
-  "plugins": ["prettier-plugin-organize-imports", "prettier-plugin-tailwindcss"]
-}

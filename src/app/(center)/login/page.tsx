@@ -38,7 +38,7 @@ function LoginSuspense() {
 
   return (
     <>
-      <h1 className="mb-10 mt-4 text-center font-inter text-6xl font-black">Login</h1>
+      <h1 className="mt-4 mb-10 text-center font-black font-inter text-6xl">Login</h1>
       <RadioGroup.Root
         className="grid grid-flow-col justify-center gap-4"
         value={method}
@@ -71,7 +71,7 @@ function LoginSuspense() {
         {method === "miauth" && <MiAuthLogin go={go} host={host} />}
         {method === "direct" && <ManualLogin go={go} host={host} />}
         <button
-          className="w-full rounded-md border-2 bg-neutral-100 py-2 font-inter text-xl font-bold text-lime-500 hover:bg-lime-200 active:bg-lime-300"
+          className="w-full rounded-md border-2 bg-neutral-100 py-2 font-bold font-inter text-lime-500 text-xl hover:bg-lime-200 active:bg-lime-300"
           onClick={router.back}>
           back
         </button>
@@ -106,12 +106,12 @@ function MiAuthLogin({ go, host }: LoginProps) {
   }, [])
 
   const onSubmit = async ({ host }: MiAuthForm) => {
-    const realHost = ensureproto(host),
-      sid = uuidv4(),
-      name = "minskey",
-      icon = location?.origin + "/favicon.png",
-      callback = location?.origin + `/auth?go=${go}`,
-      permission = permissions.join(",")
+    const realHost = ensureproto(host)
+    const sid = uuidv4()
+    const name = "minskey"
+    const icon = location?.origin + "/favicon.png"
+    const callback = location?.origin + `/auth?go=${go}`
+    const permission = permissions.join(",")
 
     const client = await detect(realHost)
     if (!client) {
@@ -131,7 +131,7 @@ function MiAuthLogin({ go, host }: LoginProps) {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="my-4">
-        <label className="font-inter text-xl font-bold" htmlFor="login_host">
+        <label className="font-bold font-inter text-xl" htmlFor="login_host">
           Host
         </label>
         <input
@@ -143,7 +143,7 @@ function MiAuthLogin({ go, host }: LoginProps) {
         {errors.host && <p className="text-red-500">{errors.host.message}</p>}
       </div>
       <input
-        className="my-2 w-full rounded-md bg-lime-500 py-2 font-inter text-xl font-bold text-white hover:bg-lime-400 active:bg-lime-300"
+        className="my-2 w-full rounded-md bg-lime-500 py-2 font-bold font-inter text-white text-xl hover:bg-lime-400 active:bg-lime-300"
         type="submit"
         value="Next"
       />
@@ -167,8 +167,8 @@ function ManualLogin({ go, host }: LoginProps) {
   const { setAuth, addMultiAccount } = useAuth()
 
   const onSubmit = async ({ host, token }: ManualLoginForm) => {
-    const realHost = ensureproto(host),
-      testurl = `${realHost}/api/i`
+    const realHost = ensureproto(host)
+    const testurl = `${realHost}/api/i`
     const req = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -198,7 +198,7 @@ function ManualLogin({ go, host }: LoginProps) {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="my-4">
-        <label className="font-inter text-xl font-bold" htmlFor="login_host">
+        <label className="font-bold font-inter text-xl" htmlFor="login_host">
           Host
         </label>
         <input
@@ -210,7 +210,7 @@ function ManualLogin({ go, host }: LoginProps) {
         {errors.host && <p className="text-red-500">{errors.host.message}</p>}
       </div>
       <div className="my-4">
-        <label className="font-inter text-xl font-bold" htmlFor="login_token">
+        <label className="font-bold font-inter text-xl" htmlFor="login_token">
           Token
         </label>
         <input
@@ -222,7 +222,7 @@ function ManualLogin({ go, host }: LoginProps) {
         {errors.token && <p className="text-red-500">{errors.token.message}</p>}
       </div>
       <input
-        className="my-2 w-full rounded-md bg-lime-500 py-2 font-inter text-xl font-bold text-white hover:bg-lime-400 active:bg-lime-300"
+        className="my-2 w-full rounded-md bg-lime-500 py-2 font-bold font-inter text-white text-xl hover:bg-lime-400 active:bg-lime-300"
         type="submit"
         value="Next"
       />

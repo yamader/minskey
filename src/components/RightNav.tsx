@@ -10,12 +10,12 @@ export default function RightNav() {
   const w = "w-72 xl:w-96"
   return (
     <div className={clsx(w, "hidden lg:block")}>
-      <div className={clsx(w, "fixed flex h-full flex-col gap-4 border-l pl-8 pt-2.5")}>
+      <div className={clsx(w, "fixed flex h-full flex-col gap-4 border-l pt-2.5 pl-8")}>
         {settings.ui.rnav.map(
           (item, i) =>
             item in items && <Fragment key={i}>{items[item as keyof typeof items]()}</Fragment>,
         )}
-        <div className="px-4 font-inter text-xs text-gray-600">
+        <div className="px-4 font-inter text-gray-600 text-xs">
           <a className="hover:underline" href="/about/">
             minskeyについて
           </a>

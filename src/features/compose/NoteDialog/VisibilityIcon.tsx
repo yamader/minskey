@@ -7,7 +7,7 @@ export default function VisivilityIcon({
   name,
   ...props
 }: ComponentProps<LucideIcon> & { name: Visibility }) {
-  // prettier-ignore
+  // biome-ignore format:
   switch (name) {
     case "public":    return <Globe {...props} />
     case "home":      return <Home {...props} />

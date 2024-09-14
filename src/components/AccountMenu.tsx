@@ -2,8 +2,8 @@ import { DropdownMenu } from "@radix-ui/themes"
 import clsx from "clsx"
 import { Check, Menu } from "lucide-react"
 import Link from "next/link"
+import AccountBar from "~/components/AccountBar"
 import { isSameAccount, useAuth } from "~/features/auth"
-import AccountBar from "./AccountBar"
 
 export default function AccountMenu() {
   const { account, multiAccounts, setAuth, logout } = useAuth()
@@ -32,7 +32,7 @@ export default function AccountMenu() {
               </div>
             ) : (
               <DropdownMenu.Item
-                className="!h-fit !cursor-pointer rounded-lg !p-2 outline-none transition hover:bg-neutral-100"
+                className="!h-fit !cursor-pointer !p-2 rounded-lg outline-none transition hover:bg-neutral-100"
                 onSelect={() => setAuth({ account: e })}
                 key={i}>
                 <AccountBar account={e} omake={null} />

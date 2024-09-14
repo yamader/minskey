@@ -54,14 +54,14 @@ export default class MisskeyLatestClient extends BaseClient {
 
   async showId(userId: string, host: string | null = null) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return this.post<any>(`users/show`, {
+    return this.post<any>("users/show", {
       body: { userId, host },
     })
   }
 
   async showName(username: string, host: string | null = null) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return this.post<any>(`users/show`, {
+    return this.post<any>("users/show", {
       body: { username, host },
     })
   }

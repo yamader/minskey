@@ -3,12 +3,12 @@ import { useEffect } from "react"
 import { useImmer } from "use-immer"
 
 type WindowMeta = {
-  id: Number
+  id: number
 }
 
 const windowsAtom = atom<{
   windows: WindowMeta[]
-  currentId: Number // 大丈夫？
+  currentId: number // 大丈夫？
 }>({
   windows: [],
   currentId: 0,
@@ -53,7 +53,7 @@ export default function Window({
       document.removeEventListener("mousemove", mousemove)
       document.removeEventListener("mouseup", mouseup)
     }
-  }, [, updateW])
+  }, [updateW])
 
   return (
     <div
@@ -74,7 +74,7 @@ export default function Window({
           })
         }>
         <button
-          className="rounded-full p-0.5 font-black leading-none text-stone-600 hover:bg-neutral-300"
+          className="rounded-full p-0.5 font-black text-stone-600 leading-none hover:bg-neutral-300"
           onClick={onClose}>
           &times;
         </button>

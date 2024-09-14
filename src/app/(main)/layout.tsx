@@ -1,11 +1,11 @@
 "use client"
 
+import BottomNav from "~/components/BottomNav"
+import LeftNav from "~/components/LeftNav"
 import { useMfmProvider } from "~/features/common/mfm"
 import NoteDialog from "~/features/compose/NoteDialog"
 import { useNotificationsStream } from "~/features/notification"
 import { useTLStream } from "~/features/timeline"
-import BottomNav from "./BottomNav"
-import LeftNav from "./LeftNav"
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   useMfmProvider()

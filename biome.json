@@ -1,0 +1,31 @@
+{
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git"
+  },
+  "linter": {
+    "rules": {
+      "nursery": {
+        "useSortedClasses": "warn"
+      },
+      "style": {
+        "useImportType": "off",
+        "useTemplate": "off"
+      },
+      "suspicious": {
+        "noDoubleEquals": "off"
+      }
+    }
+  },
+  "formatter": {
+    "indentStyle": "space",
+    "lineWidth": 100
+  },
+  "javascript": {
+    "formatter": {
+      "semicolons": "asNeeded",
+      "arrowParentheses": "asNeeded",
+      "bracketSameLine": true
+    }
+  }
+}
