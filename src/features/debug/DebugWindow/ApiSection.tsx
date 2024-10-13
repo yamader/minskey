@@ -1,7 +1,7 @@
 import { useState } from "react"
 import H2 from "~/components/html/H2"
 import { useAPI } from "~/features/api"
-import { pick } from "~/utils"
+import { pick } from "~/libs/utils"
 
 export default function ApiSection() {
   const [, refresh] = useState({})
@@ -12,7 +12,7 @@ export default function ApiSection() {
   return (
     <section>
       <H2>API</H2>
-      <button className="rounded-lg border-4 border-red-500 px-1" onClick={refresh}>
+      <button type="button" className="rounded-lg border-4 border-red-500 px-1" onClick={refresh}>
         Refresh
       </button>
       <div className="flex flex-col gap-2.5 break-all p-2 font-mono">

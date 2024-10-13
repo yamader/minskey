@@ -1,7 +1,6 @@
 import clsx from "clsx"
 import { Bell, Home, Pen, Settings, User } from "lucide-react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { Link, useLocation } from "react-router"
 import AccountMenu from "~/components/AccountMenu"
 import BrandLogo from "~/components/BrandLogo"
 import Button from "~/components/Button"
@@ -21,7 +20,7 @@ export default function LeftNav() {
         <div className="flex flex-col">
           <Link
             className={clsx(btnBase, "mb-1 p-1 pr-3 hover:bg-neutral-200")}
-            href={account ? "/home/" : "/"}>
+            to={account ? "/home/" : "/"}>
             <BrandLogo />
           </Link>
           <NavLink href="/home/" disabled={!account}>
@@ -47,7 +46,7 @@ export default function LeftNav() {
             "bg-misskey px-4 py-4 font-bold text-white hover:bg-misskey hover:brightness-90 xl:px-20",
             !account && "pointer-events-none brightness-75",
           )}
-          href="/compose/note/"
+          to="/compose/note/"
           onClick={() => setNoteDialog(true)}>
           <span className="hidden select-none xl:block">ノートする</span>
           <Pen className="xl:hidden" size={16} />
@@ -56,7 +55,7 @@ export default function LeftNav() {
           {account ? (
             <AccountMenu />
           ) : (
-            <Link href="/login">
+            <Link to="/login">
               <Button>ログイン</Button>
             </Link>
           )}
@@ -75,12 +74,12 @@ function NavLink({
   href: string
   disabled?: boolean
 }) {
-  const pathname = usePathname()
+  const { pathname } = useLocation()
 
   return (
     <Link
       className={clsx("*:hover:bg-neutral-200", disabled && "pointer-events-none text-neutral-400")}
-      href={href}>
+      to={href}>
       <div
         className={clsx(
           btnBase,

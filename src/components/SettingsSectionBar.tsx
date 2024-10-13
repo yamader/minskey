@@ -1,16 +1,13 @@
-"use client"
-
 import clsx from "clsx"
 import { ChevronRight } from "lucide-react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { Link, useLocation } from "react-router"
 
 export default function SettingsSectionBar({ tag, href }: { tag: string; href: string }) {
-  const pathname = usePathname()
+  const { pathname } = useLocation()
 
   return (
     <Link
-      href={href}
+      to={href}
       className={clsx(
         "relative flex items-center justify-between p-3 transition hover:bg-neutral-200",
         pathname.startsWith(href) &&

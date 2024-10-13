@@ -6,7 +6,7 @@ import { Account } from "~/features/auth"
 import { CustomEmojiStr } from "~/features/common/CustomEmoji"
 import { User } from "~/features/user"
 import UesrStatusIcon from "~/features/user/UserStatusIcon"
-import { hostname } from "~/utils"
+import { hostname } from "~/libs/utils"
 
 const acct2UserAtom = atom<{ [key: string]: User }>({})
 

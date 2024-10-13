@@ -19,6 +19,7 @@ export default function NavRN({ note }: { note: Note }) {
           sideOffset={4}>
           <DropdownMenu.Item asChild>
             <button
+              type="button"
               className={menuItem}
               onClick={async () => {
                 if (!api) return
@@ -31,6 +32,7 @@ export default function NavRN({ note }: { note: Note }) {
           <DropdownMenu.Separator className="h-px bg-neutral-200" />
           <DropdownMenu.Item asChild>
             <button
+              type="button"
               className={menuItem}
               onClick={() => {
                 alert("Quote!")

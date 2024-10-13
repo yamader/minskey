@@ -2,7 +2,7 @@ import { atom, useAtom } from "jotai"
 import { Emitter } from "mitt"
 import { use, useEffect, useRef } from "react"
 import { Account, useAccount } from "~/features/auth"
-import { ensureproto } from "~/utils"
+import { ensureproto } from "~/libs/utils"
 import { APIClient, MisskeyChannels, MisskeyStream, detect } from "./clients"
 
 // なんかいい名前無いかな
@@ -70,7 +70,7 @@ export function useChannel(chanName: keyof MisskeyChannels, params = {}) {
     id: string
     chan: Emitter<any>
     off: () => void
-    send: (type: string, body: Object) => void
+    send: (type: string, body: object) => void
   }
 
   // todo: ウンコード直す

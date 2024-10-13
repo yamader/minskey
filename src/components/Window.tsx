@@ -74,6 +74,7 @@ export default function Window({
           })
         }>
         <button
+          type="button"
           className="rounded-full p-0.5 font-black text-stone-600 leading-none hover:bg-neutral-300"
           onClick={onClose}>
           &times;

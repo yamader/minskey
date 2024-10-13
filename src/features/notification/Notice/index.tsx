@@ -1,5 +1,5 @@
-import Link from "next/link"
 import { ReactNode } from "react"
+import { Link } from "react-router"
 import TimeText from "~/components/TimeText"
 import { Notification } from "~/features/notification"
 import { User, profileLink } from "~/features/user"
@@ -24,7 +24,7 @@ export const NoticeUser = ({ user, children }: { user: User; children?: ReactNod
       <div className="flex w-full flex-col gap-0.5">
         <div className="flex justify-between">
           <div className="flex gap-1 font-bold">
-            <Link className="hover:underline" href={profileLink(user)}>
+            <Link className="hover:underline" to={profileLink(user)}>
               {user.name}
             </Link>
             <p>

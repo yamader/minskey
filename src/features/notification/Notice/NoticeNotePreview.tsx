@@ -1,5 +1,4 @@
-import Image from "next/image"
-import Link from "next/link"
+import { Link } from "react-router"
 import { Note } from "~/features/note"
 import { profileLink } from "~/features/user"
 
@@ -9,13 +8,13 @@ export default function NoticeNotePreview({ note }: { note: Note }) {
       <div className="flex gap-1.5">
         <Link
           className="m-1 h-fit w-fit overflow-hidden rounded-[48px] shadow transition-all hover:rounded-md"
-          href={profileLink(note.user)}>
-          <Image src={note.user.avatarUrl} width={48} height={48} alt="Icon" />
+          to={profileLink(note.user)}>
+          <img src={note.user.avatarUrl} width={48} height={48} alt="Icon" />
         </Link>
         <div className="flex w-full flex-col gap-0.5">
           <div className="flex justify-between">
             <div className="flex gap-1 font-bold">
-              <Link className="hover:underline" href={profileLink(note.user)}>
+              <Link className="hover:underline" to={profileLink(note.user)}>
                 {note.user.name}
               </Link>
               <p>
@@ -25,7 +24,7 @@ export default function NoticeNotePreview({ note }: { note: Note }) {
             </div>
           </div>
           <p>
-            <Link className="hover:underline" href={`/note?id=${note.id}`}>
+            <Link className="hover:underline" to={`/note?id=${note.id}`}>
               {note.text}
             </Link>
           </p>

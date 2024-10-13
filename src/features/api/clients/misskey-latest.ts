@@ -4,8 +4,8 @@ import { Note } from "~/features/note"
 import { Notification } from "~/features/notification"
 import { TLNames } from "~/features/timeline"
 import { User } from "~/features/user"
-import { dbg } from "~/utils"
-import { HandyWebSocket } from "~/ws"
+import { dbg } from "~/libs/utils"
+import { HandyWebSocket } from "~/libs/ws"
 import { MisskeyChannels, MisskeyStream } from "."
 import BaseClient from "./base"
 
@@ -193,7 +193,7 @@ export default class MisskeyLatestClient extends BaseClient {
       )
     }
 
-    const send = (type: string, body: Object) => {
+    const send = (type: string, body: object) => {
       dbg(`[api::clients::channel] send: ${id}`)
       this.ws.safetySend(
         JSON.stringify({

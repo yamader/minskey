@@ -1,12 +1,9 @@
-"use client"
-
 import { Tooltip } from "@radix-ui/themes"
 import { ArrowLeft } from "lucide-react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { Link, useNavigate } from "react-router"
 
 export default function TopAppBar({ content, back }: { content: React.ReactNode; back?: boolean }) {
-  const router = useRouter()
+  const navigate = useNavigate()
 
   return (
     <div className="flex min-h-12 items-center border-b px-3 font-bold">
@@ -14,8 +11,8 @@ export default function TopAppBar({ content, back }: { content: React.ReactNode;
         <Tooltip content="戻る">
           <Link
             className="-ml-1 mr-5 rounded-full p-2 hover:bg-neutral-100"
-            href="/home/"
-            onClick={router.back}>
+            to="/home/"
+            onClick={() => navigate(-1)}>
             <ArrowLeft className="text-neutral-600" size={18} />
           </Link>
         </Tooltip>

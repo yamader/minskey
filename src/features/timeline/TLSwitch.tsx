@@ -1,5 +1,3 @@
-"use client"
-
 import clsx, { ClassValue } from "clsx"
 import { ReactNode } from "react"
 import { TLNames, useTLName } from "."
@@ -8,6 +6,7 @@ const TLButton = ({ tl, children }: { tl: TLNames; children: ReactNode }) => {
   const [currentTl, setCurrentTl] = useTLName()
   return (
     <button
+      type="button"
       className={"grow py-2 text-center " + (currentTl == tl ? "underline" : "")}
       onClick={() => setCurrentTl(tl)}>
       {children}

@@ -9,11 +9,13 @@
         "useSortedClasses": "warn"
       },
       "style": {
+        "noNonNullAssertion": "off",
         "useImportType": "off",
         "useTemplate": "off"
       },
       "suspicious": {
-        "noDoubleEquals": "off"
+        "noDoubleEquals": "off",
+        "noExplicitAny": "off"
       }
     }
   },

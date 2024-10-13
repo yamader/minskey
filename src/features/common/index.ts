@@ -2,8 +2,8 @@ export * from "./keysym"
 export * from "./types"
 
 import { useScroll, useSize } from "ahooks"
-import { usePathname, useSearchParams } from "next/navigation"
 import { DependencyList, useEffect, useState } from "react"
+import { useLocation, useSearchParams } from "react-router"
 
 // hooks
 
@@ -26,8 +26,8 @@ export function useBottom(f: () => void) {
 }
 
 export function useCurrentPath() {
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
+  const { pathname } = useLocation()
+  const [searchParams] = useSearchParams()
   return `${pathname}?${searchParams.toString()}`
 }
 

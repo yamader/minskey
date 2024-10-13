@@ -1,6 +1,6 @@
 export * from "./types"
 
-import { hostname } from "~/utils"
+import { hostname } from "~/libs/utils"
 import { User, UserStatus } from "."
 
 export function statusEmoji(status: UserStatus = "unknown") {

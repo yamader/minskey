@@ -4,7 +4,7 @@ export type APIClient = MisskeyLatestClient
 
 export type MisskeyStream = {
   // type: body
-  noteUpdated: Object
+  noteUpdated: object
 }
 
 export type MisskeyChannels = {

@@ -1,9 +1,7 @@
-"use client"
-
 import { Popover } from "@radix-ui/themes"
 import { Plus } from "lucide-react"
-import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { useNavigate } from "react-router"
 import { useAPI } from "~/features/api"
 import { useCurrentPath } from "~/features/common"
 import { EmojiPicker } from "~/features/common/EmojiPicker"
@@ -12,7 +10,7 @@ import { Note } from ".."
 export default function NavReact({ note }: { note: Note }) {
   const [open, setOpen] = useState(false)
   const api = useAPI()
-  const router = useRouter()
+  const navigate = useNavigate()
   const currentPath = useCurrentPath()
 
   return (
@@ -20,7 +18,7 @@ export default function NavReact({ note }: { note: Note }) {
       open={open}
       onOpenChange={v => {
         setOpen(v && !!api)
-        if (v && !api) router.push(`/login?go=${encodeURIComponent(currentPath)}`)
+        if (v && !api) navigate(`/login/?go=${encodeURIComponent(currentPath)}`)
       }}>
       <Popover.Trigger>
         <Plus size={20} />

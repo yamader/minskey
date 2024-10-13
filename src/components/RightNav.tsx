@@ -1,5 +1,3 @@
-"use client"
-
 import clsx from "clsx"
 import { Fragment } from "react"
 import { useSettings } from "~/features/settings"
@@ -43,5 +41,7 @@ function SearchBar() {
 
 // todo: track eyes
 function AiChan() {
-  return <iframe className="h-64" src="https://misskey-dev.github.io/mascot-web/?scale=1.3" />
+  return (
+    <iframe className="h-64" src="https://misskey-dev.github.io/mascot-web/?scale=1.3" title="Ai" />
+  )
 }

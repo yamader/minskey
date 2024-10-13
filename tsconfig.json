@@ -1,23 +1,26 @@
+// https://github.com/remix-run/react-router/blob/dev/templates/basic/tsconfig.json
 {
+  "include": ["**/*.ts", "**/*.tsx", ".react-router/types/**/*"],
   "compilerOptions": {
-    "types": ["@serwist/next/typings"],
-    "lib": ["dom", "dom.iterable", "esnext", "webworker"],
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "types": ["@react-router/node", "vite/client"],
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "resolveJsonModule": true,
+    "target": "ES2022",
+    "strict": true,
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true,
-    "plugins": [{ "name": "next" }],
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"]
-    }
-  },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+    },
+    "noEmit": true,
+    "rootDirs": [".", "./.react-router/types"],
+    "plugins": [{ "name": "@react-router/dev" }]
+  }
 }

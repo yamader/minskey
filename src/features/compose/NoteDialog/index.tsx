@@ -1,5 +1,3 @@
-"use client"
-
 import * as Dialog from "@radix-ui/react-dialog"
 import * as Select from "@radix-ui/react-select"
 import { BarChartHorizontal, ChevronDown, EyeOff, Paperclip, User2, X } from "lucide-react"
@@ -90,7 +88,7 @@ function NoteForm({
           <User2 />
           <span>me</span>
         </div>
-        <button onClick={close}>
+        <button type="button" onClick={close}>
           <X />
         </button>
       </div>
@@ -105,13 +103,13 @@ function NoteForm({
         />
         <div className="flex justify-between px-1 text-neutral-700">
           <div className="flex items-center">
-            <button className={btn}>
+            <button type="button" className={btn}>
               <Paperclip size={20} />
             </button>
-            <button className={btn}>
+            <button type="button" className={btn}>
               <BarChartHorizontal size={20} />
             </button>
-            <button className={btn}>
+            <button type="button" className={btn}>
               <EyeOff size={20} />
             </button>
           </div>

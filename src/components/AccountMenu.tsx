@@ -1,7 +1,7 @@
 import { DropdownMenu } from "@radix-ui/themes"
 import clsx from "clsx"
 import { Check, Menu } from "lucide-react"
-import Link from "next/link"
+import { Link } from "react-router"
 import AccountBar from "~/components/AccountBar"
 import { isSameAccount, useAuth } from "~/features/auth"
 
@@ -42,7 +42,7 @@ export default function AccountMenu() {
         </div>
         <DropdownMenu.Separator />
         <DropdownMenu.Item asChild>
-          <Link className={actionBtn} href="/login/">
+          <Link className={actionBtn} to="/login/">
             アカウントを追加
           </Link>
         </DropdownMenu.Item>
@@ -51,6 +51,7 @@ export default function AccountMenu() {
         </DropdownMenu.Item>
         <DropdownMenu.Item asChild>
           <button
+            type="button"
             className={clsx(actionBtn, "font-bold text-red-500 hover:bg-red-100 active:bg-red-200")}
             onClick={() => confirm("ほんまに？") && logout()}>
             ログアウト

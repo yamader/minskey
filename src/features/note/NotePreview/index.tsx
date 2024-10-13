@@ -1,14 +1,13 @@
 import { Home, Lock, Repeat2 } from "lucide-react"
-import Image from "next/image"
-import Link from "next/link"
 import { memo } from "react"
 import Mfm, { MfmSimple } from "react-mfm"
+import { Link } from "react-router"
 import TimeText from "~/components/TimeText"
 import { useLogin } from "~/features/auth"
 import { CustomEmojiCtx, CustomEmojiStr } from "~/features/common/CustomEmoji"
 import FilePreview from "~/features/drive/FilePreview"
 import { profileLink } from "~/features/user"
-import { hostname } from "~/utils"
+import { hostname } from "~/libs/utils"
 import { Note } from ".."
 import NavMore from "./NavMore"
 import NavRN from "./NavRN"
@@ -43,8 +42,8 @@ function NotePreview({ note, _nonav }: { note: Note; _nonav?: boolean }) {
           {/* アイコン */}
           <Link
             className="m-1 h-fit w-fit overflow-hidden rounded-[48px] shadow transition-all hover:rounded-md"
-            href={profileLink(note.user)}>
-            <Image src={note.user.avatarUrl} width={48} height={48} alt="Icon" />
+            to={profileLink(note.user)}>
+            <img src={note.user.avatarUrl} width={48} height={48} alt="Icon" />
           </Link>
 
           <div className="flex w-full flex-col gap-0.5">
@@ -52,7 +51,7 @@ function NotePreview({ note, _nonav }: { note: Note; _nonav?: boolean }) {
             <div className="flex justify-between">
               <div className="flex gap-1 break-words font-bold">
                 {/* ユーザー名 */}
-                <Link className="mfm-plainCE hover:underline" href={profileLink(note.user)}>
+                <Link className="mfm-plainCE hover:underline" to={profileLink(note.user)}>
                   <CustomEmojiStr text={note.user.name ?? "" /* wtf */} />
                 </Link>
                 {/* @ID@Host */}
@@ -64,7 +63,7 @@ function NotePreview({ note, _nonav }: { note: Note; _nonav?: boolean }) {
               {/* 右寄せテキスト */}
               <div className="flex items-center">
                 {/* 投稿日時 */}
-                <Link className="hover:underline" href={`/note?id=${note.id}`}>
+                <Link className="hover:underline" to={`/note?id=${note.id}`}>
                   <TimeText dateTime={note.createdAt} />
                 </Link>
                 {/* スコープ */}
@@ -116,12 +115,12 @@ function RenoteBar({ note, host }: { note: Note; host: string | null }) {
       <div className="mb-1 flex justify-between text-neutral-600">
         <div className="ml-1 flex items-center gap-1 text-sm">
           <Repeat2 size={16} />
-          <Link className="mfm-plainCE font-bold hover:underline" href={profileLink(note.user)}>
+          <Link className="mfm-plainCE font-bold hover:underline" to={profileLink(note.user)}>
             <MfmSimple text={note.user.name ?? ""} />
           </Link>
           Renoted
         </div>
-        <Link className="hover:underline" href={`/note?id=${note.id}`}>
+        <Link className="hover:underline" to={`/note?id=${note.id}`}>
           <TimeText dateTime={note.createdAt} />
         </Link>
       </div>

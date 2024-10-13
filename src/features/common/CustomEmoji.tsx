@@ -1,5 +1,3 @@
-"use client"
-
 import { atom, useAtom, useAtomValue } from "jotai"
 import { atomWithStorage } from "jotai/utils"
 import { Fragment, Suspense, createContext, use, useContext } from "react"
