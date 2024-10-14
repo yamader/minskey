@@ -4,6 +4,7 @@ import { Theme } from "@radix-ui/themes"
 import { lazy } from "react"
 import { Links, Meta, MetaFunction, Outlet, Scripts, useRouteError } from "react-router"
 import BSOD from "~/components/BSOD"
+import "~/libs/sw"
 
 import "@fontsource-variable/fira-code"
 import "@fontsource-variable/inter"
