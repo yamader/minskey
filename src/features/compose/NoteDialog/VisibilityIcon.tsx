@@ -1,12 +1,8 @@
-import { Globe, Home, Lock, LucideIcon, Mail } from "lucide-react"
-import { ComponentProps } from "react"
+import { Globe, Home, Lock, LucideProps, Mail } from "lucide-preact"
 
 export type Visibility = "public" | "home" | "followers" | "specified" | undefined
 
-export default function VisivilityIcon({
-  name,
-  ...props
-}: ComponentProps<LucideIcon> & { name: Visibility }) {
+export default function VisivilityIcon({ name, ...props }: LucideProps & { name: Visibility }) {
   // biome-ignore format:
   switch (name) {
     case "public":    return <Globe {...props} />

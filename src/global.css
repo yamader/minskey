@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.mfm-customEmoji {
+  height: 1.25em;
+  vertical-align: -0.25em;
+}
+
+.mfm-blockCode {
+  font-size: 0.8em;
+}
+
+.mfm-plainCE .mfm-customEmoji {
+  height: 1.25em;
+  vertical-align: -0.25em;
+}
+
+.mfm-link {
+  overflow-wrap: break-word;
+}
+
+.mfm-link,
+.mfm-mention,
+.mfm-hashtag {
+  color: #86b300;
+  text-decoration: none;
+}
+
+.mfm-link:hover,
+.mfm-mention:hover,
+.mfm-hashtag:hover {
+  text-decoration: underline;
+}
+
+.mfm-inlineCode {
+  padding: 0.15em 0.4em;
+  border-radius: 0.25em;
+  background-color: #f0f0f0;
+  font-size: 0.85em;
+}
+
+.mfm-blockCode {
+  overflow-x: auto;
+  margin: 0.5em 0;
+  padding: 0.5em 0.75em;
+  border-radius: 0.5em;
+  background-color: #f0f0f0;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.mfm-quote {
+  margin: 0.5em 0;
+  padding-left: 0.75em;
+  border-left: 3px solid #ddd;
+}
+
+.mfm-center {
+  text-align: center;
+}
+
+.mfm-search {
+  border-bottom: 1px dashed #aaa;
+}
+
+.mfm-small {
+  font-size: 0.85em;
+}
+
+.mfm-italic {
+  font-style: italic;
+}
+
+.mfm-mathBlock {
+  overflow-x: auto;
+  margin: 0.5em 0;
+  padding: 0.5em 0.75em;
+  border-radius: 0.5em;
+  background-color: #f0f0f0;
+}

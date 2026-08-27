@@ -1,11 +1,9 @@
 /node_modules
 /build
 
-/.next
-/out
+/dist
 
 *.tsbuildinfo
-next-env.d.ts
 
 # PWA
 /public/sw.js

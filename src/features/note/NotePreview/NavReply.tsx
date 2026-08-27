@@ -1,9 +1,10 @@
-import { Reply } from "lucide-react"
+import { Reply } from "lucide-preact"
 import { Note } from ".."
 
 export default function NavReply({ note }: { note: Note }) {
   return (
     <button
+      type="button"
       onClick={() => {
         alert("Reply!")
       }}>

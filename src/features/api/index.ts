@@ -1,6 +1,6 @@
-import { atom, useAtom } from "jotai"
+import { signal } from "@preact/signals"
 import { Emitter } from "mitt"
-import { use, useEffect, useRef } from "react"
+import { useEffect, useRef } from "preact/hooks"
 import { Account, useAccount } from "~/features/auth"
 import { ensureproto } from "~/utils"
 import { APIClient, MisskeyChannels, MisskeyStream, detect } from "./clients"
@@ -11,11 +11,10 @@ function account2ClientIdx(account: Account) {
 }
 
 //------------------------------------------------------------//
-//  atoms
+//  signals
 //------------------------------------------------------------//
 
-const clientsAtom = atom<{ [id: string]: APIClient | null }>({})
-const clientsFetchAtom = atom<{ [id: string]: Promise<APIClient | null> }>({})
+const clientsSignal = signal<{ [id: string]: APIClient | null }>({})
 
 //------------------------------------------------------------//
 //  hooks
@@ -23,45 +22,31 @@ const clientsFetchAtom = atom<{ [id: string]: Promise<APIClient | null> }>({})
 
 export function useAPI() {
   const account = useAccount()
-  const [clients, setClients] = useAtom(clientsAtom)
-  const [clientsFetch, setClientsFetch] = useAtom(clientsFetchAtom)
+  const clients = clientsSignal.value
+  const key = account && account2ClientIdx(account)
 
-  if (!account) return null
-  const key = account2ClientIdx(account)
+  useEffect(() => {
+    if (!key || key in clients) return
+    detect(account.host, account.token).then(client => {
+      clientsSignal.value = { ...clientsSignal.value, [key]: client }
+    })
+  }, [key, clients, account])
 
-  if (key in clients) return clients[key]
-
-  if (key in clientsFetch) {
-    const client = use(clientsFetch[key])
-    setClients({ ...clients, [key]: client })
-    delete clientsFetch[key]
-    setClientsFetch({ ...clientsFetch })
-    return client
-  }
-
-  const task = detect(account.host, account.token)
-  setClientsFetch({ ...clientsFetch, [key]: task })
-  return use(task)
+  return key ? (clients[key] ?? null) : null
 }
 
 export function useForeignAPI(host: string) {
-  const [clients, setClients] = useAtom(clientsAtom)
-  const [clientsFetch, setClientsFetch] = useAtom(clientsFetchAtom)
+  const clients = clientsSignal.value
   const _host = ensureproto(host)
 
-  if (_host in clients) return clients[_host]
+  useEffect(() => {
+    if (_host in clients) return
+    detect(_host).then(client => {
+      clientsSignal.value = { ...clientsSignal.value, [_host]: client }
+    })
+  }, [_host, clients])
 
-  if (_host in clientsFetch) {
-    const client = use(clientsFetch[_host])
-    setClients({ ...clients, [_host]: client })
-    delete clientsFetch[_host]
-    setClientsFetch({ ...clientsFetch })
-    return client
-  }
-
-  const task = detect(_host)
-  setClientsFetch({ ...clientsFetch, [_host]: task })
-  return use(task)
+  return clients[_host] ?? null
 }
 
 export function useChannel(chanName: keyof MisskeyChannels, params = {}) {

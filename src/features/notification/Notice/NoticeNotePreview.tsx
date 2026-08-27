@@ -1,7 +1,6 @@
-import Image from "next/image"
-import Link from "next/link"
 import { Note } from "~/features/note"
 import { profileLink } from "~/features/user"
+import { Link } from "~/router"
 
 export default function NoticeNotePreview({ note }: { note: Note }) {
   return (
@@ -10,7 +9,7 @@ export default function NoticeNotePreview({ note }: { note: Note }) {
         <Link
           className="m-1 h-fit w-fit overflow-hidden rounded-[48px] shadow transition-all hover:rounded-md"
           href={profileLink(note.user)}>
-          <Image src={note.user.avatarUrl} width={48} height={48} alt="Icon" />
+          <img src={note.user.avatarUrl} width={48} height={48} alt="Icon" />
         </Link>
         <div className="flex w-full flex-col gap-0.5">
           <div className="flex justify-between">

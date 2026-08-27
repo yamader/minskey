@@ -1,25 +1,13 @@
-import { atom } from "jotai"
-import { useEffect } from "react"
-import { useImmer } from "use-immer"
-
-type WindowMeta = {
-  id: number
-}
-
-const windowsAtom = atom<{
-  windows: WindowMeta[]
-  currentId: number // 大丈夫？
-}>({
-  windows: [],
-  currentId: 0,
-})
+import { ComponentChildren } from "preact"
+import { useEffect } from "preact/hooks"
+import { useImmer } from "~/components/hooks"
 
 export default function Window({
   onClose,
   children,
 }: {
   onClose?: () => void
-  children: React.ReactNode
+  children: ComponentChildren
 }) {
   const [w, updateW] = useImmer({
     x: 100,
@@ -69,11 +57,12 @@ export default function Window({
         onMouseDown={e =>
           updateW(d => {
             d.grab = true
-            d.grabX = e.nativeEvent.offsetX
-            d.grabY = e.nativeEvent.offsetY
+            d.grabX = e.offsetX
+            d.grabY = e.offsetY
           })
         }>
         <button
+          type="button"
           className="rounded-full p-0.5 font-black text-stone-600 leading-none hover:bg-neutral-300"
           onClick={onClose}>
           &times;

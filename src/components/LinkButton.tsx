@@ -1,8 +1,11 @@
-import Link from "next/link"
-import { ReactNode } from "react"
+import { ComponentChildren } from "preact"
 import Button from "~/components/Button"
+import { Link } from "~/router"
 
-export default function LinkButton({ href, children }: { href: string; children: ReactNode }) {
+export default function LinkButton({
+  href,
+  children,
+}: { href: string; children: ComponentChildren }) {
   return (
     <Link href={href}>
       <Button>{children}</Button>

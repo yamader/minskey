@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect } from "preact/hooks"
 
 type Modkey = "Shift" | "Control" | "Alt" | "Meta"
 type Keysym = string

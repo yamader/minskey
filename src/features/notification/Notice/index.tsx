@@ -1,9 +1,9 @@
-import Link from "next/link"
-import { ReactNode } from "react"
+import { ComponentChildren } from "preact"
 import TimeText from "~/components/TimeText"
 import { Notification } from "~/features/notification"
 import { User, profileLink } from "~/features/user"
 import UserIcon from "~/features/user/UserIcon"
+import { Link } from "~/router"
 import NoticeNotePreview from "./NoticeNotePreview"
 
 export default function Notice({ notice }: { notice: Notification }) {
@@ -17,7 +17,7 @@ export default function Notice({ notice }: { notice: Notification }) {
   )
 }
 
-export const NoticeUser = ({ user, children }: { user: User; children?: ReactNode }) => {
+export const NoticeUser = ({ user, children }: { user: User; children?: ComponentChildren }) => {
   return (
     <div className="flex gap-1.5">
       <UserIcon user={user} />

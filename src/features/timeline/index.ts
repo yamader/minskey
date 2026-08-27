@@ -1,40 +1,46 @@
 export type TLNames = "homeTimeline" | "localTimeline" | "hybridTimeline" | "globalTimeline"
 
-import { atom, useAtom, useAtomValue, useSetAtom } from "jotai"
-import { atomWithStorage } from "jotai/utils"
-import { useEffect, useState } from "react"
+import { signal } from "@preact/signals"
+import { useEffect, useState } from "preact/hooks"
 import { useAPI, useChannel } from "~/features/api"
 import { Note } from "~/features/note"
+import { persistedSignal } from "~/utils"
 
 //------------------------------------------------------------//
-//  atoms
+//  signals
 //------------------------------------------------------------//
 
-const tlNameAtom = atomWithStorage<TLNames>("minsk::tl::name", "homeTimeline")
-const tlNotesAtom = atom<Note[]>([])
-const tlMoreAtom = atom<[() => void]>([() => {}])
+const tlNameSignal = persistedSignal<TLNames>("minsk::tl::name", "homeTimeline")
+const tlNotesSignal = signal<Note[]>([])
+const tlMoreSignal = signal<[() => void]>([() => {}])
+
+function setNotes(update: Note[] | ((prev: Note[]) => Note[])) {
+  tlNotesSignal.value = typeof update === "function" ? update(tlNotesSignal.value) : update
+}
+
+function setMore(fn: () => void) {
+  tlMoreSignal.value = [fn]
+}
 
 //------------------------------------------------------------//
 //  hooks
 //------------------------------------------------------------//
 
 export function useTL() {
-  const notes = useAtomValue(tlNotesAtom)
-  const [more] = useAtomValue(tlMoreAtom)
+  const notes = tlNotesSignal.value
+  const [more] = tlMoreSignal.value
   return { notes, more }
 }
 
 export function useTLName() {
-  return useAtom(tlNameAtom)
+  return [tlNameSignal.value, (v: TLNames) => (tlNameSignal.value = v)] as const
 }
 
 // todo: ノートの内容をいい感じにキャッシュ
 export function useTLStream() {
-  const tlName = useAtomValue(tlNameAtom)
+  const tlName = tlNameSignal.value
   const chan = useChannel(tlName)
   const api = useAPI()
-  const setNotes = useSetAtom(tlNotesAtom)
-  const setMore = useSetAtom(tlMoreAtom)
   const [untilId, setUntilId] = useState("")
   const [beginStream, setBeginStream] = useState(false)
 
@@ -61,14 +67,12 @@ export function useTLStream() {
   // scroll
   useEffect(() => {
     if (api)
-      setMore([
-        async () => {
-          const res = await api.notes(tlName, { limit: 30, untilId })
-          if (res?.length) {
-            setNotes(notes => notes.concat(res))
-            setUntilId(res[res.length - 1].id)
-          }
-        },
-      ])
+      setMore(async () => {
+        const res = await api.notes(tlName, { limit: 30, untilId })
+        if (res?.length) {
+          setNotes(notes => notes.concat(res))
+          setUntilId(res[res.length - 1].id)
+        }
+      })
   }, [api, untilId])
 }

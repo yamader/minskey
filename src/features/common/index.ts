@@ -1,9 +1,11 @@
 export * from "./keysym"
 export * from "./types"
 
-import { useScroll, useSize } from "ahooks"
-import { usePathname, useSearchParams } from "next/navigation"
-import { DependencyList, useEffect, useState } from "react"
+import { useEffect, useState } from "preact/hooks"
+import { useScroll, useSize } from "~/components/hooks"
+import { usePathname, useSearchParams } from "~/router"
+
+type DependencyList = ReadonlyArray<unknown>
 
 // hooks
 
@@ -14,15 +16,13 @@ export function useClient() {
 }
 
 export function useBottom(f: () => void) {
-  // SSR
-  globalThis.document ??= { body: { scrollHeight: -1 } } as Document
-
-  const size = useSize(document.body)
+  const size = useSize(document.documentElement)
   const pos = useScroll(document)
 
   useEffect(() => {
-    if ((size?.height ?? 0) + (pos?.top ?? 0) >= document.body.scrollHeight) f()
-  }, [size?.height, pos?.top, f])
+    const el = document.scrollingElement
+    if (el && size.height + pos.top >= el.scrollHeight) f()
+  }, [size.height, pos.top, f])
 }
 
 export function useCurrentPath() {

@@ -1,18 +1,9 @@
-import { Suspense } from "react"
 import { User } from "~/features/user"
 
 type Props = {
   user: User
 }
 
-export default function ProfileCard(props: Props) {
-  return (
-    <Suspense>
-      <ProfileCardSuspense {...props} />
-    </Suspense>
-  )
-}
-
-function ProfileCardSuspense({ user }: Props) {
+export default function ProfileCard(_props: Props) {
   return null
 }

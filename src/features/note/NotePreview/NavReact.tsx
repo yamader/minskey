@@ -1,12 +1,10 @@
-"use client"
-
-import { Popover } from "@radix-ui/themes"
-import { Plus } from "lucide-react"
-import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { Plus } from "lucide-preact"
+import { useState } from "preact/hooks"
+import Popover from "~/components/Popover"
 import { useAPI } from "~/features/api"
 import { useCurrentPath } from "~/features/common"
 import { EmojiPicker } from "~/features/common/EmojiPicker"
+import { useRouter } from "~/router"
 import { Note } from ".."
 
 export default function NavReact({ note }: { note: Note }) {
@@ -16,23 +14,19 @@ export default function NavReact({ note }: { note: Note }) {
   const currentPath = useCurrentPath()
 
   return (
-    <Popover.Root
+    <Popover
       open={open}
       onOpenChange={v => {
         setOpen(v && !!api)
         if (v && !api) router.push(`/login?go=${encodeURIComponent(currentPath)}`)
-      }}>
-      <Popover.Trigger>
-        <Plus size={20} />
-      </Popover.Trigger>
-      <Popover.Content>
-        <EmojiPicker
-          onPicked={emoji => {
-            if (!api || !emoji) return
-            api.reactNote(note.id, emoji).catch(console.error)
-          }}
-        />
-      </Popover.Content>
-    </Popover.Root>
+      }}
+      trigger={<Plus size={20} />}>
+      <EmojiPicker
+        onPicked={emoji => {
+          if (!api || !emoji) return
+          api.reactNote(note.id, emoji).catch(console.error)
+        }}
+      />
+    </Popover>
   )
 }

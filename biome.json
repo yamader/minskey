@@ -3,6 +3,10 @@
     "enabled": true,
     "clientKind": "git"
   },
+  "files": {
+    "ignoreUnknown": true,
+    "ignore": ["dist", "node_modules", "public"]
+  },
   "linter": {
     "rules": {
       "nursery": {

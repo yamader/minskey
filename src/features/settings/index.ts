@@ -1,5 +1,5 @@
-import { atom, useAtom } from "jotai"
-import { atomWithStorage } from "jotai/utils"
+import { computed } from "@preact/signals"
+import { persistedSignal } from "~/utils"
 
 type Settings = {
   version: number
@@ -10,32 +10,28 @@ type Settings = {
   }
 }
 
-const rawSettingsAtom = atomWithStorage("minsk::settings", {})
-const settingsAtom = atom(
-  get => {
-    const rawSettings = get(rawSettingsAtom)
-    return settingsMigrator(rawSettings)
-  },
-  (_, set, update: Settings) => {
-    set(rawSettingsAtom, update as object)
-  },
-)
+const rawSettingsSignal = persistedSignal<Record<string, unknown>>("minsk::settings", {})
+const settingsSignal = computed(() => settingsMigrator(rawSettingsSignal.value))
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function settingsMigrator(settings: any): Settings {
+function settingsMigrator(raw: Record<string, unknown>): Settings {
+  const settings = raw as Settings & Record<string, unknown>
   if (!settings.version || settings.version < 1) {
     settings.version = 0.1
     settings.dark ??= false
     settings.absDate ??= false
     settings.ui = {
+      ...(settings.ui as Settings["ui"]),
       rnav: ["search"],
-      ...settings.ui,
     }
   }
-
   return settings
 }
 
 export function useSettings() {
-  return useAtom(settingsAtom)
+  return [
+    settingsSignal.value,
+    (update: Settings) => {
+      rawSettingsSignal.value = update as unknown as Record<string, unknown>
+    },
+  ] as const
 }

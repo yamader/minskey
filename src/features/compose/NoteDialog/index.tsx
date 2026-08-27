@@ -1,11 +1,9 @@
-"use client"
-
-import * as Dialog from "@radix-ui/react-dialog"
-import * as Select from "@radix-ui/react-select"
-import { BarChartHorizontal, ChevronDown, EyeOff, Paperclip, User2, X } from "lucide-react"
-import { ComponentProps, forwardRef, useEffect, useRef } from "react"
-import { UseFormReturn, useForm } from "react-hook-form"
-import TextareaAutosize from "react-textarea-autosize"
+import { BarChartHorizontal, ChevronDown, EyeOff, Paperclip, User2, X } from "lucide-preact"
+import { useEffect, useRef } from "preact/hooks"
+import Dialog from "~/components/Dialog"
+import Select from "~/components/Select"
+import TextareaAutosize from "~/components/TextareaAutosize"
+import { UseFormReturn, useForm } from "~/components/useForm"
 import { useAPI } from "~/features/api"
 import { useKeysymWithOpts } from "~/features/common"
 import { useComposeNoteDialog, useComposeNoteLastVisibility } from ".."
@@ -37,20 +35,17 @@ export default function NoteDialog() {
   // おま○け
   const fst = useRef(true)
   useEffect(() => {
-    if (open) history.pushState(null, "", "/compose/note/")
+    if (open) history.pushState(null, "", "/compose/note")
     else if (!fst.current) history.back()
     fst.current = false
   }, [open])
 
   return (
-    <Dialog.Root open={open} onOpenChange={open => setOpen(open)}>
-      <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 bg-black/50" />
-        <Dialog.Content className="fixed top-14 left-1/2 max-h-[85vh] w-[32rem] translate-x-[-50%]">
-          <NoteForm {...form} close={() => setOpen(false)} />
-        </Dialog.Content>
-      </Dialog.Portal>
-    </Dialog.Root>
+    <Dialog open={open} onOpenChange={setOpen} overlayClassName="fixed inset-0 bg-black/50">
+      <div className="fixed top-14 left-1/2 max-h-[85vh] w-[32rem] translate-x-[-50%]">
+        <NoteForm {...form} close={() => setOpen(false)} />
+      </div>
+    </Dialog>
   )
 }
 
@@ -117,8 +112,8 @@ function NoteForm({
           </div>
           <div className="flex items-center gap-1">
             <NFSelectVisibility
-              defaultValue={getValues("visibility")}
-              onValueChange={val => setValue("visibility", val as Visibility)}
+              value={(getValues("visibility") ?? "public") as NonNullable<Visibility>}
+              onValueChange={val => setValue("visibility", val)}
             />
             <button
               className="rounded-lg bg-misskey px-4 pt-2 pb-2.5 font-black text-lg text-white leading-none hover:brightness-95 active:brightness-90"
@@ -132,45 +127,41 @@ function NoteForm({
   )
 }
 
-function NFSelectVisibility(props: ComponentProps<typeof Select.Root>) {
-  const SelectVisibility = forwardRef<
-    HTMLDivElement,
-    ComponentProps<typeof Select.Item> & { value: Visibility }
-  >(({ children, value, ...props }, ref) => (
-    <Select.Item
-      className="select-none rounded-lg px-2 py-1.5 data-[highlighted]:bg-lime-200 data-[state=checked]:text-lime-700"
-      value={value}
-      {...props}
-      ref={ref}>
-      <Select.ItemText>
-        <div className="flex items-center gap-1 font-bold text-sm">
-          <VisibilityIcon name={value} size={18} />
-          <p className="-mt-0.5">{children}</p>
-        </div>
-      </Select.ItemText>
-    </Select.Item>
-  ))
+function NFSelectVisibility({
+  value,
+  onValueChange,
+}: {
+  value: NonNullable<Visibility>
+  onValueChange: (val: NonNullable<Visibility>) => void
+}) {
+  const items = (
+    [
+      ["public", "Public"],
+      ["home", "Home"],
+      ["followers", "Followers"],
+      ["specified", "Specified"],
+    ] as const
+  ).map(([name, label]) => ({
+    value: name,
+    label: (
+      <span className="flex items-center gap-1 font-bold text-sm">
+        <VisibilityIcon name={name} size={18} />
+        <span className="-mt-0.5">{label}</span>
+      </span>
+    ),
+  }))
 
   return (
-    <Select.Root {...props}>
-      <Select.Trigger className="flex h-full items-center gap-0.5 rounded-lg px-2 hover:bg-neutral-200">
-        <Select.Value />
-        <Select.Icon>
+    <Select
+      value={value}
+      onValueChange={onValueChange}
+      items={items}
+      renderValue={v => (
+        <span className="flex items-center gap-0.5">
+          <VisibilityIcon name={v} size={18} />
           <ChevronDown size={18} />
-        </Select.Icon>
-      </Select.Trigger>
-      <Select.Portal>
-        <Select.Content className="overflow-hidden rounded-lg border bg-white shadow-lg">
-          <Select.Viewport className="p-1">
-            <Select.Group>
-              <SelectVisibility value="public">Public</SelectVisibility>
-              <SelectVisibility value="home">Home</SelectVisibility>
-              <SelectVisibility value="followers">Followers</SelectVisibility>
-              <SelectVisibility value="specified">Specified</SelectVisibility>
-            </Select.Group>
-          </Select.Viewport>
-        </Select.Content>
-      </Select.Portal>
-    </Select.Root>
+        </span>
+      )}
+    />
   )
 }

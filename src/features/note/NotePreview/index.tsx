@@ -1,13 +1,11 @@
-import { Home, Lock, Repeat2 } from "lucide-react"
-import Image from "next/image"
-import Link from "next/link"
-import { memo } from "react"
-import Mfm, { MfmSimple } from "react-mfm"
+import { Home, Lock, Repeat2 } from "lucide-preact"
+import Mfm, { MfmSimple } from "~/components/Mfm"
 import TimeText from "~/components/TimeText"
 import { useLogin } from "~/features/auth"
 import { CustomEmojiCtx, CustomEmojiStr } from "~/features/common/CustomEmoji"
 import FilePreview from "~/features/drive/FilePreview"
 import { profileLink } from "~/features/user"
+import { Link } from "~/router"
 import { hostname } from "~/utils"
 import { Note } from ".."
 import NavMore from "./NavMore"
@@ -15,7 +13,7 @@ import NavRN from "./NavRN"
 import NavReact from "./NavReact"
 import NavReply from "./NavReply"
 
-export default memo(NotePreview)
+export default NotePreview
 
 function NotePreview({ note, _nonav }: { note: Note; _nonav?: boolean }) {
   const account = useLogin()
@@ -44,7 +42,7 @@ function NotePreview({ note, _nonav }: { note: Note; _nonav?: boolean }) {
           <Link
             className="m-1 h-fit w-fit overflow-hidden rounded-[48px] shadow transition-all hover:rounded-md"
             href={profileLink(note.user)}>
-            <Image src={note.user.avatarUrl} width={48} height={48} alt="Icon" />
+            <img src={note.user.avatarUrl} width={48} height={48} alt="Icon" />
           </Link>
 
           <div className="flex w-full flex-col gap-0.5">

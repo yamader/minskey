@@ -1,9 +1,6 @@
-"use client"
-
 import clsx from "clsx"
-import { ChevronRight } from "lucide-react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { ChevronRight } from "lucide-preact"
+import { Link, usePathname } from "~/router"
 
 export default function SettingsSectionBar({ tag, href }: { tag: string; href: string }) {
   const pathname = usePathname()

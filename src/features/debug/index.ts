@@ -1,7 +1,10 @@
-import { atom, useAtom } from "jotai"
+import { signal } from "@preact/signals"
 
-const debugWindowAtom = atom(process.env.NODE_ENV === "development")
+const debugWindowSignal = signal(import.meta.env.DEV)
 
 export function useDebugWindow() {
-  return useAtom(debugWindowAtom)
+  const setDebugWindow = (v: boolean) => {
+    debugWindowSignal.value = v
+  }
+  return [debugWindowSignal.value, setDebugWindow] as const
 }

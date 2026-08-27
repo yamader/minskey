@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from "preact/hooks"
 import H2 from "~/components/html/H2"
 import { useAPI } from "~/features/api"
 import { pick } from "~/utils"
@@ -12,7 +12,7 @@ export default function ApiSection() {
   return (
     <section>
       <H2>API</H2>
-      <button className="rounded-lg border-4 border-red-500 px-1" onClick={refresh}>
+      <button type="button" className="rounded-lg border-4 border-red-500 px-1" onClick={refresh}>
         Refresh
       </button>
       <div className="flex flex-col gap-2.5 break-all p-2 font-mono">
@@ -20,6 +20,7 @@ export default function ApiSection() {
         <div>
           _minsk_api_cache[{ckeys.length}]: [
           {ckeys.map((key, index) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: キャッシュキーの一覧表示のため
             <div key={index}>
               <span className="rounded bg-neutral-300 px-1">{key}</span>,
             </div>

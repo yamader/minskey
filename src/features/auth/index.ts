@@ -1,8 +1,8 @@
-import { atom, useAtom, useAtomValue } from "jotai"
-import { atomWithStorage } from "jotai/utils"
-import { useRouter } from "next/navigation"
-import { useEffect } from "react"
+import { signal } from "@preact/signals"
+import { useEffect } from "preact/hooks"
 import { useClient } from "~/features/common"
+import { useRouter } from "~/router"
+import { persistedSignal } from "~/utils"
 
 export function isSameAccount(a: Account | null, b: Account | null) {
   return a && b && a.uid == b.uid && a.host == b.host
@@ -44,7 +44,7 @@ export const permissions = [
 ]
 
 //------------------------------------------------------------//
-//  atoms
+//  signals
 //------------------------------------------------------------//
 
 export type Account = {
@@ -53,23 +53,35 @@ export type Account = {
   token: string
 }
 
-export const accountAtom = atomWithStorage<Account | null>("minsk::auth::account", null)
-export const multiAccountsAtom = atomWithStorage<Account[]>("minsk::auth::multiAccounts", [])
+export const accountSignal = persistedSignal<Account | null>("minsk::auth::account", null)
+export const multiAccountsSignal = persistedSignal<Account[]>("minsk::auth::multiAccounts", [])
 
 type AuthSession = {
   sid: string
   host: string
 }
 
-export const authSessionAtom = atomWithStorage<AuthSession | null>("minsk::auth::session", null)
-export const authErrorAtom = atom<string | null>(null)
+export const authSessionSignal = persistedSignal<AuthSession | null>("minsk::auth::session", null)
+export const authErrorSignal = signal<string | null>(null)
+
+const addMultiAccount = (account: Account) => {
+  multiAccountsSignal.value = [...multiAccountsSignal.value, account]
+}
+
+// -1が渡されることも想定
+const removeMultiAccount = (index: number) => {
+  multiAccountsSignal.value = [
+    ...multiAccountsSignal.value.slice(0, index),
+    ...multiAccountsSignal.value.slice(index + 1),
+  ]
+}
 
 //------------------------------------------------------------//
 //  hooks
 //------------------------------------------------------------//
 
 export function useAccount() {
-  return useAtomValue(accountAtom)
+  return accountSignal.value
 }
 
 // 現在のアカウントを取得する
@@ -86,9 +98,9 @@ export function useLogin(login = false) {
 }
 
 export function useAuth() {
-  const [authAccount, setAccount] = useAtom(accountAtom)
-  const [authSession, setAuthSession] = useAtom(authSessionAtom)
-  const [authError, setAuthError] = useAtom(authErrorAtom)
+  const authAccount = accountSignal.value
+  const authSession = authSessionSignal.value
+  const authError = authErrorSignal.value
   const { multiAccounts, addMultiAccount, removeMultiAccount } = useMultiAccounts()
 
   const setAuth = ({
@@ -96,13 +108,13 @@ export function useAuth() {
     session,
     error,
   }: {
-    account?: typeof authAccount
-    session?: typeof authSession
-    error?: typeof authError
+    account?: Account | null
+    session?: AuthSession | null
+    error?: string | null
   }) => {
-    if (account !== undefined) setAccount(account)
-    if (session !== undefined) setAuthSession(session)
-    if (error !== undefined) setAuthError(error)
+    if (account !== undefined) accountSignal.value = account
+    if (session !== undefined) authSessionSignal.value = session
+    if (error !== undefined) authErrorSignal.value = error
   }
 
   const logout = () => {
@@ -128,16 +140,9 @@ export function useAuth() {
 }
 
 export function useMultiAccounts() {
-  const [multiAccounts, setMultiAccounts] = useAtom(multiAccountsAtom)
-
-  const addMultiAccount = (account: Account) => {
-    setMultiAccounts([...multiAccounts, account])
+  return {
+    multiAccounts: multiAccountsSignal.value,
+    addMultiAccount,
+    removeMultiAccount,
   }
-
-  // -1が渡されることも想定
-  const removeMultiAccount = (index: number) => {
-    setMultiAccounts([...multiAccounts.slice(0, index), ...multiAccounts.slice(index + 1)])
-  }
-
-  return { multiAccounts, addMultiAccount, removeMultiAccount }
 }

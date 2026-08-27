@@ -1,15 +1,21 @@
-import { atom, useAtom } from "jotai"
-import { atomWithStorage } from "jotai/utils"
+import { signal } from "@preact/signals"
+import { persistedSignal } from "~/utils"
 
 type Visibility = "public" | "home" | "followers" | "specified" | undefined
 
-const noteDialogAtom = atom(false)
-const noteLastVisibilityAtom = atomWithStorage<Visibility>("minsk::note::visibility", "public")
+const noteDialogSignal = signal(false)
+const noteLastVisibilitySignal = persistedSignal<Visibility>("minsk::note::visibility", "public")
 
 export function useComposeNoteDialog() {
-  return useAtom(noteDialogAtom)
+  const setNoteDialog = (v: boolean) => {
+    noteDialogSignal.value = v
+  }
+  return [noteDialogSignal.value, setNoteDialog] as const
 }
 
 export function useComposeNoteLastVisibility() {
-  return useAtom(noteLastVisibilityAtom)
+  const setVisibility = (v: Visibility) => {
+    noteLastVisibilitySignal.value = v
+  }
+  return [noteLastVisibilitySignal.value, setVisibility] as const
 }

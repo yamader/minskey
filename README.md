@@ -5,7 +5,7 @@
 
 (消極的な理由によって)最小限の機能のみを実装したMisskeyクライアントです。
 
-Next.jsのStatic Exportsによってビルドされ，状態はすべてローカルに保存されるようになっています。
+Preact + Viteによってビルドされ，状態はすべてローカルに保存されるようになっています。
 
 **Minskeyは現在開発中です。開発ステータスは[こちら](https://github.com/yamader/minskey/issues/4)を参照してください。**
 
@@ -17,10 +17,9 @@ Next.jsのStatic Exportsによってビルドされ，状態はすべてロー�
 
 ## 開発
 
-Next.jsの開発環境が必要です。
+[bun](https://bun.sh/)が必要です。
 
 ```sh
-USE=corepack emerge nodejs
-pnpm i
-pnpm dev
+bun i
+bun dev
 ```

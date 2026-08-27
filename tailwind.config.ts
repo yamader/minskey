@@ -14,9 +14,4 @@ export default {
       },
     },
   },
-  plugins: [
-    require("tailwindcss-radix")({
-      variantPrefix: "rdx",
-    }),
-  ],
 } satisfies Config

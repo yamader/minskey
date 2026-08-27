@@ -1,28 +1,21 @@
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
-import { Item } from "@radix-ui/react-dropdown-menu"
-import { MoreHorizontal } from "lucide-react"
+import { MoreHorizontal } from "lucide-preact"
+import { ComponentChildren } from "preact"
+import Dropdown from "~/components/Dropdown"
 import { useAccount } from "~/features/auth"
 import { Note } from ".."
 
 const menuItem =
   "focus:outline-none focus:bg-lime-200 mx-1 text-sm cursor-pointer px-2.5 py-1.5 font-bold rounded-md"
 
-const Separator = () => <DropdownMenu.Separator className="h-px bg-neutral-200" />
+const Separator = () => <hr className="mx-1 h-px bg-neutral-200" />
 
-function NavMoreRoot({ children }: { note: Note; children?: React.ReactNode }) {
+function NavMoreRoot({ children }: { note: Note; children?: ComponentChildren }) {
   return (
-    <DropdownMenu.Root>
-      <DropdownMenu.Trigger asChild>
-        <MoreHorizontal size={20} />
-      </DropdownMenu.Trigger>
-      <DropdownMenu.Portal>
-        <DropdownMenu.Content
-          className="flex flex-col gap-1 rounded-lg border bg-white py-1 shadow-md focus:outline-none"
-          sideOffset={4}>
-          {children}
-        </DropdownMenu.Content>
-      </DropdownMenu.Portal>
-    </DropdownMenu.Root>
+    <Dropdown
+      trigger={<MoreHorizontal size={20} />}
+      menuClassName="flex flex-col gap-1 rounded-lg border bg-white py-1 shadow-md focus:outline-none">
+      {children}
+    </Dropdown>
   )
 }
 
@@ -31,18 +24,23 @@ export default function NavMore({ note }: { note: Note }) {
 
   return (
     <NavMoreRoot note={note}>
-      <Item className={menuItem}>(空気)</Item>
+      <button type="button" className={menuItem}>
+        (空気)
+      </button>
       <Separator />
-      <Item className={menuItem}>(空気2)</Item>
+      <button type="button" className={menuItem}>
+        (空気2)
+      </button>
       <Separator />
-      <Item
+      <button
+        type="button"
         className={menuItem}
         onClick={() => {
           if (!account) return
           window.open(`${account.host}/notes/${note.id}`, "_blank")
         }}>
         Misskeyで開く
-      </Item>
+      </button>
     </NavMoreRoot>
   )
 }

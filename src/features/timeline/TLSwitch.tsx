@@ -1,10 +1,8 @@
-"use client"
-
 import clsx, { ClassValue } from "clsx"
-import { ReactNode } from "react"
+import { ComponentChildren } from "preact"
 import { TLNames, useTLName } from "."
 
-const TLButton = ({ tl, children }: { tl: TLNames; children: ReactNode }) => {
+const TLButton = ({ tl, children }: { tl: TLNames; children: ComponentChildren }) => {
   const [currentTl, setCurrentTl] = useTLName()
   return (
     <button

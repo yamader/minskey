@@ -1,8 +1,6 @@
-import { TimeHTMLAttributes } from "react"
-
 import { useSettings } from "~/features/settings"
 
-type TimeTextProps = TimeHTMLAttributes<HTMLTimeElement> & { dateTime: string }
+type TimeTextProps = { dateTime: string; className?: string }
 
 function reltime(rawdate: string): string {
   const diffsec = Math.round((Date.now() - new Date(rawdate).valueOf()) / 1000) //秒

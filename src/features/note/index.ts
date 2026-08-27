@@ -1,34 +1,47 @@
 export * from "./types"
 
-import { atom, useAtom } from "jotai"
-import { use } from "react"
+import { signal } from "@preact/signals"
+import { useEffect, useState } from "preact/hooks"
 import { useAPI } from "~/features/api"
 import { Note } from "."
 
 // todo: timeline cache
-const localNoteCacheAtom = atom<{ [id: string]: Note | null }>({})
+const localNoteCacheSignal = signal<{ [id: string]: Note | null }>({})
 
 export function useLocalNote(noteId: string) {
   const api = useAPI()
-  const [localNoteCache, setNoteCache] = useAtom(localNoteCacheAtom)
+  const localNoteCache = localNoteCacheSignal.value
 
-  if (noteId in localNoteCache) return localNoteCache[noteId]
-  if (!api) return null
+  useEffect(() => {
+    if (!api || noteId in localNoteCache) return
+    api.showNote(noteId).then(note => {
+      localNoteCacheSignal.value = { ...localNoteCacheSignal.value, [noteId]: note }
+    })
+  }, [api, noteId, localNoteCache])
 
-  const note = use(api.showNote(noteId))
-  setNoteCache({ ...localNoteCache, [noteId]: note })
-
-  return note
+  return noteId in localNoteCache ? localNoteCache[noteId] : null
 }
 
 export function useNoteReplies(noteId: string) {
   const api = useAPI()
-  if (!api) return []
-  return use(api.noteReplies(noteId, { limit: 10 })) ?? []
+  const [replies, setReplies] = useState<Note[] | null>(null)
+
+  useEffect(() => {
+    if (!api) return
+    api.noteReplies(noteId, { limit: 10 }).then(res => setReplies(res ?? null))
+  }, [api, noteId])
+
+  return replies
 }
 
 export function useRenotes(noteId: string) {
   const api = useAPI()
-  if (!api) return []
-  return use(api.noteRenotes(noteId, { limit: 10 })) ?? []
+  const [renotes, setRenotes] = useState<Note[] | null>(null)
+
+  useEffect(() => {
+    if (!api) return
+    api.noteRenotes(noteId, { limit: 10 }).then(res => setRenotes(res ?? null))
+  }, [api, noteId])
+
+  return renotes
 }
