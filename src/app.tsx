@@ -12,6 +12,7 @@ import AuthPage from "~/pages/auth"
 import ComposeNotePage from "~/pages/compose-note"
 import HomePage from "~/pages/home"
 import IndexPage from "~/pages/index"
+import ListsPage from "~/pages/lists"
 import LoginPage from "~/pages/login"
 import NotePage from "~/pages/note"
 import NotificationsPage from "~/pages/notifications"
@@ -68,6 +69,7 @@ function CenterColumn() {
         <Router>
           <Route path="/" component={IndexPage} />
           <Route path="/home" component={HomePage} />
+          <Route path="/lists" component={ListsPage} />
           <Route path="/note" component={NotePage} />
           <Route path="/notifications" component={NotificationsPage} />
           <Route path="/profile" component={ProfilePage} />

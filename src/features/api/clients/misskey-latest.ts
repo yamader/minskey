@@ -4,6 +4,7 @@ import { Note } from "~/features/note"
 import { Notification } from "~/features/notification"
 import { TLNames } from "~/features/timeline"
 import { User } from "~/features/user"
+import { UserList } from "~/features/user-list"
 import { dbg } from "~/utils"
 import { HandyWebSocket } from "~/ws"
 import { MisskeyChannels, MisskeyStream } from "."
@@ -85,6 +86,40 @@ export default class MisskeyLatestClient extends BaseClient {
   }
 
   // notes
+
+  async lists() {
+    return this.post<UserList[]>("users/lists/list", {})
+  }
+
+  async listShow(listId: string) {
+    return this.post<UserList>("users/lists/show", { body: { listId } })
+  }
+
+  async listCreate(name: string) {
+    return this.post<UserList>("users/lists/create", { body: { name } })
+  }
+
+  async listUpdate(listId: string, name: string) {
+    return this.post<UserList>("users/lists/update", { body: { listId, name } })
+  }
+
+  async listDelete(listId: string) {
+    return this.post<void>("users/lists/delete", { body: { listId } })
+  }
+
+  async listPush(listId: string, userId: string) {
+    return this.post<void>("users/lists/push", { body: { listId, userId } })
+  }
+
+  async listPull(listId: string, userId: string) {
+    return this.post<void>("users/lists/pull", { body: { listId, userId } })
+  }
+
+  async listTimeline(listId: string, opts: NotesOpts = {}) {
+    return this.post<Note[]>("notes/user-list-timeline", {
+      body: { listId, ...opts },
+    })
+  }
 
   async notes(tl: TLNames, opts: NotesOpts = {}) {
     let endpoint = tl.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase()

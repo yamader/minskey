@@ -1,12 +1,17 @@
 import { computed } from "@preact/signals"
 import { persistedSignal } from "~/utils"
 
+type HomeTL = "homeTimeline" | "localTimeline" | "globalTimeline"
+
+export type HomeDisplay = HomeTL | `list:${string}`
+
 type Settings = {
   version: number
   dark: boolean
   absDate: boolean
   ui: {
     rnav: string[]
+    homePins: HomeDisplay[]
   }
 }
 
@@ -22,6 +27,7 @@ function settingsMigrator(raw: Record<string, unknown>): Settings {
     settings.ui = {
       ...(settings.ui as Settings["ui"]),
       rnav: ["search"],
+      homePins: settings.ui?.homePins ?? ["homeTimeline", "localTimeline", "globalTimeline"],
     }
   }
   return settings

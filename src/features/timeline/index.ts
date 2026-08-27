@@ -4,15 +4,33 @@ import { signal } from "@preact/signals"
 import { useEffect, useState } from "preact/hooks"
 import { useAPI, useChannel } from "~/features/api"
 import { Note } from "~/features/note"
-import { persistedSignal } from "~/utils"
+import { HomeDisplay, useSettings } from "~/features/settings"
 
 //------------------------------------------------------------//
 //  signals
 //------------------------------------------------------------//
 
-const tlNameSignal = persistedSignal<TLNames>("minsk::tl::name", "homeTimeline")
 const tlNotesSignal = signal<Note[]>([])
 const tlMoreSignal = signal<[() => void]>([() => {}])
+const homeDisplaySignal = signal<HomeDisplay>("homeTimeline")
+
+export function setHomeDisplay(display: HomeDisplay) {
+  homeDisplaySignal.value = display
+}
+
+// アクティブな表示がピン留めから外れていたら先頭のピンにフォールバック
+export function useHomeDisplay(): HomeDisplay {
+  const [settings] = useSettings()
+  const active = homeDisplaySignal.value
+  const pins = settings.ui.homePins
+  const display = pins.includes(active) ? active : (pins[0] ?? "homeTimeline")
+
+  useEffect(() => {
+    if (homeDisplaySignal.value !== display) homeDisplaySignal.value = display
+  }, [display])
+
+  return display
+}
 
 function setNotes(update: Note[] | ((prev: Note[]) => Note[])) {
   tlNotesSignal.value = typeof update === "function" ? update(tlNotesSignal.value) : update
@@ -32,13 +50,13 @@ export function useTL() {
   return { notes, more }
 }
 
-export function useTLName() {
-  return [tlNameSignal.value, (v: TLNames) => (tlNameSignal.value = v)] as const
-}
-
 // todo: ノートの内容をいい感じにキャッシュ
 export function useTLStream() {
-  const tlName = tlNameSignal.value
+  const display = useHomeDisplay()
+  // リスト表示中は裏でHTLを流しておく
+  const tlName: TLNames = display.startsWith("list:")
+    ? "homeTimeline"
+    : (display as Exclude<HomeDisplay, `list:${string}`>)
   const chan = useChannel(tlName)
   const api = useAPI()
   const [untilId, setUntilId] = useState("")
@@ -74,5 +92,5 @@ export function useTLStream() {
           setUntilId(res[res.length - 1].id)
         }
       })
-  }, [api, untilId])
+  }, [api, untilId, tlName])
 }

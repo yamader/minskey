@@ -1,4 +1,4 @@
-import { Bell, Home, Settings } from "lucide-preact"
+import { Bell, Home, List, Settings } from "lucide-preact"
 import { Link } from "~/router"
 
 const iconSize: string | number | undefined = 24
@@ -11,6 +11,9 @@ export default function BottomNav() {
       </Link>
       <Link href="/notifications">
         <Bell size={iconSize} />
+      </Link>
+      <Link href="/lists">
+        <List size={iconSize} />
       </Link>
       <Link href="/settings">
         <Settings size={iconSize} />

@@ -13,4 +13,5 @@ export type MisskeyChannels = {
   localTimeline: any
   hybridTimeline: any
   globalTimeline: any
+  userList: any
 }
