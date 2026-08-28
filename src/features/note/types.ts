@@ -1,5 +1,5 @@
-import { Emoji } from '~/features/common'
 import { DriveFile } from '~/features/drive'
+import { Emoji } from '~/features/emoji/types'
 import { User } from '~/features/user'
 
 export type Note = {

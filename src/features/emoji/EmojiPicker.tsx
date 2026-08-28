@@ -18,3 +18,11 @@ export function EmojiPicker({ onPicked }: { onPicked: (res: string | null) => vo
 
   return <emoji-picker ref={ref} />
 }
+
+declare module 'preact' {
+  namespace JSX {
+    interface IntrinsicElements {
+      'emoji-picker': JSX.HTMLAttributes<HTMLElement> & { ref?: import('preact').Ref<HTMLElement> }
+    }
+  }
+}

@@ -1,7 +1,7 @@
 import { MfmNode as MfmNodeType, MfmSimpleNode, parse, parseSimple } from 'mfm-js'
 import { Fragment } from 'preact'
 import { useMemo } from 'preact/hooks'
-import CustomEmoji from '~/features/common/CustomEmoji'
+import CustomEmoji from '~/features/emoji/CustomEmoji'
 
 // react-mfm の薄い代替 (ミニマル実装)
 

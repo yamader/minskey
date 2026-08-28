@@ -2,12 +2,12 @@ import { Settings as SettingsIcon } from 'lucide-preact'
 import { useState } from 'preact/hooks'
 import BottomSpinner from '~/components/BottomSpinner'
 import Popover from '~/components/Popover'
-import { useBottom } from '~/features/common'
+import { useListTimeline, useLists } from '~/features/list'
 import { Note } from '~/features/note'
 import NotePreview from '~/features/note/NotePreview'
 import { HomeDisplay, useSettings } from '~/features/settings'
 import { setHomeDisplay, useHomeDisplay, useTL } from '~/features/timeline'
-import { useListTimeline, useLists } from '~/features/user-list'
+import { useBottom } from '~/hooks'
 
 const fixedPins: HomeDisplay[] = ['homeTimeline', 'localTimeline', 'globalTimeline']
 

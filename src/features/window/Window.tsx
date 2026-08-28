@@ -1,8 +1,7 @@
 import { ComponentChildren } from 'preact'
 import { useEffect, useState } from 'preact/hooks'
-import { useImmer } from '~/components/hooks'
-import { BottomRootProvider } from '~/features/common'
 import { raiseWindow, registerWindow, unregisterWindow, useWindowZ } from '~/features/window'
+import { BottomRootProvider, useImmer } from '~/hooks'
 
 export default function Window({ onClose, children }: { onClose?: () => void; children: ComponentChildren }) {
   const [id] = useState(registerWindow)

@@ -1,7 +1,7 @@
 import { X } from 'lucide-preact'
-import { useForm } from '~/components/useForm'
 import { useComposeNoteLastVisibility } from '~/features/compose'
 import { ComposeForm, NoteForm } from '~/features/compose/NoteDialog'
+import { useForm } from '~/hooks'
 import { useDeckComposeOpen } from '.'
 
 export default function ComposePane() {

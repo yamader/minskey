@@ -1,6 +1,6 @@
 import { signal } from '@preact/signals'
 import { useEffect } from 'preact/hooks'
-import { useClient } from '~/features/common'
+import { useClient } from '~/hooks'
 import { useRouter } from '~/router'
 import { persistedSignal } from '~/utils'
 

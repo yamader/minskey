@@ -2,6 +2,10 @@ import { useEffect } from 'preact/hooks'
 
 type Modkey = 'Shift' | 'Control' | 'Alt' | 'Meta'
 type Keysym = string
+type KeysymOptions = {
+  preventDefault?: boolean
+  mods?: Modkey[]
+}
 
 export function useKeysym(key: Keysym, mods: Modkey[], f: () => void) {
   useEffect(() => {
@@ -16,10 +20,6 @@ export function useKeysym(key: Keysym, mods: Modkey[], f: () => void) {
   }, [key, mods, f])
 }
 
-type KeysymOptions = {
-  preventDefault?: boolean
-  mods?: Modkey[]
-}
 export function useKeysymWithOpts(key: Keysym, options: KeysymOptions, f: () => void) {
   useEffect(() => {
     const g = (e: KeyboardEvent) => {

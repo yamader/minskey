@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'preact/hooks'
 import { v4 as uuidv4 } from 'uuid'
-import { useForm } from '~/components/useForm'
 import { detect } from '~/features/api/clients'
 import { permissions, useAuth } from '~/features/auth'
+import { useForm } from '~/hooks'
 import { useRouter, useSearchParams } from '~/router'
 import { ensureproto } from '~/utils'
 
