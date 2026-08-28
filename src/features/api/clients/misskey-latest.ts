@@ -1,14 +1,14 @@
-import mitt from "mitt"
-import { v4 as uuidv4 } from "uuid"
-import { Note } from "~/features/note"
-import { Notification } from "~/features/notification"
-import { TLNames } from "~/features/timeline"
-import { User } from "~/features/user"
-import { UserList } from "~/features/user-list"
-import { dbg } from "~/utils"
-import { HandyWebSocket } from "~/ws"
-import { MisskeyChannels, MisskeyStream } from "."
-import BaseClient from "./base"
+import mitt from 'mitt'
+import { v4 as uuidv4 } from 'uuid'
+import { Note } from '~/features/note'
+import { Notification } from '~/features/notification'
+import { TLNames } from '~/features/timeline'
+import { User } from '~/features/user'
+import { UserList } from '~/features/user-list'
+import { dbg } from '~/utils'
+import { HandyWebSocket } from '~/ws'
+import { MisskeyChannels, MisskeyStream } from '.'
+import BaseClient from './base'
 
 type NotesOpts = {
   limit?: number // upto 100?
@@ -17,8 +17,8 @@ type NotesOpts = {
 }
 
 export default class MisskeyLatestClient extends BaseClient {
-  type = "misskey" as const
-  id = "misskey-latest"
+  type = 'misskey' as const
+  id = 'misskey-latest'
 
   //----------------------------//
   //  REST(?)
@@ -30,13 +30,13 @@ export default class MisskeyLatestClient extends BaseClient {
   }
 
   async ping() {
-    return this.get<{ pong: number }>("ping", {}, true)
+    return this.get<{ pong: number }>('ping', {}, true)
   }
 
   // i
 
   async me() {
-    return this.post<User>("i", {})
+    return this.post<User>('i', {})
   }
 
   async notifications(
@@ -46,7 +46,7 @@ export default class MisskeyLatestClient extends BaseClient {
       untilId?: string
     } = {},
   ) {
-    return this.post<Notification[]>("i/notifications", {
+    return this.post<Notification[]>('i/notifications', {
       body: opts,
     })
   }
@@ -55,14 +55,14 @@ export default class MisskeyLatestClient extends BaseClient {
 
   async showId(userId: string, host: string | null = null) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return this.post<any>("users/show", {
+    return this.post<any>('users/show', {
       body: { userId, host },
     })
   }
 
   async showName(username: string, host: string | null = null) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return this.post<any>("users/show", {
+    return this.post<any>('users/show', {
       body: { username, host },
     })
   }
@@ -80,7 +80,7 @@ export default class MisskeyLatestClient extends BaseClient {
       untilId?: string
     } = {},
   ) {
-    return this.post<Note[]>("users/notes", {
+    return this.post<Note[]>('users/notes', {
       body: { userId, ...opts },
     })
   }
@@ -88,79 +88,79 @@ export default class MisskeyLatestClient extends BaseClient {
   // notes
 
   async lists() {
-    return this.post<UserList[]>("users/lists/list", {})
+    return this.post<UserList[]>('users/lists/list', {})
   }
 
   async listShow(listId: string) {
-    return this.post<UserList>("users/lists/show", { body: { listId } })
+    return this.post<UserList>('users/lists/show', { body: { listId } })
   }
 
   async listCreate(name: string) {
-    return this.post<UserList>("users/lists/create", { body: { name } })
+    return this.post<UserList>('users/lists/create', { body: { name } })
   }
 
   async listUpdate(listId: string, name: string) {
-    return this.post<UserList>("users/lists/update", { body: { listId, name } })
+    return this.post<UserList>('users/lists/update', { body: { listId, name } })
   }
 
   async listDelete(listId: string) {
-    return this.post<void>("users/lists/delete", { body: { listId } })
+    return this.post<void>('users/lists/delete', { body: { listId } })
   }
 
   async listPush(listId: string, userId: string) {
-    return this.post<void>("users/lists/push", { body: { listId, userId } })
+    return this.post<void>('users/lists/push', { body: { listId, userId } })
   }
 
   async listPull(listId: string, userId: string) {
-    return this.post<void>("users/lists/pull", { body: { listId, userId } })
+    return this.post<void>('users/lists/pull', { body: { listId, userId } })
   }
 
   async listTimeline(listId: string, opts: NotesOpts = {}) {
-    return this.post<Note[]>("notes/user-list-timeline", {
+    return this.post<Note[]>('notes/user-list-timeline', {
       body: { listId, ...opts },
     })
   }
 
   async notes(tl: TLNames, opts: NotesOpts = {}) {
-    let endpoint = tl.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase()
-    if (tl == "homeTimeline") endpoint = "timeline"
+    let endpoint = tl.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
+    if (tl == 'homeTimeline') endpoint = 'timeline'
     return this.post<Note[]>(`notes/${endpoint}`, {
       body: opts,
     })
   }
 
   async showNote(noteId: string) {
-    return this.post<Note>("notes/show", {
+    return this.post<Note>('notes/show', {
       body: { noteId },
     })
   }
 
   async createNote(note: Partial<Note>) {
-    return this.post<{ createdNote: Note }>("notes/create", {
+    return this.post<{ createdNote: Note }>('notes/create', {
       body: note,
     })
   }
 
   async reactNote(noteId: string, reaction: string) {
-    return this.post<void>("notes/reactions/create", {
+    return this.post<void>('notes/reactions/create', {
       body: { noteId, reaction },
     })
   }
 
   async unReactNote(noteId: string) {
-    return this.post<void>("notes/reactions/delete", {
+    return this.post<void>('notes/reactions/delete', {
       body: { noteId },
     })
   }
 
   async noteRenotes(noteId: string, opts: NotesOpts = {}) {
-    return this.post<Note[]>("notes/renotes", {
+    return this.post<Note[]>('notes/renotes', {
       body: { noteId, ...opts },
     })
   }
 
   async noteReplies(noteId: string, opts: NotesOpts = {}) {
-    return this.post<Note[]>("notes/replies", {
+    return this.post<Note[]>('notes/replies', {
       body: { noteId, ...opts },
     })
   }
@@ -175,9 +175,7 @@ export default class MisskeyLatestClient extends BaseClient {
   private _ws: HandyWebSocket | undefined
   private get ws() {
     if (!this._ws) {
-      const host =
-        this.host.replace("http://", "ws://").replace("https://", "wss://") +
-        `/streaming?i=${this.token}`
+      const host = this.host.replace('http://', 'ws://').replace('https://', 'wss://') + `/streaming?i=${this.token}`
       this._ws = new HandyWebSocket(host)
       this._ws.sock.onmessage = this.msgHandler.bind(this)
     }
@@ -186,7 +184,7 @@ export default class MisskeyLatestClient extends BaseClient {
 
   protected msgHandler(ev: { data: string }) {
     const msg = JSON.parse(ev.data)
-    if (msg.type == "channel") {
+    if (msg.type == 'channel') {
       const { id } = msg.body
       this.chanChan.emit(id, msg.body)
     } else {
@@ -210,7 +208,7 @@ export default class MisskeyLatestClient extends BaseClient {
 
     this.ws.safetySend(
       JSON.stringify({
-        type: "connect",
+        type: 'connect',
         body: { channel, id, params },
       }),
     )
@@ -222,7 +220,7 @@ export default class MisskeyLatestClient extends BaseClient {
       this.chanChan.off(id, handler)
       this.ws.safetySend(
         JSON.stringify({
-          type: "disconnect",
+          type: 'disconnect',
           body: { id },
         }),
       )
@@ -232,7 +230,7 @@ export default class MisskeyLatestClient extends BaseClient {
       dbg(`[api::clients::channel] send: ${id}`)
       this.ws.safetySend(
         JSON.stringify({
-          type: "channel",
+          type: 'channel',
           body: { id, type, body },
         }),
       )
@@ -245,7 +243,7 @@ export default class MisskeyLatestClient extends BaseClient {
   subNote(id: string) {
     this.ws.safetySend(
       JSON.stringify({
-        type: "subNote",
+        type: 'subNote',
         body: { id },
       }),
     )

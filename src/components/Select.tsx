@@ -1,5 +1,5 @@
-import { ComponentChildren } from "preact"
-import { useEffect, useRef, useState } from "preact/hooks"
+import { ComponentChildren } from 'preact'
+import { useEffect, useRef, useState } from 'preact/hooks'
 
 export default function Select<T extends string>({
   value,
@@ -22,8 +22,8 @@ export default function Select<T extends string>({
     const mousedown = (e: MouseEvent) => {
       if (!ref.current?.contains(e.target as Node)) setOpen(false)
     }
-    document.addEventListener("mousedown", mousedown)
-    return () => document.removeEventListener("mousedown", mousedown)
+    document.addEventListener('mousedown', mousedown)
+    return () => document.removeEventListener('mousedown', mousedown)
   }, [open])
 
   const current = items.find(item => item.value === value)
@@ -32,9 +32,7 @@ export default function Select<T extends string>({
     <div ref={ref} className="relative inline-block">
       <button
         type="button"
-        className={
-          className ?? "flex h-full items-center gap-0.5 rounded-lg px-2 hover:bg-neutral-200"
-        }
+        className={className ?? 'flex h-full items-center gap-0.5 rounded-lg px-2 hover:bg-neutral-200'}
         onClick={() => setOpen(o => !o)}>
         {renderValue ? renderValue(value) : current?.label}
       </button>
@@ -43,7 +41,7 @@ export default function Select<T extends string>({
           className="absolute right-0 z-50 mt-1 overflow-hidden rounded-lg border bg-white shadow-lg"
           onClick={() => setOpen(false)}
           onKeyDown={e => {
-            if (e.key === "Enter" || e.key === " ") setOpen(false)
+            if (e.key === 'Enter' || e.key === ' ') setOpen(false)
           }}>
           {items.map(item => (
             <button

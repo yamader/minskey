@@ -1,4 +1,4 @@
-import { useRef, useState } from "preact/hooks"
+import { useRef, useState } from 'preact/hooks'
 
 // react-hook-form の薄い代替
 
@@ -29,25 +29,23 @@ export function useForm<T extends Record<string, unknown>>({ values }: { values?
     if (opts?.required !== undefined) rules.current[name] = { required: opts.required }
     return {
       name,
-      value: (form[name] ?? "") as string,
+      value: (form[name] ?? '') as string,
       onInput: e => setForm(prev => ({ ...prev, [name]: e.currentTarget.value })),
     }
   }
 
-  const setValue = (name: keyof T & string, value: unknown) =>
-    setForm(prev => ({ ...prev, [name]: value }))
+  const setValue = (name: keyof T & string, value: unknown) => setForm(prev => ({ ...prev, [name]: value }))
 
   const getValues = (name?: keyof T & string) => (name ? form[name] : form)
 
-  const setError = (name: keyof T & string, error: FieldError) =>
-    setErrors(prev => ({ ...prev, [name]: error }))
+  const setError = (name: keyof T & string, error: FieldError) => setErrors(prev => ({ ...prev, [name]: error }))
 
   const handleSubmit = (onSubmit: (data: T) => void) => (e?: { preventDefault: () => void }) => {
     e?.preventDefault()
     const nextErrors: FormErrors<T> = {}
     for (const [name, rule] of Object.entries(rules.current)) {
       if (rule?.required && !form[name as keyof T]) {
-        nextErrors[name as keyof T] = { type: "required", message: rule.required }
+        nextErrors[name as keyof T] = { type: 'required', message: rule.required }
       }
     }
     setErrors(nextErrors)

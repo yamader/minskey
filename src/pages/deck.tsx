@@ -1,7 +1,7 @@
-import { Plus, X } from "lucide-preact"
-import { ComponentChild } from "preact"
-import { useEffect, useState } from "preact/hooks"
-import Popover from "~/components/Popover"
+import { Plus, X } from 'lucide-preact'
+import { ComponentChild } from 'preact'
+import { useEffect, useState } from 'preact/hooks'
+import Popover from '~/components/Popover'
 import {
   closeDeckWindow,
   deckLabel,
@@ -9,24 +9,23 @@ import {
   useColumnBottom,
   useDeckStream,
   useOpenDeckWindows,
-} from "~/features/deck"
-import ComposePane from "~/features/deck/ComposePane"
-import DeckNav from "~/features/deck/DeckNav"
-import { Note } from "~/features/note"
-import NotePreview from "~/features/note/NotePreview"
-import { useNotificationsStream } from "~/features/notification"
-import { HomeDisplay, useSettings } from "~/features/settings"
-import { useTLStream } from "~/features/timeline"
-import { UserList, useLists } from "~/features/user-list"
-import Window from "~/features/window/Window"
-import HomePage from "~/pages/home"
-import ListsPage from "~/pages/lists"
-import NotificationsPage from "~/pages/notifications"
-import ProfilePage from "~/pages/profile"
-import SettingsPage from "~/pages/settings"
-import { usePathname, useRouter, useURL } from "~/router"
+} from '~/features/deck'
+import ComposePane from '~/features/deck/ComposePane'
+import DeckNav from '~/features/deck/DeckNav'
+import NotePreview from '~/features/note/NotePreview'
+import { useNotificationsStream } from '~/features/notification'
+import { HomeDisplay, useSettings } from '~/features/settings'
+import { useTLStream } from '~/features/timeline'
+import { UserList, useLists } from '~/features/user-list'
+import Window from '~/features/window/Window'
+import HomePage from '~/pages/home'
+import ListsPage from '~/pages/lists'
+import NotificationsPage from '~/pages/notifications'
+import ProfilePage from '~/pages/profile'
+import SettingsPage from '~/pages/settings'
+import { usePathname, useRouter, useURL } from '~/router'
 
-const fixedPins: HomeDisplay[] = ["homeTimeline", "localTimeline", "globalTimeline"]
+const fixedPins: HomeDisplay[] = ['homeTimeline', 'localTimeline', 'globalTimeline']
 
 // デッキ内ウィンドウに表示するページ
 const pages: Record<string, () => ComponentChild> = {
@@ -50,12 +49,11 @@ export default function DeckPage() {
 
   // URL(アクティブなウィンドウ)と開いているウィンドウのリストを同期する
   useEffect(() => {
-    const sub = pathname.split("/")[2]
+    const sub = pathname.split('/')[2]
     if (sub && pages[sub]) syncDeckWindows(url)
   }, [url, pathname])
 
-  const setDeck = (next: HomeDisplay[]) =>
-    setSettings({ ...settings, ui: { ...settings.ui, deck: next } })
+  const setDeck = (next: HomeDisplay[]) => setSettings({ ...settings, ui: { ...settings.ui, deck: next } })
   const add = (display: HomeDisplay) => setDeck(deck.includes(display) ? deck : [...deck, display])
   const remove = (display: HomeDisplay) => setDeck(deck.filter(d => d !== display))
 
@@ -66,12 +64,7 @@ export default function DeckPage() {
       <div className="relative flex grow bg-neutral-100">
         <div className="flex grow items-stretch gap-2 overflow-x-auto p-2">
           {deck.map(display => (
-            <DeckColumn
-              key={display}
-              display={display}
-              lists={lists ?? []}
-              onRemove={() => remove(display)}
-            />
+            <DeckColumn key={display} display={display} lists={lists ?? []} onRemove={() => remove(display)} />
           ))}
           <div className="flex h-full flex-none flex-col justify-center">
             <AddColumnMenu lists={lists ?? []} onAdd={add} />
@@ -99,7 +92,7 @@ function PageWindow({ sub }: { sub: string }) {
   const close = () => {
     const next = closeDeckWindow(sub)
     if (next && next !== url) router.push(next)
-    else if (!next) router.push("/deck")
+    else if (!next) router.push('/deck')
   }
 
   return (
@@ -109,15 +102,7 @@ function PageWindow({ sub }: { sub: string }) {
   )
 }
 
-function DeckColumn({
-  display,
-  lists,
-  onRemove,
-}: {
-  display: HomeDisplay
-  lists: UserList[]
-  onRemove: () => void
-}) {
+function DeckColumn({ display, lists, onRemove }: { display: HomeDisplay; lists: UserList[]; onRemove: () => void }) {
   const { notes, more } = useDeckStream(display)
   const scrollRef = useColumnBottom(more)
 
@@ -142,15 +127,9 @@ function DeckColumn({
   )
 }
 
-function AddColumnMenu({
-  lists,
-  onAdd,
-}: { lists: UserList[]; onAdd: (display: HomeDisplay) => void }) {
+function AddColumnMenu({ lists, onAdd }: { lists: UserList[]; onAdd: (display: HomeDisplay) => void }) {
   const [open, setOpen] = useState(false)
-  const options: HomeDisplay[] = [
-    ...fixedPins,
-    ...lists.map(list => `list:${list.id}` as HomeDisplay),
-  ]
+  const options: HomeDisplay[] = [...fixedPins, ...lists.map(list => `list:${list.id}` as HomeDisplay)]
 
   return (
     <Popover

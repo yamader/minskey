@@ -1,17 +1,17 @@
-import { Home, Lock, Repeat2 } from "lucide-preact"
-import Mfm, { MfmSimple } from "~/components/Mfm"
-import TimeText from "~/components/TimeText"
-import { useLogin } from "~/features/auth"
-import { CustomEmojiCtx, CustomEmojiStr } from "~/features/common/CustomEmoji"
-import FilePreview from "~/features/drive/FilePreview"
-import { profileLink } from "~/features/user"
-import { Link } from "~/router"
-import { hostname } from "~/utils"
-import { Note } from ".."
-import NavMore from "./NavMore"
-import NavRN from "./NavRN"
-import NavReact from "./NavReact"
-import NavReply from "./NavReply"
+import { Home, Lock, Repeat2 } from 'lucide-preact'
+import Mfm, { MfmSimple } from '~/components/Mfm'
+import TimeText from '~/components/TimeText'
+import { useLogin } from '~/features/auth'
+import { CustomEmojiCtx, CustomEmojiStr } from '~/features/common/CustomEmoji'
+import FilePreview from '~/features/drive/FilePreview'
+import { profileLink } from '~/features/user'
+import { Link } from '~/router'
+import { hostname } from '~/utils'
+import { Note } from '..'
+import NavMore from './NavMore'
+import NavReact from './NavReact'
+import NavReply from './NavReply'
+import NavRN from './NavRN'
 
 export default NotePreview
 
@@ -51,7 +51,7 @@ function NotePreview({ note, _nonav }: { note: Note; _nonav?: boolean }) {
               <div className="flex gap-1 wrap-break-word font-bold">
                 {/* ユーザー名 */}
                 <Link className="mfm-plainCE hover:underline" href={profileLink(note.user)}>
-                  <CustomEmojiStr text={note.user.name ?? "" /* wtf */} />
+                  <CustomEmojiStr text={note.user.name ?? '' /* wtf */} />
                 </Link>
                 {/* @ID@Host */}
                 <p>
@@ -66,11 +66,7 @@ function NotePreview({ note, _nonav }: { note: Note; _nonav?: boolean }) {
                   <TimeText dateTime={note.createdAt} />
                 </Link>
                 {/* スコープ */}
-                {note.visibility == "home" ? (
-                  <Home size={16} />
-                ) : (
-                  note.visibility == "followers" && <Lock size={16} />
-                )}
+                {note.visibility == 'home' ? <Home size={16} /> : note.visibility == 'followers' && <Lock size={16} />}
               </div>
             </div>
             {/* 本文 */}
@@ -115,7 +111,7 @@ function RenoteBar({ note, host }: { note: Note; host: string | null }) {
         <div className="ml-1 flex items-center gap-1 text-sm">
           <Repeat2 size={16} />
           <Link className="mfm-plainCE font-bold hover:underline" href={profileLink(note.user)}>
-            <MfmSimple text={note.user.name ?? ""} />
+            <MfmSimple text={note.user.name ?? ''} />
           </Link>
           Renoted
         </div>

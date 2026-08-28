@@ -1,14 +1,14 @@
-import { JSX } from "preact"
-import { Link as PreactLink, getCurrentUrl, useRouter as usePreactRouter } from "preact-router"
-import { useMemo } from "preact/hooks"
+import { JSX } from 'preact'
+import { useMemo } from 'preact/hooks'
+import { Link as PreactLink, useRouter as usePreactRouter } from 'preact-router'
 
-export function Link(props: JSX.IntrinsicElements["a"]) {
+export function Link(props: JSX.IntrinsicElements['a']) {
   return <PreactLink {...props} />
 }
 
 export function usePathname() {
   const [args] = usePreactRouter()
-  return args.url.split("?")[0]
+  return args.url.split('?')[0]
 }
 
 export function useURL() {
@@ -18,7 +18,7 @@ export function useURL() {
 
 export function useSearchParams() {
   const [args] = usePreactRouter()
-  const search = args.url.split("?")[1] ?? ""
+  const search = args.url.split('?')[1] ?? ''
   return new URLSearchParams(search)
 }
 

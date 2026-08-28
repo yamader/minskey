@@ -1,13 +1,13 @@
-import { signal } from "@preact/signals"
-import { Emitter } from "mitt"
-import { useEffect, useRef } from "preact/hooks"
-import { Account, useAccount } from "~/features/auth"
-import { ensureproto } from "~/utils"
-import { APIClient, MisskeyChannels, MisskeyStream, detect } from "./clients"
+import { signal } from '@preact/signals'
+import { Emitter } from 'mitt'
+import { useEffect, useRef } from 'preact/hooks'
+import { Account, useAccount } from '~/features/auth'
+import { ensureproto } from '~/utils'
+import { APIClient, MisskeyChannels, MisskeyStream, detect } from './clients'
 
 // なんかいい名前無いかな
 function account2ClientIdx(account: Account) {
-  return account.uid + "@" + account.host
+  return account.uid + '@' + account.host
 }
 
 //------------------------------------------------------------//

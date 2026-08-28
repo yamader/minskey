@@ -1,4 +1,4 @@
-import { User } from "~/features/user"
+import { User } from '~/features/user'
 
 type Props = {
   user: User

@@ -1,13 +1,13 @@
-import { BarChartHorizontal, ChevronDown, EyeOff, Paperclip, User2, X } from "lucide-preact"
-import { useEffect, useRef } from "preact/hooks"
-import Dialog from "~/components/Dialog"
-import Select from "~/components/Select"
-import TextareaAutosize from "~/components/TextareaAutosize"
-import { UseFormReturn, useForm } from "~/components/useForm"
-import { useAPI } from "~/features/api"
-import { useKeysymWithOpts } from "~/features/common"
-import { useComposeNoteDialog, useComposeNoteLastVisibility } from ".."
-import VisibilityIcon, { Visibility } from "./VisibilityIcon"
+import { BarChartHorizontal, ChevronDown, EyeOff, Paperclip, User2, X } from 'lucide-preact'
+import { useEffect, useRef } from 'preact/hooks'
+import Dialog from '~/components/Dialog'
+import Select from '~/components/Select'
+import TextareaAutosize from '~/components/TextareaAutosize'
+import { UseFormReturn, useForm } from '~/components/useForm'
+import { useAPI } from '~/features/api'
+import { useKeysymWithOpts } from '~/features/common'
+import { useComposeNoteDialog, useComposeNoteLastVisibility } from '..'
+import VisibilityIcon, { Visibility } from './VisibilityIcon'
 
 export type ComposeForm = {
   text: string
@@ -20,12 +20,12 @@ export default function NoteDialog() {
   // NoteForm state
   const [visibility] = useComposeNoteLastVisibility()
   const form = useForm<ComposeForm>({
-    values: { text: "", visibility },
+    values: { text: '', visibility },
   })
 
   // keysym: compose note
   useKeysymWithOpts(
-    "n",
+    'n',
     {
       preventDefault: !open,
     },
@@ -35,7 +35,7 @@ export default function NoteDialog() {
   // おま○け
   const fst = useRef(true)
   useEffect(() => {
-    if (open) history.pushState(null, "", "/compose/note")
+    if (open) history.pushState(null, '', '/compose/note')
     else if (!fst.current) history.back()
     fst.current = false
   }, [open])
@@ -66,20 +66,20 @@ export function NoteForm({
     setVisibility(data.visibility)
     await api.createNote(data)
     close()
-    setValue("text", "")
+    setValue('text', '')
   }
 
   // keysym: post note
 
   useKeysymWithOpts(
-    "Enter",
+    'Enter',
     {
-      mods: ["Control"],
+      mods: ['Control'],
     },
     handleSubmit(onSubmit),
   )
 
-  const btn = "rounded-lg hover:bg-neutral-200 p-2"
+  const btn = 'rounded-lg hover:bg-neutral-200 p-2'
   return (
     <div className="relative flex flex-col overflow-hidden rounded-lg bg-neutral-200 shadow-lg">
       <div className="flex justify-between p-2">
@@ -98,7 +98,7 @@ export function NoteForm({
           minRows={minRows}
           placeholder="ここにテキストを入力"
           autoFocus
-          {...register("text")}
+          {...register('text')}
         />
         <div className="flex justify-between px-1 text-neutral-700">
           <div className="flex items-center">
@@ -114,8 +114,8 @@ export function NoteForm({
           </div>
           <div className="flex items-center gap-1">
             <NFSelectVisibility
-              value={(getValues("visibility") ?? "public") as NonNullable<Visibility>}
-              onValueChange={val => setValue("visibility", val)}
+              value={(getValues('visibility') ?? 'public') as NonNullable<Visibility>}
+              onValueChange={val => setValue('visibility', val)}
             />
             <button
               className="rounded-lg bg-misskey px-4 pt-2 pb-2.5 font-black text-lg text-white leading-none hover:brightness-95 active:brightness-90"
@@ -138,10 +138,10 @@ function NFSelectVisibility({
 }) {
   const items = (
     [
-      ["public", "Public"],
-      ["home", "Home"],
-      ["followers", "Followers"],
-      ["specified", "Specified"],
+      ['public', 'Public'],
+      ['home', 'Home'],
+      ['followers', 'Followers'],
+      ['specified', 'Specified'],
     ] as const
   ).map(([name, label]) => ({
     value: name,

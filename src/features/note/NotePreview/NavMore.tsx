@@ -1,11 +1,10 @@
-import { MoreHorizontal } from "lucide-preact"
-import { ComponentChildren } from "preact"
-import Dropdown from "~/components/Dropdown"
-import { useAccount } from "~/features/auth"
-import { Note } from ".."
+import { MoreHorizontal } from 'lucide-preact'
+import { ComponentChildren } from 'preact'
+import Dropdown from '~/components/Dropdown'
+import { useAccount } from '~/features/auth'
+import { Note } from '..'
 
-const menuItem =
-  "focus:outline-none focus:bg-lime-200 mx-1 text-sm cursor-pointer px-2.5 py-1.5 font-bold rounded-md"
+const menuItem = 'focus:outline-none focus:bg-lime-200 mx-1 text-sm cursor-pointer px-2.5 py-1.5 font-bold rounded-md'
 
 const Separator = () => <hr className="mx-1 h-px bg-neutral-200" />
 
@@ -37,7 +36,7 @@ export default function NavMore({ note }: { note: Note }) {
         className={menuItem}
         onClick={() => {
           if (!account) return
-          window.open(`${account.host}/notes/${note.id}`, "_blank")
+          window.open(`${account.host}/notes/${note.id}`, '_blank')
         }}>
         Misskeyで開く
       </button>

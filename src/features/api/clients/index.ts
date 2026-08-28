@@ -1,21 +1,21 @@
-export * from "./types"
+export * from './types'
 
-import { APIClient } from "."
-import MisskeyLatestClient from "./misskey-latest"
-import MisskeyV12Client from "./misskey-v12"
-import MisskeyV13Client from "./misskey-v13"
+import { APIClient } from '.'
+import MisskeyLatestClient from './misskey-latest'
+import MisskeyV12Client from './misskey-v12'
+import MisskeyV13Client from './misskey-v13'
 
 // host: `scheme:auth` ← ここ重要
 export async function detect(host: string, token?: string): Promise<APIClient | null> {
   try {
-    const res = await fetch(host + "/api/meta", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: "{}",
+    const res = await fetch(host + '/api/meta', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: '{}',
     })
     if (res.ok) {
       const { version } = await res.json()
-      const [major, minor] = (version.toString() as string).split(".").map(Number)
+      const [major, minor] = (version.toString() as string).split('.').map(Number)
       let ctor = MisskeyLatestClient
       switch (true) {
         case major < 13:

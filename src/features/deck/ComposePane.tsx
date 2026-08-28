@@ -1,20 +1,16 @@
-import { X } from "lucide-preact"
-import { useForm } from "~/components/useForm"
-import { useComposeNoteLastVisibility } from "~/features/compose"
-import { ComposeForm, NoteForm } from "~/features/compose/NoteDialog"
-import { useDeckComposeOpen } from "."
+import { X } from 'lucide-preact'
+import { useForm } from '~/components/useForm'
+import { useComposeNoteLastVisibility } from '~/features/compose'
+import { ComposeForm, NoteForm } from '~/features/compose/NoteDialog'
+import { useDeckComposeOpen } from '.'
 
 export default function ComposePane() {
   const [open, setOpen] = useDeckComposeOpen()
   const [visibility] = useComposeNoteLastVisibility()
-  const form = useForm<ComposeForm>({ values: { text: "", visibility } })
+  const form = useForm<ComposeForm>({ values: { text: '', visibility } })
 
   return (
-    <div
-      className={
-        "flex shrink-0 overflow-hidden border-r bg-white transition-all " +
-        (open ? "w-88" : "w-0")
-      }>
+    <div className={'flex shrink-0 overflow-hidden border-r bg-white transition-all ' + (open ? 'w-88' : 'w-0')}>
       {open && (
         <div className="w-88 shrink-0 p-2">
           <div className="mb-2 flex items-center justify-between px-1">

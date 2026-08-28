@@ -1,18 +1,18 @@
-export * from "./types"
+export * from './types'
 
-import { hostname } from "~/utils"
-import { User, UserStatus } from "."
+import { hostname } from '~/utils'
+import { User, UserStatus } from '.'
 
-export function statusEmoji(status: UserStatus = "unknown") {
+export function statusEmoji(status: UserStatus = 'unknown') {
   switch (status) {
-    case "online":
-      return "🟢"
-    case "active":
-      return "🟡"
-    case "offline":
-      return "💤"
-    case "unknown":
-      return "❓"
+    case 'online':
+      return '🟢'
+    case 'active':
+      return '🟡'
+    case 'offline':
+      return '💤'
+    case 'unknown':
+      return '❓'
   }
 }
 

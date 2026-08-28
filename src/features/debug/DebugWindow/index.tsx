@@ -1,6 +1,6 @@
-import { useDebugWindow } from "~/features/debug"
-import Window from "~/features/window/Window"
-import ApiSection from "./ApiSection"
+import { useDebugWindow } from '~/features/debug'
+import Window from '~/features/window/Window'
+import ApiSection from './ApiSection'
 
 export default function DebugWindow() {
   const [debugWindow, setDebugWindow] = useDebugWindow()

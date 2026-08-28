@@ -1,6 +1,6 @@
-import { useEffect } from "preact/hooks"
-import { useComposeNoteDialog, useComposeNoteLastVisibility } from "~/features/compose"
-import { useRouter } from "~/router"
+import { useEffect } from 'preact/hooks'
+import { useComposeNoteDialog, useComposeNoteLastVisibility } from '~/features/compose'
+import { useRouter } from '~/router'
 
 export default function ComposeNotePage() {
   const router = useRouter()
@@ -10,7 +10,7 @@ export default function ComposeNotePage() {
 
   useEffect(() => {
     setNoteDialog(true)
-    router.replace("/home")
+    router.replace('/home')
   }, [router, setNoteDialog])
 
   return null

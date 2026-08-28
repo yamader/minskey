@@ -1,7 +1,7 @@
-import RawJson from "~/components/RawJson"
-import H2 from "~/components/html/H2"
-import H3 from "~/components/html/H3"
-import { useSettings } from "~/features/settings"
+import H2 from '~/components/html/H2'
+import H3 from '~/components/html/H3'
+import RawJson from '~/components/RawJson'
+import { useSettings } from '~/features/settings'
 
 export default function UiSettingsPage() {
   const [settings] = useSettings()

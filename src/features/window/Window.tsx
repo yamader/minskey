@@ -1,16 +1,10 @@
-import { ComponentChildren } from "preact"
-import { useEffect, useState } from "preact/hooks"
-import { useImmer } from "~/components/hooks"
-import { BottomRootProvider } from "~/features/common"
-import { raiseWindow, registerWindow, unregisterWindow, useWindowZ } from "~/features/window"
+import { ComponentChildren } from 'preact'
+import { useEffect, useState } from 'preact/hooks'
+import { useImmer } from '~/components/hooks'
+import { BottomRootProvider } from '~/features/common'
+import { raiseWindow, registerWindow, unregisterWindow, useWindowZ } from '~/features/window'
 
-export default function Window({
-  onClose,
-  children,
-}: {
-  onClose?: () => void
-  children: ComponentChildren
-}) {
+export default function Window({ onClose, children }: { onClose?: () => void; children: ComponentChildren }) {
   const [id] = useState(registerWindow)
   const zIndex = useWindowZ(id)
   const [scrollEl, setScrollEl] = useState<HTMLElement | null>(null)
@@ -43,11 +37,11 @@ export default function Window({
       })
     }
 
-    document.addEventListener("mousemove", mousemove)
-    document.addEventListener("mouseup", mouseup)
+    document.addEventListener('mousemove', mousemove)
+    document.addEventListener('mouseup', mouseup)
     return () => {
-      document.removeEventListener("mousemove", mousemove)
-      document.removeEventListener("mouseup", mouseup)
+      document.removeEventListener('mousemove', mousemove)
+      document.removeEventListener('mouseup', mouseup)
     }
   }, [updateW])
 
@@ -56,10 +50,10 @@ export default function Window({
       className="fixed top-0 flex flex-col gap-1 rounded-lg bg-neutral-600 bg-opacity-50 p-1.5 shadow backdrop-blur-lg will-change-[top,left,width,height]"
       onMouseDown={() => raiseWindow(id)}
       style={{
-        top: w.y + "px",
-        left: w.x + "px",
-        width: w.w + "px",
-        height: w.h + "px",
+        top: w.y + 'px',
+        left: w.x + 'px',
+        width: w.w + 'px',
+        height: w.h + 'px',
         // 数値だと "100px" になり無効になるので文字列にする
         zIndex: String(zIndex),
       }}>

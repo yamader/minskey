@@ -1,4 +1,4 @@
-import { signal } from "@preact/signals"
+import { signal } from '@preact/signals'
 
 const debugWindowSignal = signal(import.meta.env.DEV)
 

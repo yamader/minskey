@@ -1,4 +1,4 @@
-import MisskeyLatestClient from "./misskey-latest"
+import MisskeyLatestClient from './misskey-latest'
 
 export type APIClient = MisskeyLatestClient
 

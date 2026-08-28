@@ -1,10 +1,10 @@
-import { ComponentChildren } from "preact"
-import TimeText from "~/components/TimeText"
-import { Notification } from "~/features/notification"
-import { User, profileLink } from "~/features/user"
-import UserIcon from "~/features/user/UserIcon"
-import { Link } from "~/router"
-import NoticeNotePreview from "./NoticeNotePreview"
+import { ComponentChildren } from 'preact'
+import TimeText from '~/components/TimeText'
+import { Notification } from '~/features/notification'
+import { User, profileLink } from '~/features/user'
+import UserIcon from '~/features/user/UserIcon'
+import { Link } from '~/router'
+import NoticeNotePreview from './NoticeNotePreview'
 
 export default function Notice({ notice }: { notice: Notification }) {
   return (
@@ -42,27 +42,27 @@ export const NoticeUser = ({ user, children }: { user: User; children?: Componen
 const NoticeContent = ({ notice }: { notice: Notification }) => {
   return (
     <>
-      {notice.type === "follow" ? (
+      {notice.type === 'follow' ? (
         <FollowNotice notice={notice} />
-      ) : notice.type === "mention" ? (
+      ) : notice.type === 'mention' ? (
         <MentionNotice notice={notice} />
-      ) : notice.type === "reply" ? (
+      ) : notice.type === 'reply' ? (
         <ReplyNotice notice={notice} />
-      ) : notice.type === "renote" ? (
+      ) : notice.type === 'renote' ? (
         <RenoteNotice notice={notice} />
-      ) : notice.type === "quote" ? (
+      ) : notice.type === 'quote' ? (
         <QuoteNotice notice={notice} />
-      ) : notice.type === "reaction" ? (
+      ) : notice.type === 'reaction' ? (
         <ReactionNotice notice={notice} />
-      ) : notice.type === "pollVote" ? (
+      ) : notice.type === 'pollVote' ? (
         <PollVoteNotice notice={notice} />
-      ) : notice.type === "receiveFollowRequest" ? (
+      ) : notice.type === 'receiveFollowRequest' ? (
         <ReceiveFollowRequestNotice notice={notice} />
-      ) : notice.type === "followRequestAccepted" ? (
+      ) : notice.type === 'followRequestAccepted' ? (
         <FollowRequestAcceptedNotice notice={notice} />
-      ) : notice.type === "groupInvited" ? (
+      ) : notice.type === 'groupInvited' ? (
         <GroupInvitedNotice notice={notice} />
-      ) : notice.type === "app" ? (
+      ) : notice.type === 'app' ? (
         <AppNotice notice={notice} />
       ) : (
         <UnknownNotice notice={notice} />
@@ -72,7 +72,7 @@ const NoticeContent = ({ notice }: { notice: Notification }) => {
 }
 
 export function FollowNotice({ notice }: { notice: Notification }) {
-  if (notice.type !== "follow") return null
+  if (notice.type !== 'follow') return null
   return (
     <div>
       <NoticeUser user={notice.user}>あなたをフォローしました</NoticeUser>
@@ -81,11 +81,11 @@ export function FollowNotice({ notice }: { notice: Notification }) {
 }
 
 export function MentionNotice({ notice }: { notice: Notification }) {
-  if (notice.type !== "mention") return null
+  if (notice.type !== 'mention') return null
   return <div>{notice.user.name}さんからメンションが届きました</div>
 }
 export function ReplyNotice({ notice }: { notice: Notification }) {
-  if (notice.type !== "reply") return null
+  if (notice.type !== 'reply') return null
   return (
     <div>
       <span>{notice.user.name}さんから返信が届きました</span>
@@ -95,17 +95,17 @@ export function ReplyNotice({ notice }: { notice: Notification }) {
 }
 
 export function RenoteNotice({ notice }: { notice: Notification }) {
-  if (notice.type !== "renote") return null
+  if (notice.type !== 'renote') return null
   return <div>{notice.user.name}さんがリノートしました</div>
 }
 
 export function QuoteNotice({ notice }: { notice: Notification }) {
-  if (notice.type !== "quote") return null
+  if (notice.type !== 'quote') return null
   return <div>{notice.user.name}さんが引用リノートしました</div>
 }
 
 export function ReactionNotice({ notice }: { notice: Notification }) {
-  if (notice.type !== "reaction") return null
+  if (notice.type !== 'reaction') return null
   return (
     <div>
       <span> {notice.user.name}さんがリアクションしました</span>
@@ -115,27 +115,27 @@ export function ReactionNotice({ notice }: { notice: Notification }) {
 }
 
 export function PollVoteNotice({ notice }: { notice: Notification }) {
-  if (notice.type !== "pollVote") return null
+  if (notice.type !== 'pollVote') return null
   return <div>{notice.user.name}さんが投票しました</div>
 }
 
 export function ReceiveFollowRequestNotice({ notice }: { notice: Notification }) {
-  if (notice.type !== "receiveFollowRequest") return null
+  if (notice.type !== 'receiveFollowRequest') return null
   return <div>{notice.user.name}さんからフォローリクエストが届きました</div>
 }
 
 export function FollowRequestAcceptedNotice({ notice }: { notice: Notification }) {
-  if (notice.type !== "followRequestAccepted") return null
+  if (notice.type !== 'followRequestAccepted') return null
   return <div>{notice.user.name}さんがフォローリクエストを承認しました</div>
 }
 
 export function GroupInvitedNotice({ notice }: { notice: Notification }) {
-  if (notice.type !== "groupInvited") return null
+  if (notice.type !== 'groupInvited') return null
   return <div>{notice.user.name}さんがグループに招待しました</div>
 }
 
 export function AppNotice({ notice }: { notice: Notification }) {
-  if (notice.type !== "app") return null
+  if (notice.type !== 'app') return null
   return <div>{notice.id}</div>
 }
 

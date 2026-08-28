@@ -1,9 +1,9 @@
-export * from "./types"
+export * from './types'
 
-import { signal } from "@preact/signals"
-import { useEffect, useState } from "preact/hooks"
-import { useAPI, useChannel } from "~/features/api"
-import { Notification } from "."
+import { signal } from '@preact/signals'
+import { useEffect, useState } from 'preact/hooks'
+import { useAPI, useChannel } from '~/features/api'
+import { Notification } from '.'
 
 //------------------------------------------------------------//
 //  signals
@@ -13,8 +13,7 @@ const notificationsSignal = signal<Notification[]>([])
 const notificationsMoreSignal = signal<[() => void]>([() => {}])
 
 function setNotifications(update: Notification[] | ((prev: Notification[]) => Notification[])) {
-  notificationsSignal.value =
-    typeof update === "function" ? update(notificationsSignal.value) : update
+  notificationsSignal.value = typeof update === 'function' ? update(notificationsSignal.value) : update
 }
 
 function setMore(fn: () => void) {
@@ -32,7 +31,7 @@ export function useNotifications() {
 }
 
 export function useNotificationsStream() {
-  const chan = useChannel("main")
+  const chan = useChannel('main')
   const api = useAPI()
   const [untilId, setUntilId] = useState<string>()
 
@@ -48,7 +47,7 @@ export function useNotificationsStream() {
 
   // stream
   useEffect(() => {
-    chan?.on("notification", notice => {
+    chan?.on('notification', notice => {
       setNotifications(prev => [notice, ...prev])
     })
   }, [chan])

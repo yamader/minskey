@@ -1,7 +1,7 @@
-import { computed } from "@preact/signals"
-import { persistedSignal } from "~/utils"
+import { computed } from '@preact/signals'
+import { persistedSignal } from '~/utils'
 
-type HomeTL = "homeTimeline" | "localTimeline" | "globalTimeline"
+type HomeTL = 'homeTimeline' | 'localTimeline' | 'globalTimeline'
 
 export type HomeDisplay = HomeTL | `list:${string}`
 
@@ -16,7 +16,7 @@ type Settings = {
   }
 }
 
-const rawSettingsSignal = persistedSignal<Record<string, unknown>>("minsk::settings", {})
+const rawSettingsSignal = persistedSignal<Record<string, unknown>>('minsk::settings', {})
 const settingsSignal = computed(() => settingsMigrator(rawSettingsSignal.value))
 
 function settingsMigrator(raw: Record<string, unknown>): Settings {
@@ -26,10 +26,10 @@ function settingsMigrator(raw: Record<string, unknown>): Settings {
     settings.dark ??= false
     settings.absDate ??= false
     settings.ui = {
-      ...(settings.ui as Settings["ui"]),
-      rnav: ["search"],
-      homePins: settings.ui?.homePins ?? ["homeTimeline", "localTimeline", "globalTimeline"],
-      deck: settings.ui?.deck ?? ["homeTimeline", "localTimeline", "globalTimeline"],
+      ...(settings.ui as Settings['ui']),
+      rnav: ['search'],
+      homePins: settings.ui?.homePins ?? ['homeTimeline', 'localTimeline', 'globalTimeline'],
+      deck: settings.ui?.deck ?? ['homeTimeline', 'localTimeline', 'globalTimeline'],
     }
   }
   return settings

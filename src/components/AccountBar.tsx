@@ -1,20 +1,14 @@
-import { ComponentChildren } from "preact"
-import { useEffect, useState } from "preact/hooks"
-import { useForeignAPI } from "~/features/api"
-import { Account } from "~/features/auth"
-import { CustomEmojiStr } from "~/features/common/CustomEmoji"
-import { User } from "~/features/user"
-import UesrStatusIcon from "~/features/user/UserStatusIcon"
-import { hostname } from "~/utils"
-import IdStr from "./IdStr"
+import { ComponentChildren } from 'preact'
+import { useEffect, useState } from 'preact/hooks'
+import { useForeignAPI } from '~/features/api'
+import { Account } from '~/features/auth'
+import { CustomEmojiStr } from '~/features/common/CustomEmoji'
+import { User } from '~/features/user'
+import UesrStatusIcon from '~/features/user/UserStatusIcon'
+import { hostname } from '~/utils'
+import IdStr from './IdStr'
 
-export default function AccountBar({
-  account,
-  omake,
-}: {
-  account: Account
-  omake: ComponentChildren
-}) {
+export default function AccountBar({ account, omake }: { account: Account; omake: ComponentChildren }) {
   const api = useForeignAPI(account.host)
   const [user, setUser] = useState<User | null>(null)
 
@@ -32,7 +26,7 @@ export default function AccountBar({
 
 function AccountBarContent({ user, account }: { user: User | null; account: Account | null }) {
   const _host = user?.host ?? account?.host
-  const host = hostname(_host ?? "")
+  const host = hostname(_host ?? '')
 
   return (
     <>
@@ -40,7 +34,7 @@ function AccountBarContent({ user, account }: { user: User | null; account: Acco
       {user ? (
         <div className="truncate">
           <div className="truncate font-medium">
-            <CustomEmojiStr text={user.name ?? ""} />
+            <CustomEmojiStr text={user.name ?? ''} />
           </div>
           <div className="truncate text-xs">
             <IdStr username={user.username} host={host} />

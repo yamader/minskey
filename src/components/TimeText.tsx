@@ -1,4 +1,4 @@
-import { useSettings } from "~/features/settings"
+import { useSettings } from '~/features/settings'
 
 type TimeTextProps = { dateTime: string; className?: string }
 
@@ -8,7 +8,7 @@ function reltime(rawdate: string): string {
   const diffhour = Math.round(diffmin / 60) //時間
   const diffday = Math.round(diffhour / 24)
   if (diffsec < 20) {
-    return "今"
+    return '今'
   }
   if (diffmin < 1) {
     return `${diffsec}秒前`
@@ -23,7 +23,7 @@ function reltime(rawdate: string): string {
 }
 
 function abstime(rawdate: string): string {
-  return new Date(rawdate).toISOString().slice(0, -1).split("T").join(" ")
+  return new Date(rawdate).toISOString().slice(0, -1).split('T').join(' ')
 }
 
 export default function TimeText({ dateTime, ...props }: TimeTextProps) {

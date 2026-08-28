@@ -1,4 +1,4 @@
-import { ComponentChildren } from "preact"
+import { ComponentChildren } from 'preact'
 
 export default function Button({ children }: { children: ComponentChildren }) {
   return (

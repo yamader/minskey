@@ -1,9 +1,9 @@
-export type { UserList } from "./types"
+export type { UserList } from './types'
 
-import { useCallback, useEffect, useRef, useState } from "preact/hooks"
-import { useAPI, useChannel } from "~/features/api"
-import { Note } from "~/features/note"
-import { UserList } from "."
+import { useCallback, useEffect, useRef, useState } from 'preact/hooks'
+import { useAPI, useChannel } from '~/features/api'
+import { Note } from '~/features/note'
+import { UserList } from '.'
 
 export function useLists() {
   const api = useAPI()
@@ -22,14 +22,14 @@ export function useLists() {
 
 export function useListTimeline(listId: string) {
   const api = useAPI()
-  const chan = useChannel("userList", { listId })
+  const chan = useChannel('userList', { listId })
   const [notes, setNotes] = useState<Note[]>([])
-  const untilRef = useRef("")
+  const untilRef = useRef('')
   const busyRef = useRef(false)
 
   useEffect(() => {
     if (!api || !listId) return
-    untilRef.current = ""
+    untilRef.current = ''
     busyRef.current = false
     setNotes([])
     api.listTimeline(listId, { limit: 10 }).then(res => {
@@ -41,7 +41,7 @@ export function useListTimeline(listId: string) {
   }, [api, listId])
 
   useEffect(() => {
-    chan?.on("note", note => setNotes(notes => [note, ...notes]))
+    chan?.on('note', note => setNotes(notes => [note, ...notes]))
   }, [chan])
 
   const more = useCallback(async () => {

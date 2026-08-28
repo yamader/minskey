@@ -1,6 +1,6 @@
-import { Emoji } from "~/features/common"
-import { DriveFile } from "~/features/drive"
-import { User } from "~/features/user"
+import { Emoji } from '~/features/common'
+import { DriveFile } from '~/features/drive'
+import { User } from '~/features/user'
 
 export type Note = {
   id: string
@@ -15,7 +15,7 @@ export type Note = {
   renote?: Note | null
   renoteId: string | null
   isHidden: boolean
-  visibility: "public" | "home" | "followers" | "specified"
+  visibility: 'public' | 'home' | 'followers' | 'specified'
   mentions: string[]
   visibleUserIds: string[]
   fileIds: string[]

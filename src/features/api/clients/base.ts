@@ -1,4 +1,4 @@
-import { dbg } from "~/utils"
+import { dbg } from '~/utils'
 
 //------------------------------------------------------------//
 
@@ -40,7 +40,7 @@ export default class BaseClient {
   postClock = 500
 
   constructor(host: string, token?: string) {
-    this.id = "unknown"
+    this.id = 'unknown'
     this.host = host
     this.token = token
     this._cachePrefix = host + token
@@ -51,7 +51,7 @@ export default class BaseClient {
   //----------------------------//
 
   async get<T>(path: string, props: GetProps, volatile?: boolean) {
-    const key = this._cachePrefix + "g" + path + JSON.stringify(props)
+    const key = this._cachePrefix + 'g' + path + JSON.stringify(props)
 
     let cacheValid = key in _minsk_api_cache
     if (cacheValid) {
@@ -65,8 +65,8 @@ export default class BaseClient {
       }
     }
 
-    if (cacheValid) dbg("%c[api::clients::base] cached: " + key, "color:gray")
-    else dbg("[api::clients::base] fetch:", key)
+    if (cacheValid) dbg('%c[api::clients::base] cached: ' + key, 'color:gray')
+    else dbg('[api::clients::base] fetch:', key)
 
     if (!cacheValid) {
       _minsk_api_cache[key] = {
@@ -79,7 +79,7 @@ export default class BaseClient {
   }
 
   private async rawGet(path: string, { opts }: GetProps) {
-    const res = await fetch(this.host + "/api/" + path, opts)
+    const res = await fetch(this.host + '/api/' + path, opts)
     if (!res.ok) return null
     return res.json()
   }
@@ -89,7 +89,7 @@ export default class BaseClient {
   //----------------------------//
 
   async post<T>(path: string, props: PostProps, volatile?: boolean) {
-    const key = this._cachePrefix + "p" + path + JSON.stringify(props)
+    const key = this._cachePrefix + 'p' + path + JSON.stringify(props)
 
     let cacheValid = key in _minsk_api_cache
     if (cacheValid) {
@@ -103,8 +103,8 @@ export default class BaseClient {
       }
     }
 
-    if (cacheValid) dbg("%c[api::clients::base] cached: " + key, "color:gray")
-    else dbg("[api::clients::base] fetch:", key)
+    if (cacheValid) dbg('%c[api::clients::base] cached: ' + key, 'color:gray')
+    else dbg('[api::clients::base] fetch:', key)
 
     if (!cacheValid) {
       _minsk_api_cache[key] = {
@@ -117,9 +117,9 @@ export default class BaseClient {
   }
 
   private async rawPost(path: string, { body, opts }: PostProps) {
-    const res = await fetch(this.host + "/api/" + path, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    const res = await fetch(this.host + '/api/' + path, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         i: this.token,
         ...(body ?? {}),

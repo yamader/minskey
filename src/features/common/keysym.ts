@@ -1,6 +1,6 @@
-import { useEffect } from "preact/hooks"
+import { useEffect } from 'preact/hooks'
 
-type Modkey = "Shift" | "Control" | "Alt" | "Meta"
+type Modkey = 'Shift' | 'Control' | 'Alt' | 'Meta'
 type Keysym = string
 
 export function useKeysym(key: Keysym, mods: Modkey[], f: () => void) {
@@ -11,8 +11,8 @@ export function useKeysym(key: Keysym, mods: Modkey[], f: () => void) {
         f()
       }
     }
-    window.addEventListener("keydown", g)
-    return () => window.removeEventListener("keydown", g)
+    window.addEventListener('keydown', g)
+    return () => window.removeEventListener('keydown', g)
   }, [key, mods, f])
 }
 
@@ -28,7 +28,7 @@ export function useKeysymWithOpts(key: Keysym, options: KeysymOptions, f: () => 
         f()
       }
     }
-    window.addEventListener("keydown", g)
-    return () => window.removeEventListener("keydown", g)
+    window.addEventListener('keydown', g)
+    return () => window.removeEventListener('keydown', g)
   }, [key, options, f])
 }

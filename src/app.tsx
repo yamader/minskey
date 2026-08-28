@@ -1,25 +1,25 @@
-import { Route, Router, useRouter as usePreactRouter } from "preact-router"
-import { useEffect } from "preact/hooks"
+import { useEffect } from 'preact/hooks'
+import { Route, Router, useRouter as usePreactRouter } from 'preact-router'
 
-import BottomNav from "~/components/BottomNav"
-import LeftNav from "~/components/LeftNav"
-import RightNav from "~/components/RightNav"
-import NoteDialog from "~/features/compose/NoteDialog"
-import { useNotificationsStream } from "~/features/notification"
-import { useTLStream } from "~/features/timeline"
-import AboutPage from "~/pages/about"
-import AuthPage from "~/pages/auth"
-import ComposeNotePage from "~/pages/compose-note"
-import DeckPage from "~/pages/deck"
-import HomePage from "~/pages/home"
-import IndexPage from "~/pages/index"
-import ListsPage from "~/pages/lists"
-import LoginPage from "~/pages/login"
-import NotePage from "~/pages/note"
-import NotificationsPage from "~/pages/notifications"
-import ProfilePage from "~/pages/profile"
-import SettingsPage from "~/pages/settings"
-import { useRouter } from "~/router"
+import BottomNav from '~/components/BottomNav'
+import LeftNav from '~/components/LeftNav'
+import RightNav from '~/components/RightNav'
+import NoteDialog from '~/features/compose/NoteDialog'
+import { useNotificationsStream } from '~/features/notification'
+import { useTLStream } from '~/features/timeline'
+import AboutPage from '~/pages/about'
+import AuthPage from '~/pages/auth'
+import ComposeNotePage from '~/pages/compose-note'
+import DeckPage from '~/pages/deck'
+import HomePage from '~/pages/home'
+import IndexPage from '~/pages/index'
+import ListsPage from '~/pages/lists'
+import LoginPage from '~/pages/login'
+import NotePage from '~/pages/note'
+import NotificationsPage from '~/pages/notifications'
+import ProfilePage from '~/pages/profile'
+import SettingsPage from '~/pages/settings'
+import { useRouter } from '~/router'
 
 export default function App() {
   return (
@@ -88,10 +88,10 @@ function useTrailingSlashNormalizer() {
   const url = args.url
 
   useEffect(() => {
-    const path = url.split("?")[0]
-    if (path.length > 1 && path.endsWith("/")) {
-      const search = url.split("?")[1]
-      router.replace(path.replace(/\/+$/, "") + (search ? `?${search}` : ""))
+    const path = url.split('?')[0]
+    if (path.length > 1 && path.endsWith('/')) {
+      const search = url.split('?')[1]
+      router.replace(path.replace(/\/+$/, '') + (search ? `?${search}` : ''))
     }
   }, [url, router])
 }

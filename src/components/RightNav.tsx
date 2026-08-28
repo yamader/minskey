@@ -1,27 +1,23 @@
-import clsx from "clsx"
-import { Fragment } from "preact"
-import { useSettings } from "~/features/settings"
+import clsx from 'clsx'
+import { Fragment } from 'preact'
+import { useSettings } from '~/features/settings'
 
 export default function RightNav() {
   const [settings] = useSettings()
 
-  const w = "w-72 xl:w-96"
+  const w = 'w-72 xl:w-96'
   return (
-    <div className={clsx(w, "hidden lg:block")}>
-      <div className={clsx(w, "fixed flex h-full flex-col gap-4 border-l pt-2.5 pl-8")}>
+    <div className={clsx(w, 'hidden lg:block')}>
+      <div className={clsx(w, 'fixed flex h-full flex-col gap-4 border-l pt-2.5 pl-8')}>
         {settings.ui.rnav.map(
-          (item, i) =>
-            item in items && (
-              // biome-ignore lint/suspicious/noArrayIndexKey: 表示順が固定のため
-              <Fragment key={i}>{items[item as keyof typeof items]()}</Fragment>
-            ),
+          (item, i) => item in items && <Fragment key={i}>{items[item as keyof typeof items]()}</Fragment>,
         )}
         <div className="px-4 font-inter text-gray-600 text-xs">
           <a className="hover:underline" href="/about">
             minskeyについて
           </a>
           <p className="mt-1">
-            &copy; 2024{" "}
+            &copy; 2024{' '}
             <a className="hover:underline" href="https://yamad.me">
               YamaD
             </a>
@@ -44,11 +40,5 @@ function SearchBar() {
 
 // todo: track eyes
 function AiChan() {
-  return (
-    <iframe
-      title="AiChan"
-      className="h-64"
-      src="https://misskey-dev.github.io/mascot-web/?scale=1.3"
-    />
-  )
+  return <iframe title="AiChan" className="h-64" src="https://misskey-dev.github.io/mascot-web/?scale=1.3" />
 }

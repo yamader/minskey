@@ -1,5 +1,5 @@
-import { ComponentChildren } from "preact"
-import { useEffect, useRef, useState } from "preact/hooks"
+import { ComponentChildren } from 'preact'
+import { useEffect, useRef } from 'preact/hooks'
 
 export default function Popover({
   open,
@@ -20,16 +20,16 @@ export default function Popover({
     if (!open) return
     const close = (e: MouseEvent | KeyboardEvent) => {
       if (e instanceof KeyboardEvent) {
-        if (e.key === "Escape") onOpenChange(false)
+        if (e.key === 'Escape') onOpenChange(false)
         return
       }
       if (!ref.current?.contains(e.target as Node)) onOpenChange(false)
     }
-    document.addEventListener("mousedown", close)
-    document.addEventListener("keydown", close)
+    document.addEventListener('mousedown', close)
+    document.addEventListener('keydown', close)
     return () => {
-      document.removeEventListener("mousedown", close)
-      document.removeEventListener("keydown", close)
+      document.removeEventListener('mousedown', close)
+      document.removeEventListener('keydown', close)
     }
   }, [open, onOpenChange])
 
@@ -38,7 +38,7 @@ export default function Popover({
       <button type="button" className="bg-transparent" onClick={() => onOpenChange(!open)}>
         {trigger}
       </button>
-      {open && <div className={contentClassName ?? "absolute z-50 mt-1"}>{children}</div>}
+      {open && <div className={contentClassName ?? 'absolute z-50 mt-1'}>{children}</div>}
     </div>
   )
 }

@@ -1,5 +1,5 @@
-import { Note } from "~/features/note"
-import { User } from "~/features/user"
+import { Note } from '~/features/note'
+import { User } from '~/features/user'
 
 export type Notification = {
   id: string
@@ -7,65 +7,65 @@ export type Notification = {
   isRead: boolean
 } & (
   | {
-      type: "reaction"
+      type: 'reaction'
       reaction: string
       user: User
-      userId: User["id"]
+      userId: User['id']
       note: Note
     }
   | {
-      type: "reply"
+      type: 'reply'
       user: User
-      userId: User["id"]
+      userId: User['id']
       note: Note
     }
   | {
-      type: "renote"
+      type: 'renote'
       user: User
-      userId: User["id"]
+      userId: User['id']
       note: Note
     }
   | {
-      type: "quote"
+      type: 'quote'
       user: User
-      userId: User["id"]
+      userId: User['id']
       note: Note
     }
   | {
-      type: "mention"
+      type: 'mention'
       user: User
-      userId: User["id"]
+      userId: User['id']
       note: Note
     }
   | {
-      type: "pollVote"
+      type: 'pollVote'
       user: User
-      userId: User["id"]
+      userId: User['id']
       note: Note
     }
   | {
-      type: "follow"
+      type: 'follow'
       user: User
-      userId: User["id"]
+      userId: User['id']
     }
   | {
-      type: "followRequestAccepted"
+      type: 'followRequestAccepted'
       user: User
-      userId: User["id"]
+      userId: User['id']
     }
   | {
-      type: "receiveFollowRequest"
+      type: 'receiveFollowRequest'
       user: User
-      userId: User["id"]
+      userId: User['id']
     }
   | {
-      type: "groupInvited"
+      type: 'groupInvited'
       // invitation: UserGroup
       user: User
-      userId: User["id"]
+      userId: User['id']
     }
   | {
-      type: "app"
+      type: 'app'
       header?: string | null
       body: string
       icon?: string | null

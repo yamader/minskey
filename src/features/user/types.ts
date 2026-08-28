@@ -5,7 +5,7 @@ type UserLite = {
   host: string | null
   avatarUrl: string
   avatarBlurhash: string
-  onlineStatus: "online" | "active" | "offline" | "unknown"
+  onlineStatus: 'online' | 'active' | 'offline' | 'unknown'
   emojis: {
     name: string
     url: string
@@ -20,4 +20,4 @@ type UserDetail = UserLite & {
 }
 
 export type User = UserLite | UserDetail
-export type UserStatus = UserLite["onlineStatus"]
+export type UserStatus = UserLite['onlineStatus']

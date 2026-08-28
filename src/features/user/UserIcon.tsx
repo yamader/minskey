@@ -1,6 +1,6 @@
-import Anon from "~/assets/anon.png"
-import { Link } from "~/router"
-import { User, profileLink } from "."
+import Anon from '~/assets/anon.png'
+import { Link } from '~/router'
+import { User, profileLink } from '.'
 
 export function Icon({ src }: { src: string | null }) {
   return (

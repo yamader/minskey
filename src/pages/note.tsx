@@ -1,10 +1,10 @@
-import { useLocalNote, useNoteReplies } from "~/features/note"
-import NotePreview from "~/features/note/NotePreview"
-import { useSearchParams } from "~/router"
+import { useLocalNote, useNoteReplies } from '~/features/note'
+import NotePreview from '~/features/note/NotePreview'
+import { useSearchParams } from '~/router'
 
 export default function NotePage() {
   const searchParams = useSearchParams()
-  const noteId = searchParams.get("id") ?? ""
+  const noteId = searchParams.get('id') ?? ''
 
   const note = useLocalNote(noteId)
   const replies = useNoteReplies(noteId)

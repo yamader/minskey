@@ -1,13 +1,16 @@
-import { Globe, Home, Lock, LucideProps, Mail } from "lucide-preact"
+import { Globe, Home, Lock, LucideProps, Mail } from 'lucide-preact'
 
-export type Visibility = "public" | "home" | "followers" | "specified" | undefined
+export type Visibility = 'public' | 'home' | 'followers' | 'specified' | undefined
 
 export default function VisivilityIcon({ name, ...props }: LucideProps & { name: Visibility }) {
-  // biome-ignore format:
   switch (name) {
-    case "public":    return <Globe {...props} />
-    case "home":      return <Home {...props} />
-    case "followers": return <Lock {...props} />
-    case "specified": return <Mail {...props} />
+    case 'public':
+      return <Globe {...props} />
+    case 'home':
+      return <Home {...props} />
+    case 'followers':
+      return <Lock {...props} />
+    case 'specified':
+      return <Mail {...props} />
   }
 }

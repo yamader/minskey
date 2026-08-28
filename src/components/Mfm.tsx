@@ -1,7 +1,7 @@
-import { MfmNode as MfmNodeType, MfmSimpleNode, parse, parseSimple } from "mfm-js"
-import { Fragment } from "preact"
-import { useMemo } from "preact/hooks"
-import CustomEmoji from "~/features/common/CustomEmoji"
+import { MfmNode as MfmNodeType, MfmSimpleNode, parse, parseSimple } from 'mfm-js'
+import { Fragment } from 'preact'
+import { useMemo } from 'preact/hooks'
+import CustomEmoji from '~/features/common/CustomEmoji'
 
 // react-mfm の薄い代替 (ミニマル実装)
 
@@ -19,7 +19,6 @@ function MfmNodes({ nodes }: { nodes: (MfmNodeType | MfmSimpleNode)[] }) {
   return (
     <>
       {nodes.map((node, i) => (
-        // biome-ignore lint/suspicious/noArrayIndexKey: パース結果の順序は固定のため
         <MfmNode key={i} node={node} />
       ))}
     </>
@@ -28,12 +27,11 @@ function MfmNodes({ nodes }: { nodes: (MfmNodeType | MfmSimpleNode)[] }) {
 
 function MfmNode({ node }: { node: MfmNodeType | MfmSimpleNode }) {
   switch (node.type) {
-    case "text": {
-      const text = node.props.text.replace(/\r\n?/g, "\n")
+    case 'text': {
+      const text = node.props.text.replace(/\r\n?/g, '\n')
       return (
         <>
-          {text.split("\n").map((line, i) => (
-            // biome-ignore lint/suspicious/noArrayIndexKey: 改行位置は固定のため
+          {text.split('\n').map((line, i) => (
             <Fragment key={i}>
               {i > 0 && <br />}
               {line}
@@ -42,43 +40,43 @@ function MfmNode({ node }: { node: MfmNodeType | MfmSimpleNode }) {
         </>
       )
     }
-    case "unicodeEmoji":
+    case 'unicodeEmoji':
       return <span className="mfm-emoji">{node.props.emoji}</span>
-    case "emojiCode":
+    case 'emojiCode':
       return <CustomEmoji name={node.props.name} />
-    case "bold":
+    case 'bold':
       return (
         <b>
           <MfmNodes nodes={node.children} />
         </b>
       )
-    case "small":
+    case 'small':
       return (
         <small className="mfm-small">
           <MfmNodes nodes={node.children} />
         </small>
       )
-    case "italic":
+    case 'italic':
       return (
         <i className="mfm-italic">
           <MfmNodes nodes={node.children} />
         </i>
       )
-    case "strike":
+    case 'strike':
       return (
         <del>
           <MfmNodes nodes={node.children} />
         </del>
       )
-    case "inlineCode":
+    case 'inlineCode':
       return <code className="mfm-inlineCode">{node.props.code}</code>
-    case "blockCode":
+    case 'blockCode':
       return (
         <pre className="mfm-blockCode">
           <code>{node.props.code}</code>
         </pre>
       )
-    case "quote": {
+    case 'quote': {
       const content = <MfmNodes nodes={node.children} />
       return node.props?.nowrap ? (
         <span className="mfm-quote">{content}</span>
@@ -86,61 +84,57 @@ function MfmNode({ node }: { node: MfmNodeType | MfmSimpleNode }) {
         <div className="mfm-quote">{content}</div>
       )
     }
-    case "center":
+    case 'center':
       return (
         <div className="mfm-center">
           <MfmNodes nodes={node.children} />
         </div>
       )
-    case "url":
+    case 'url':
       return (
         <a className="mfm-link" href={node.props.url} rel="nofollow noopener">
           {node.props.url}
         </a>
       )
-    case "link":
+    case 'link':
       return (
         <a className="mfm-link" href={node.props.url} rel="nofollow noopener">
           <MfmNodes nodes={node.children} />
         </a>
       )
-    case "mention":
+    case 'mention':
       return (
         <a
           className="mfm-mention"
-          href={
-            node.props.host
-              ? `https://${node.props.host}/@${node.props.username}`
-              : `/@${node.props.username}`
-          }
+          href={node.props.host ? `https://${node.props.host}/@${node.props.username}` : `/@${node.props.username}`}
           rel="nofollow noopener">
           {node.props.acct}
         </a>
       )
-    case "hashtag":
+    case 'hashtag':
       return (
         <a className="mfm-hashtag" href={`/tags/${node.props.hashtag}`} rel="nofollow noopener">
           #{node.props.hashtag}
         </a>
       )
-    case "plain":
+    case 'plain':
       return (
         <span>
           <MfmNodes nodes={node.children} />
         </span>
       )
-    case "fn":
+    case 'fn':
       // todo: アニメーション等は未対応
       return (
         <span>
           <MfmNodes nodes={node.children} />
         </span>
       )
-    case "search":
+    case 'search':
       return <span className="mfm-search">{node.props.query}</span>
-    case "mathInline":
+    case 'mathInline':
       return <span className="mfm-mathInline">{node.props.formula}</span>
-    case "mathBlock":
+    case 'mathBlock':
       return (
         <div className="mfm-mathBlock">
           <code>{node.props.formula}</code>

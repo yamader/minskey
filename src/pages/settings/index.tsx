@@ -1,13 +1,13 @@
-import { Route, Router } from "preact-router"
-import SettingsSectionBar from "~/components/SettingsSectionBar"
-import TopAppBar from "~/components/TopAppBar"
-import { usePathname } from "~/router"
-import AccountSettingsPage from "./account"
-import MiscSettingsPage from "./misc"
-import UiSettingsPage from "./ui"
+import { Route, Router } from 'preact-router'
+import SettingsSectionBar from '~/components/SettingsSectionBar'
+import TopAppBar from '~/components/TopAppBar'
+import { usePathname } from '~/router'
+import AccountSettingsPage from './account'
+import MiscSettingsPage from './misc'
+import UiSettingsPage from './ui'
 
 export default function SettingsPage() {
-  const base = usePathname().startsWith("/deck") ? "/deck/settings" : "/settings"
+  const base = usePathname().startsWith('/deck') ? '/deck/settings' : '/settings'
 
   return (
     <div className="flex w-240 flex-col border-r">

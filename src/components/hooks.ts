@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "preact/hooks"
+import { useCallback, useEffect, useState } from 'preact/hooks'
 
 // 小さいフック置き場
 
@@ -29,8 +29,8 @@ export function useScroll(target: HTMLElement | Document | null) {
     if (!target) return
     const update = () => setPos(scrollPos(target))
     update()
-    target.addEventListener("scroll", update)
-    return () => target.removeEventListener("scroll", update)
+    target.addEventListener('scroll', update)
+    return () => target.removeEventListener('scroll', update)
   }, [target])
   return pos
 }

@@ -1,21 +1,21 @@
-import { useEffect, useState } from "preact/hooks"
-import Anon from "~/assets/anon.png"
-import BottomSpinner from "~/components/BottomSpinner"
-import IdStr from "~/components/IdStr"
-import Tooltip from "~/components/Tooltip"
-import TopAppBar from "~/components/TopAppBar"
-import { useAPI } from "~/features/api"
-import { Note } from "~/features/note"
-import NotePreview from "~/features/note/NotePreview"
-import { User, statusEmoji } from "~/features/user"
-import { useSearchParams } from "~/router"
-import { hostname } from "~/utils"
+import { useEffect, useState } from 'preact/hooks'
+import Anon from '~/assets/anon.png'
+import BottomSpinner from '~/components/BottomSpinner'
+import IdStr from '~/components/IdStr'
+import Tooltip from '~/components/Tooltip'
+import TopAppBar from '~/components/TopAppBar'
+import { useAPI } from '~/features/api'
+import { Note } from '~/features/note'
+import NotePreview from '~/features/note/NotePreview'
+import { User, statusEmoji } from '~/features/user'
+import { useSearchParams } from '~/router'
+import { hostname } from '~/utils'
 
 export default function ProfilePage() {
   const api = useAPI()
   const searchParams = useSearchParams()
 
-  const id = searchParams.get("user")
+  const id = searchParams.get('user')
   const [user, setUser] = useState<User | null>(null)
   const [notes, setNotes] = useState<Note[]>([])
 
@@ -26,7 +26,7 @@ export default function ProfilePage() {
 
     const fetch = id
       ? (() => {
-          const [, username, host] = id.split("@")
+          const [, username, host] = id.split('@')
           return api.showName(username, host)
         })()
       : api.me()
@@ -42,7 +42,7 @@ export default function ProfilePage() {
 }
 
 function ProfileContent({ user = null, notes = [] }: { user?: User | null; notes?: Note[] }) {
-  const onlineStatus = user?.onlineStatus ?? "unknown"
+  const onlineStatus = user?.onlineStatus ?? 'unknown'
 
   return (
     <>
@@ -62,9 +62,7 @@ function ProfileContent({ user = null, notes = [] }: { user?: User | null; notes
         </div>
         <div className="absolute right-2 bottom-2 flex">
           <Tooltip content={onlineStatus}>
-            <span className="cursor-default text-3xl leading-none">
-              {statusEmoji(onlineStatus)}
-            </span>
+            <span className="cursor-default text-3xl leading-none">{statusEmoji(onlineStatus)}</span>
           </Tooltip>
         </div>
       </div>

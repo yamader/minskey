@@ -1,10 +1,8 @@
 // 標準ライブラリ的な
 
-import { signal } from "@preact/signals"
+import { signal } from '@preact/signals'
 
-export type ArrElement<ArrType> = ArrType extends readonly (infer ElementType)[]
-  ? ElementType
-  : never
+export type ArrElement<ArrType> = ArrType extends readonly (infer ElementType)[] ? ElementType : never
 
 export function dbg(...args: unknown[]) {
   if (import.meta.env.DEV) {
@@ -18,7 +16,7 @@ export function hostname(url: string) {
 }
 
 export function ensureproto(host: string) {
-  return host.match(/^https?:\/\//) ? host : "https://" + host
+  return host.match(/^https?:\/\//) ? host : 'https://' + host
 }
 
 export function sleep(ms: number) {

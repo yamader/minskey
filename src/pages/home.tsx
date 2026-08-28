@@ -1,20 +1,20 @@
-import { Settings as SettingsIcon } from "lucide-preact"
-import { useState } from "preact/hooks"
-import BottomSpinner from "~/components/BottomSpinner"
-import Popover from "~/components/Popover"
-import { useBottom } from "~/features/common"
-import { Note } from "~/features/note"
-import NotePreview from "~/features/note/NotePreview"
-import { HomeDisplay, useSettings } from "~/features/settings"
-import { setHomeDisplay, useHomeDisplay, useTL } from "~/features/timeline"
-import { useListTimeline, useLists } from "~/features/user-list"
+import { Settings as SettingsIcon } from 'lucide-preact'
+import { useState } from 'preact/hooks'
+import BottomSpinner from '~/components/BottomSpinner'
+import Popover from '~/components/Popover'
+import { useBottom } from '~/features/common'
+import { Note } from '~/features/note'
+import NotePreview from '~/features/note/NotePreview'
+import { HomeDisplay, useSettings } from '~/features/settings'
+import { setHomeDisplay, useHomeDisplay, useTL } from '~/features/timeline'
+import { useListTimeline, useLists } from '~/features/user-list'
 
-const fixedPins: HomeDisplay[] = ["homeTimeline", "localTimeline", "globalTimeline"]
+const fixedPins: HomeDisplay[] = ['homeTimeline', 'localTimeline', 'globalTimeline']
 
 function tlLabel(pin: HomeDisplay) {
-  if (pin === "homeTimeline") return "HTL"
-  if (pin === "localTimeline") return "LTL"
-  return "GTL"
+  if (pin === 'homeTimeline') return 'HTL'
+  if (pin === 'localTimeline') return 'LTL'
+  return 'GTL'
 }
 
 export default function HomePage() {
@@ -24,16 +24,14 @@ export default function HomePage() {
   const [pinsOpen, setPinsOpen] = useState(false)
 
   const pins = settings.ui.homePins
-  const isList = display.startsWith("list:")
+  const isList = display.startsWith('list:')
 
   const listPins: HomeDisplay[] = (lists ?? []).map(list => `list:${list.id}` as HomeDisplay)
 
   const allPins = [...fixedPins, ...listPins]
 
   const pinLabel = (pin: HomeDisplay) =>
-    pin.startsWith("list:")
-      ? ((lists ?? []).find(l => `list:${l.id}` === pin)?.name ?? "リスト")
-      : tlLabel(pin)
+    pin.startsWith('list:') ? ((lists ?? []).find(l => `list:${l.id}` === pin)?.name ?? 'リスト') : tlLabel(pin)
 
   const togglePin = (pin: HomeDisplay) => {
     const next = pins.includes(pin) ? pins.filter(p => p !== pin) : [...pins, pin]
@@ -48,7 +46,7 @@ export default function HomePage() {
             <button
               key={pin}
               type="button"
-              className={"grow py-2 text-center " + (pin === display ? "underline" : "")}
+              className={'grow py-2 text-center ' + (pin === display ? 'underline' : '')}
               onClick={() => setHomeDisplay(pin)}>
               {pinLabel(pin)}
             </button>
@@ -60,14 +58,8 @@ export default function HomePage() {
             contentClassName="absolute right-0 z-50 mt-1 w-72 rounded-lg border bg-white p-2 shadow-lg">
             <p className="px-1 pb-1 font-bold text-sm">バーに固定するTLを選択</p>
             {allPins.map(pin => (
-              <label
-                key={pin}
-                className="flex items-center gap-2 rounded px-1 py-1 text-sm hover:bg-neutral-100">
-                <input
-                  type="checkbox"
-                  checked={pins.includes(pin)}
-                  onChange={() => togglePin(pin)}
-                />
+              <label key={pin} className="flex items-center gap-2 rounded px-1 py-1 text-sm hover:bg-neutral-100">
+                <input type="checkbox" checked={pins.includes(pin)} onChange={() => togglePin(pin)} />
                 <span>{pinLabel(pin)}</span>
               </label>
             ))}

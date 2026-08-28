@@ -1,15 +1,15 @@
-import { useEffect, useState } from "preact/hooks"
-import { v4 as uuidv4 } from "uuid"
-import { useForm } from "~/components/useForm"
-import { detect } from "~/features/api/clients"
-import { permissions, useAuth } from "~/features/auth"
-import { useRouter, useSearchParams } from "~/router"
-import { ensureproto } from "~/utils"
+import { useEffect, useState } from 'preact/hooks'
+import { v4 as uuidv4 } from 'uuid'
+import { useForm } from '~/components/useForm'
+import { detect } from '~/features/api/clients'
+import { permissions, useAuth } from '~/features/auth'
+import { useRouter, useSearchParams } from '~/router'
+import { ensureproto } from '~/utils'
 
 export default function LoginPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const [method, setMethod] = useState("miauth") // "miauth" | "direct"
+  const [method, setMethod] = useState('miauth') // "miauth" | "direct"
 
   const { error, setAuth } = useAuth()
   const [prevError, setPrevError] = useState<string | null>(null)
@@ -20,8 +20,8 @@ export default function LoginPage() {
     }
   }, [error, setAuth])
 
-  const go = searchParams.get("go") || "/home"
-  const host = searchParams.get("host") ?? undefined
+  const go = searchParams.get('go') || '/home'
+  const host = searchParams.get('host') ?? undefined
 
   return (
     <>
@@ -31,14 +31,14 @@ export default function LoginPage() {
         value={method}
         onValueChange={val => setMethod(val)}
         options={[
-          { value: "miauth", label: "MiAuth", id: "method_miauth" },
-          { value: "direct", label: "Manual", id: "method_direct" },
+          { value: 'miauth', label: 'MiAuth', id: 'method_miauth' },
+          { value: 'direct', label: 'Manual', id: 'method_direct' },
         ]}
       />
       <div className="mx-10 my-4">
         <p className="text-red-500">{prevError}</p>
-        {method === "miauth" && <MiAuthLogin go={go} host={host} />}
-        {method === "direct" && <ManualLogin go={go} host={host} />}
+        {method === 'miauth' && <MiAuthLogin go={go} host={host} />}
+        {method === 'direct' && <ManualLogin go={go} host={host} />}
         <button
           className="w-full rounded-md border-2 bg-neutral-100 py-2 font-bold font-inter text-lime-500 text-xl hover:bg-lime-200 active:bg-lime-300"
           onClick={router.back}>
@@ -71,16 +71,16 @@ function MiAuthLogin({ go, host }: LoginProps) {
   const onSubmit = async ({ host }: MiAuthForm) => {
     const realHost = ensureproto(host)
     const sid = uuidv4()
-    const name = "minskey"
-    const icon = location?.origin + "/favicon.png"
+    const name = 'minskey'
+    const icon = location?.origin + '/favicon.png'
     const callback = location?.origin + `/auth?go=${go}`
-    const permission = permissions.join(",")
+    const permission = permissions.join(',')
 
     const client = await detect(realHost)
     if (!client) {
-      form.setError("host", {
-        type: "manual",
-        message: "対応していないインスタンスか間違ったURLです",
+      form.setError('host', {
+        type: 'manual',
+        message: '対応していないインスタンスか間違ったURLです',
       })
       return
     }
@@ -90,7 +90,7 @@ function MiAuthLogin({ go, host }: LoginProps) {
       setAuth({ session: { sid, host: realHost } })
       window.location.href = url
     } catch (e) {
-      form.setError("host", { type: "manual", message: e + "" })
+      form.setError('host', { type: 'manual', message: e + '' })
     }
   }
 
@@ -104,7 +104,7 @@ function MiAuthLogin({ go, host }: LoginProps) {
           className="w-full rounded-md border-2 p-4 shadow-none focus:border-lime-400 focus:outline-none"
           id="login_host"
           placeholder="example.net"
-          {...form.register("host", { required: "適切なホスト名を入力してください", value: host })}
+          {...form.register('host', { required: '適切なホスト名を入力してください', value: host })}
         />
         {form.errors.host && <p className="text-red-500">{form.errors.host.message}</p>}
       </div>
@@ -131,8 +131,8 @@ function ManualLogin({ go, host }: LoginProps) {
     const realHost = ensureproto(host)
     const testurl = `${realHost}/api/i`
     const req = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ i: token }),
     }
 
@@ -149,10 +149,10 @@ function ManualLogin({ go, host }: LoginProps) {
         addMultiAccount(account)
         router.push(go)
       } else {
-        form.setError("token", { type: "manual", message: "auth failed" })
+        form.setError('token', { type: 'manual', message: 'auth failed' })
       }
     } catch (e) {
-      form.setError("host", { type: "manual", message: e + "" })
+      form.setError('host', { type: 'manual', message: e + '' })
     }
   }
 
@@ -166,7 +166,7 @@ function ManualLogin({ go, host }: LoginProps) {
           className="w-full rounded-md border-2 p-4 shadow-none focus:border-lime-400 focus:outline-none"
           id="login_host"
           placeholder="example.net"
-          {...form.register("host", { required: "適切なホスト名を入力してください", value: host })}
+          {...form.register('host', { required: '適切なホスト名を入力してください', value: host })}
         />
         {form.errors.host && <p className="text-red-500">{form.errors.host.message}</p>}
       </div>
@@ -178,7 +178,7 @@ function ManualLogin({ go, host }: LoginProps) {
           className="w-full rounded-md border-2 p-4 shadow-none focus:border-lime-400 focus:outline-none"
           id="login_token"
           placeholder="AbCdEfGhIjKlMnOpQrStUvWxYz012345"
-          {...form.register("token", { required: "適切なアクセストークンを入力してください" })}
+          {...form.register('token', { required: '適切なアクセストークンを入力してください' })}
         />
         {form.errors.token && <p className="text-red-500">{form.errors.token.message}</p>}
       </div>
@@ -214,8 +214,7 @@ function RadioGroup({
             aria-checked={checked}
             id={option.id}
             className={
-              "flex h-14 w-52 items-center rounded-md border-2 " +
-              (checked ? "border-lime-400" : "border-neutral-300")
+              'flex h-14 w-52 items-center rounded-md border-2 ' + (checked ? 'border-lime-400' : 'border-neutral-300')
             }
             onClick={() => onValueChange(option.value)}>
             <div className="m-3 h-5 w-5 rounded-full border border-gray-200 bg-gray-100">

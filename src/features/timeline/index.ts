@@ -1,10 +1,10 @@
-export type TLNames = "homeTimeline" | "localTimeline" | "hybridTimeline" | "globalTimeline"
+export type TLNames = 'homeTimeline' | 'localTimeline' | 'hybridTimeline' | 'globalTimeline'
 
-import { signal } from "@preact/signals"
-import { useEffect, useState } from "preact/hooks"
-import { useAPI, useChannel } from "~/features/api"
-import { Note } from "~/features/note"
-import { HomeDisplay, useSettings } from "~/features/settings"
+import { signal } from '@preact/signals'
+import { useEffect, useState } from 'preact/hooks'
+import { useAPI, useChannel } from '~/features/api'
+import { Note } from '~/features/note'
+import { HomeDisplay, useSettings } from '~/features/settings'
 
 //------------------------------------------------------------//
 //  signals
@@ -12,7 +12,7 @@ import { HomeDisplay, useSettings } from "~/features/settings"
 
 const tlNotesSignal = signal<Note[]>([])
 const tlMoreSignal = signal<[() => void]>([() => {}])
-const homeDisplaySignal = signal<HomeDisplay>("homeTimeline")
+const homeDisplaySignal = signal<HomeDisplay>('homeTimeline')
 
 export function setHomeDisplay(display: HomeDisplay) {
   homeDisplaySignal.value = display
@@ -23,7 +23,7 @@ export function useHomeDisplay(): HomeDisplay {
   const [settings] = useSettings()
   const active = homeDisplaySignal.value
   const pins = settings.ui.homePins
-  const display = pins.includes(active) ? active : (pins[0] ?? "homeTimeline")
+  const display = pins.includes(active) ? active : (pins[0] ?? 'homeTimeline')
 
   useEffect(() => {
     if (homeDisplaySignal.value !== display) homeDisplaySignal.value = display
@@ -33,7 +33,7 @@ export function useHomeDisplay(): HomeDisplay {
 }
 
 function setNotes(update: Note[] | ((prev: Note[]) => Note[])) {
-  tlNotesSignal.value = typeof update === "function" ? update(tlNotesSignal.value) : update
+  tlNotesSignal.value = typeof update === 'function' ? update(tlNotesSignal.value) : update
 }
 
 function setMore(fn: () => void) {
@@ -54,12 +54,12 @@ export function useTL() {
 export function useTLStream() {
   const display = useHomeDisplay()
   // リスト表示中は裏でHTLを流しておく
-  const tlName: TLNames = display.startsWith("list:")
-    ? "homeTimeline"
+  const tlName: TLNames = display.startsWith('list:')
+    ? 'homeTimeline'
     : (display as Exclude<HomeDisplay, `list:${string}`>)
   const chan = useChannel(tlName)
   const api = useAPI()
-  const [untilId, setUntilId] = useState("")
+  const [untilId, setUntilId] = useState('')
   const [beginStream, setBeginStream] = useState(false)
 
   // reload
@@ -79,7 +79,7 @@ export function useTLStream() {
 
   // stream
   useEffect(() => {
-    if (beginStream) chan?.on("note", note => setNotes(notes => [note, ...notes]))
+    if (beginStream) chan?.on('note', note => setNotes(notes => [note, ...notes]))
   }, [chan, beginStream])
 
   // scroll

@@ -1,4 +1,4 @@
-import { signal } from "@preact/signals"
+import { signal } from '@preact/signals'
 
 // 開いているウィンドウ全体の重なり順を管理するサービス。
 // 開く・クリック(フォーカス)のたびに単調増加する zIndex を割り当てる。

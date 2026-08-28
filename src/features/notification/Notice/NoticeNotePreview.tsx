@@ -1,6 +1,6 @@
-import { Note } from "~/features/note"
-import { profileLink } from "~/features/user"
-import { Link } from "~/router"
+import { Note } from '~/features/note'
+import { profileLink } from '~/features/user'
+import { Link } from '~/router'
 
 export default function NoticeNotePreview({ note }: { note: Note }) {
   return (

@@ -1,10 +1,10 @@
-import { signal } from "@preact/signals"
-import { persistedSignal } from "~/utils"
+import { signal } from '@preact/signals'
+import { persistedSignal } from '~/utils'
 
-type Visibility = "public" | "home" | "followers" | "specified" | undefined
+type Visibility = 'public' | 'home' | 'followers' | 'specified' | undefined
 
 const noteDialogSignal = signal(false)
-const noteLastVisibilitySignal = persistedSignal<Visibility>("minsk::note::visibility", "public")
+const noteLastVisibilitySignal = persistedSignal<Visibility>('minsk::note::visibility', 'public')
 
 export function useComposeNoteDialog() {
   const setNoteDialog = (v: boolean) => {

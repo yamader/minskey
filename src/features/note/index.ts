@@ -1,9 +1,9 @@
-export * from "./types"
+export * from './types'
 
-import { signal } from "@preact/signals"
-import { useEffect, useState } from "preact/hooks"
-import { useAPI } from "~/features/api"
-import { Note } from "."
+import { signal } from '@preact/signals'
+import { useEffect, useState } from 'preact/hooks'
+import { useAPI } from '~/features/api'
+import { Note } from '.'
 
 // todo: timeline cache
 const localNoteCacheSignal = signal<{ [id: string]: Note | null }>({})

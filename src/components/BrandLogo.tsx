@@ -1,4 +1,4 @@
-import Icon from "~/assets/icon.png"
+import Icon from '~/assets/icon.png'
 
 export default function BrandLogo() {
   return (

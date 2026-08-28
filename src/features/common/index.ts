@@ -1,9 +1,9 @@
-export * from "./keysym"
-export * from "./types"
+export * from './keysym'
+export * from './types'
 
-import { createContext } from "preact"
-import { useContext, useEffect, useState } from "preact/hooks"
-import { usePathname, useSearchParams } from "~/router"
+import { createContext } from 'preact'
+import { useContext, useEffect, useState } from 'preact/hooks'
+import { usePathname, useSearchParams } from '~/router'
 
 type DependencyList = ReadonlyArray<unknown>
 
@@ -29,16 +29,16 @@ export function useBottom(f: () => void) {
         if (el.clientHeight + el.scrollTop >= el.scrollHeight - 1) f()
       }
       check()
-      el.addEventListener("scroll", check, { passive: true })
-      return () => el.removeEventListener("scroll", check)
+      el.addEventListener('scroll', check, { passive: true })
+      return () => el.removeEventListener('scroll', check)
     }
     const check = () => {
       const scroller = document.scrollingElement
       if (scroller && scroller.clientHeight + scroller.scrollTop >= scroller.scrollHeight - 1) f()
     }
     check()
-    window.addEventListener("scroll", check, { passive: true })
-    return () => window.removeEventListener("scroll", check)
+    window.addEventListener('scroll', check, { passive: true })
+    return () => window.removeEventListener('scroll', check)
   }, [el, f])
 }
 

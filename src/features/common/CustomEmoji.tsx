@@ -1,11 +1,11 @@
-import { Fragment, createContext } from "preact"
-import { useContext, useEffect } from "preact/hooks"
-import { useForeignAPI } from "~/features/api"
-import { persistedSignal } from "~/utils"
+import { Fragment, createContext } from 'preact'
+import { useContext, useEffect } from 'preact/hooks'
+import { useForeignAPI } from '~/features/api'
+import { persistedSignal } from '~/utils'
 
 const emojiCacheSignal = persistedSignal<{
   [host: string]: { [name: string]: string | null }
-}>("minsk::emoji::cache", {})
+}>('minsk::emoji::cache', {})
 
 // internal
 
@@ -41,11 +41,4 @@ export default function CustomEmoji({ name }: { name: string }) {
 }
 
 export const CustomEmojiStr = ({ text }: { text: string }) =>
-  text.split(":").map((s, i) =>
-    i % 2 ? (
-      // biome-ignore lint/suspicious/noArrayIndexKey: split order is stable
-      <CustomEmoji name={s} key={i} />
-    ) : (
-      <Fragment key={s}>{s}</Fragment>
-    ),
-  )
+  text.split(':').map((s, i) => (i % 2 ? <CustomEmoji name={s} key={i} /> : <Fragment key={s}>{s}</Fragment>))

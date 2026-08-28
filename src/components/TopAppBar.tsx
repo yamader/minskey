@@ -1,14 +1,8 @@
-import { ArrowLeft } from "lucide-preact"
-import { ComponentChildren } from "preact"
-import { useRouter } from "~/router"
+import { ArrowLeft } from 'lucide-preact'
+import { ComponentChildren } from 'preact'
+import { useRouter } from '~/router'
 
-export default function TopAppBar({
-  content,
-  back,
-}: {
-  content: ComponentChildren
-  back?: boolean
-}) {
+export default function TopAppBar({ content, back }: { content: ComponentChildren; back?: boolean }) {
   const router = useRouter()
 
   return (

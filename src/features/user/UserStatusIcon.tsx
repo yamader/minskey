@@ -1,5 +1,5 @@
-import { User, statusEmoji } from "."
-import UserIcon from "./UserIcon"
+import { User, statusEmoji } from '.'
+import UserIcon from './UserIcon'
 
 export default function UesrStatusIcon({ user }: { user: User | null }) {
   return (

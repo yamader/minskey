@@ -1,4 +1,4 @@
-import { dbg, sleep } from "~/utils"
+import { dbg, sleep } from '~/utils'
 
 export class HandyWebSocket {
   url: string
@@ -13,7 +13,7 @@ export class HandyWebSocket {
     this.sock = new WebSocket(this.url)
 
     this.sock.onclose = () => {
-      dbg("[ws] closed")
+      dbg('[ws] closed')
       setTimeout(() => {
         dbg(`[ws] reconnecting to ${this.url} ...`)
         this.init()
@@ -23,7 +23,7 @@ export class HandyWebSocket {
 
   async safetySend(data: string) {
     while (!this.sock.readyState) await sleep(100)
-    dbg(`%c[ws] send: ${data}`, "color:gray")
+    dbg(`%c[ws] send: ${data}`, 'color:gray')
     this.sock.send(data)
   }
 }

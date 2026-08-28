@@ -1,11 +1,11 @@
-import { Plus } from "lucide-preact"
-import { useState } from "preact/hooks"
-import Popover from "~/components/Popover"
-import { useAPI } from "~/features/api"
-import { useCurrentPath } from "~/features/common"
-import { EmojiPicker } from "~/features/common/EmojiPicker"
-import { useRouter } from "~/router"
-import { Note } from ".."
+import { Plus } from 'lucide-preact'
+import { useState } from 'preact/hooks'
+import Popover from '~/components/Popover'
+import { useAPI } from '~/features/api'
+import { useCurrentPath } from '~/features/common'
+import { EmojiPicker } from '~/features/common/EmojiPicker'
+import { useRouter } from '~/router'
+import { Note } from '..'
 
 export default function NavReact({ note }: { note: Note }) {
   const [open, setOpen] = useState(false)

@@ -1,4 +1,4 @@
-import { Loader2 } from "lucide-preact"
+import { Loader2 } from 'lucide-preact'
 
 export default function BottomSpinner() {
   return (

@@ -1,28 +1,26 @@
-import clsx from "clsx"
-import { Bell, Home, LayoutGrid, List, Pen, Settings, User } from "lucide-preact"
-import { ComponentChildren } from "preact"
-import AccountMenu from "~/components/AccountMenu"
-import BrandLogo from "~/components/BrandLogo"
-import Button from "~/components/Button"
-import { useLogin } from "~/features/auth"
-import { useComposeNoteDialog } from "~/features/compose"
-import { Link, usePathname, useRouter } from "~/router"
+import clsx from 'clsx'
+import { Bell, Home, LayoutGrid, List, Pen, Settings, User } from 'lucide-preact'
+import { ComponentChildren } from 'preact'
+import AccountMenu from '~/components/AccountMenu'
+import BrandLogo from '~/components/BrandLogo'
+import Button from '~/components/Button'
+import { useLogin } from '~/features/auth'
+import { useComposeNoteDialog } from '~/features/compose'
+import { Link, usePathname, useRouter } from '~/router'
 
-const btnBase = "flex w-fit items-center rounded-full leading-none transition"
+const btnBase = 'flex w-fit items-center rounded-full leading-none transition'
 
 export default function LeftNav() {
   const [, setNoteDialog] = useComposeNoteDialog()
   const account = useLogin()
   const router = useRouter()
 
-  const w = "w-36 xl:w-72"
+  const w = 'w-36 xl:w-72'
   return (
-    <div className={clsx(w, "hidden lg:block")}>
-      <nav className={clsx(w, "fixed flex h-full flex-col gap-5 border-r p-2 pb-3")}>
+    <div className={clsx(w, 'hidden lg:block')}>
+      <nav className={clsx(w, 'fixed flex h-full flex-col gap-5 border-r p-2 pb-3')}>
         <div className="flex flex-col">
-          <Link
-            className={clsx(btnBase, "mb-1 p-1 pr-3 hover:bg-neutral-200")}
-            href={account ? "/home" : "/"}>
+          <Link className={clsx(btnBase, 'mb-1 p-1 pr-3 hover:bg-neutral-200')} href={account ? '/home' : '/'}>
             <BrandLogo />
           </Link>
           <NavLink href="/home" disabled={!account}>
@@ -54,12 +52,12 @@ export default function LeftNav() {
           type="button"
           className={clsx(
             btnBase,
-            "bg-misskey px-4 py-4 font-bold text-white hover:bg-misskey hover:brightness-90 xl:px-20",
-            !account && "pointer-events-none brightness-75",
+            'bg-misskey px-4 py-4 font-bold text-white hover:bg-misskey hover:brightness-90 xl:px-20',
+            !account && 'pointer-events-none brightness-75',
           )}
           onClick={() => {
             setNoteDialog(true)
-            router.push("/compose/note")
+            router.push('/compose/note')
           }}>
           <span className="hidden select-none xl:block">ノートする</span>
           <Pen className="xl:hidden" size={16} />
@@ -78,27 +76,13 @@ export default function LeftNav() {
   )
 }
 
-function NavLink({
-  children,
-  href,
-  disabled,
-}: {
-  children: ComponentChildren
-  href: string
-  disabled?: boolean
-}) {
+function NavLink({ children, href, disabled }: { children: ComponentChildren; href: string; disabled?: boolean }) {
   const pathname = usePathname()
 
   return (
-    <Link
-      className={clsx("*:hover:bg-neutral-200", disabled && "pointer-events-none text-neutral-400")}
-      href={href}>
+    <Link className={clsx('*:hover:bg-neutral-200', disabled && 'pointer-events-none text-neutral-400')} href={href}>
       <div
-        className={clsx(
-          btnBase,
-          "my-1 select-none gap-4 p-3 pr-6 text-xl",
-          pathname.startsWith(href) && "font-bold",
-        )}>
+        className={clsx(btnBase, 'my-1 select-none gap-4 p-3 pr-6 text-xl', pathname.startsWith(href) && 'font-bold')}>
         {children}
       </div>
     </Link>

@@ -1,5 +1,5 @@
-import { Bell, Home, List, Settings } from "lucide-preact"
-import { Link } from "~/router"
+import { Bell, Home, List, Settings } from 'lucide-preact'
+import { Link } from '~/router'
 
 const iconSize: string | number | undefined = 24
 
