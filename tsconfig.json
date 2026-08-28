@@ -1,22 +1,11 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "lib": ["dom", "dom.iterable", "esnext", "webworker"],
-    "module": "ESNext",
-    "moduleResolution": "bundler",
     "jsx": "react-jsx",
     "jsxImportSource": "preact",
-    "strict": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "isolatedModules": true,
-    "resolveJsonModule": true,
     "skipLibCheck": true,
-    "allowUmdGlobalAccess": true,
-    "types": ["vite/client", "node"],
+    "types": ["vite/client"],
     "paths": {
       "~/*": ["./src/*"]
     }
-  },
-  "include": ["src", "vite.config.ts"]
+  }
 }

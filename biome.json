@@ -1,35 +1,58 @@
 {
   "vcs": {
     "enabled": true,
-    "clientKind": "git"
-  },
-  "files": {
-    "ignoreUnknown": true,
-    "ignore": ["dist", "node_modules", "public"]
+    "clientKind": "git",
+    "useIgnoreFile": true
   },
   "linter": {
     "rules": {
-      "nursery": {
-        "useSortedClasses": "warn"
+      "a11y": {
+        "useButtonType": "off"
+      },
+      "correctness": {
+        "noUnusedFunctionParameters": "info"
       },
       "style": {
         "useImportType": "off",
+        "noNonNullAssertion": "off",
         "useTemplate": "off"
       },
       "suspicious": {
-        "noDoubleEquals": "off"
+        "noDoubleEquals": "off",
+        "noExplicitAny": "off"
+      }
+    }
+  },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "identifierOrder": "lexicographic"
+          }
+        }
       }
     }
   },
   "formatter": {
     "indentStyle": "space",
-    "lineWidth": 100
+    "lineWidth": 120
   },
   "javascript": {
     "formatter": {
+      "quoteStyle": "single",
       "semicolons": "asNeeded",
       "arrowParentheses": "asNeeded",
       "bracketSameLine": true
+    }
+  },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    },
+    "formatter": {
+      "quoteStyle": "single"
     }
   }
 }

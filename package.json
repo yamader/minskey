@@ -1,38 +1,37 @@
 {
   "name": "minskey",
-  "version": "0.1.0",
-  "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit",
-    "fmt": "biome format --write .",
-    "lint": "biome check --write --unsafe"
+    "check": "biome check --write --unsafe",
+    "tsc": "tsc --noEmit"
   },
   "dependencies": {
-    "@fontsource-variable/fira-code": "5.1.0",
-    "@fontsource-variable/inter": "5.1.0",
-    "@fontsource/zen-kaku-gothic-new": "5.1.0",
-    "@preact/signals": "^2.11.0",
-    "clsx": "2.1.1",
+    "@fontsource-variable/fira-code": "^5.3.0",
+    "@fontsource-variable/inter": "^5.3.0",
+    "@fontsource/zen-kaku-gothic-new": "^5.3.0",
+    "@preact/signals": "^2.11.1",
+    "clsx": "^2.1.1",
     "emoji-picker-element": "^1.29.1",
-    "lucide-preact": "^1.31.0",
-    "mfm-js": "^0.24.0",
-    "mitt": "3.0.1",
-    "preact": "10.29.8",
+    "lucide-preact": "^1.34.0",
+    "mfm-js": "^0.26.0",
+    "mitt": "^3.0.1",
+    "preact": "^10.29.8",
     "preact-router": "^4.1.2",
-    "uuid": "10.0.0"
+    "uuid": "^14.0.2"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.0",
-    "@preact/preset-vite": "2.10.6",
-    "@types/node": "22",
-    "@types/uuid": "10.0.0",
-    "autoprefixer": "10.4.20",
-    "tailwindcss": "3.4.11",
-    "typescript": "5.6.2",
-    "vite": "8.2.1"
-  }
+    "@biomejs/biome": "^2.5.11",
+    "@preact/preset-vite": "^2.10.6",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^26.4.0",
+    "@types/uuid": "^11.0.0",
+    "autoprefixer": "^10.5.4",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.2"
+  },
+  "private": true
 }

@@ -1,6 +1,17 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import '@fontsource-variable/fira-code';
+@import '@fontsource-variable/inter';
+@import '@fontsource/zen-kaku-gothic-new/400.css';
+@import '@fontsource/zen-kaku-gothic-new/700.css';
+@import '@fontsource/zen-kaku-gothic-new/900.css';
+@import 'tailwindcss';
+
+@theme {
+  --color-misskey: #86b300;
+
+  --font-inter: 'Inter Variable';
+  --font-mono: 'Fira Code Variable';
+  --font-zkgn: 'Zen Kaku Gothic New';
+}
 
 .mfm-customEmoji {
   height: 1.25em;
