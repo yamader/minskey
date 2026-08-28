@@ -48,7 +48,7 @@ function NotePreview({ note, _nonav }: { note: Note; _nonav?: boolean }) {
           <div className="flex w-full flex-col gap-0.5">
             {/* メタ情報 */}
             <div className="flex justify-between">
-              <div className="flex gap-1 break-words font-bold">
+              <div className="flex gap-1 wrap-break-word font-bold">
                 {/* ユーザー名 */}
                 <Link className="mfm-plainCE hover:underline" href={profileLink(note.user)}>
                   <CustomEmojiStr text={note.user.name ?? "" /* wtf */} />

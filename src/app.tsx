@@ -58,7 +58,7 @@ function MainShell() {
 
 function AboutColumn() {
   return (
-    <div className="flex w-[60rem] flex-col border-r">
+    <div className="flex w-240 flex-col border-r">
       <AboutPage />
     </div>
   )
@@ -67,7 +67,7 @@ function AboutColumn() {
 function CenterColumn() {
   return (
     <>
-      <div className="flex w-[36rem] flex-col">
+      <div className="flex w-xl flex-col">
         <Router>
           <Route path="/" component={IndexPage} />
           <Route path="/home" component={HomePage} />

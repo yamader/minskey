@@ -9,7 +9,7 @@ export default function AccountMenu({ compact }: { compact?: boolean }) {
   const { account, multiAccounts, setAuth, logout } = useAuth()
 
   const actionBtn =
-    "!cursor-pointer rounded-lg outline-none transition hover:bg-neutral-100 hover:text-inherit active:bg-neutral-200"
+    "cursor-pointer! rounded-lg outline-none transition hover:bg-neutral-100 hover:text-inherit active:bg-neutral-200"
   return (
     <Dropdown
       triggerClassName="cursor-pointer select-none"
@@ -32,13 +32,13 @@ export default function AccountMenu({ compact }: { compact?: boolean }) {
             <div className="h-fit p-2" key={i}>
               <AccountBar
                 account={e}
-                omake={<Check className="stroke-[4] text-misskey" size={16} />}
+                omake={<Check className="stroke-4 text-misskey" size={16} />}
               />
             </div>
           ) : (
             <button
               type="button"
-              className="!h-fit !w-full !cursor-pointer !p-2 rounded-lg outline-none transition hover:bg-neutral-100"
+              className="h-fit! w-full! cursor-pointer! p-2! rounded-lg outline-none transition hover:bg-neutral-100"
               onClick={() => setAuth({ account: e })}
               // biome-ignore lint/suspicious/noArrayIndexKey: アカウント順が固定のため
               key={i}

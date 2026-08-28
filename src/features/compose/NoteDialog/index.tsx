@@ -42,7 +42,7 @@ export default function NoteDialog() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen} overlayClassName="fixed inset-0 bg-black/50">
-      <div className="fixed top-14 left-1/2 max-h-[85vh] w-[32rem] translate-x-[-50%]">
+      <div className="fixed top-14 left-1/2 max-h-[85vh] w-lg translate-x-[-50%]">
         <NoteForm {...form} close={() => setOpen(false)} />
       </div>
     </Dialog>

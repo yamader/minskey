@@ -13,10 +13,10 @@ export default function ComposePane() {
     <div
       className={
         "flex shrink-0 overflow-hidden border-r bg-white transition-all " +
-        (open ? "w-[22rem]" : "w-0")
+        (open ? "w-88" : "w-0")
       }>
       {open && (
-        <div className="w-[22rem] shrink-0 p-2">
+        <div className="w-88 shrink-0 p-2">
           <div className="mb-2 flex items-center justify-between px-1">
             <span className="font-bold text-sm">新しい投稿</span>
             <button
