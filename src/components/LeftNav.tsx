@@ -1,5 +1,5 @@
 import clsx from "clsx"
-import { Bell, Home, List, Pen, Settings, User } from "lucide-preact"
+import { Bell, Home, LayoutGrid, List, Pen, Settings, User } from "lucide-preact"
 import { ComponentChildren } from "preact"
 import AccountMenu from "~/components/AccountMenu"
 import BrandLogo from "~/components/BrandLogo"
@@ -36,6 +36,10 @@ export default function LeftNav() {
           <NavLink href="/lists" disabled={!account}>
             <List size={24} />
             <span className="hidden xl:block">リスト</span>
+          </NavLink>
+          <NavLink href="/deck" disabled={!account}>
+            <LayoutGrid size={24} />
+            <span className="hidden xl:block">デッキ</span>
           </NavLink>
           <NavLink href="/profile" disabled={!account}>
             <User size={24} />

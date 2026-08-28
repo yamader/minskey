@@ -1,8 +1,8 @@
 export * from "./keysym"
 export * from "./types"
 
-import { useEffect, useState } from "preact/hooks"
-import { useScroll, useSize } from "~/components/hooks"
+import { createContext } from "preact"
+import { useContext, useEffect, useState } from "preact/hooks"
 import { usePathname, useSearchParams } from "~/router"
 
 type DependencyList = ReadonlyArray<unknown>
@@ -15,14 +15,31 @@ export function useClient() {
   return x
 }
 
+// デッキのウィンドウなど、独自のスクロールコンテナの中でも動くようにする
+// (グローバルではなくコンテキストで周囲にだけ効かせる。Windowごとに適用する)
+const bottomRootContext = createContext<HTMLElement | null>(null)
+export const BottomRootProvider = bottomRootContext.Provider
+
 export function useBottom(f: () => void) {
-  const size = useSize(document.documentElement)
-  const pos = useScroll(document)
+  const el = useContext(bottomRootContext)
 
   useEffect(() => {
-    const el = document.scrollingElement
-    if (el && size.height + pos.top >= el.scrollHeight) f()
-  }, [size.height, pos.top, f])
+    if (el) {
+      const check = () => {
+        if (el.clientHeight + el.scrollTop >= el.scrollHeight - 1) f()
+      }
+      check()
+      el.addEventListener("scroll", check, { passive: true })
+      return () => el.removeEventListener("scroll", check)
+    }
+    const check = () => {
+      const scroller = document.scrollingElement
+      if (scroller && scroller.clientHeight + scroller.scrollTop >= scroller.scrollHeight - 1) f()
+    }
+    check()
+    window.addEventListener("scroll", check, { passive: true })
+    return () => window.removeEventListener("scroll", check)
+  }, [el, f])
 }
 
 export function useCurrentPath() {

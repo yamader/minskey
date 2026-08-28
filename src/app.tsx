@@ -10,6 +10,7 @@ import { useTLStream } from "~/features/timeline"
 import AboutPage from "~/pages/about"
 import AuthPage from "~/pages/auth"
 import ComposeNotePage from "~/pages/compose-note"
+import DeckPage from "~/pages/deck"
 import HomePage from "~/pages/home"
 import IndexPage from "~/pages/index"
 import ListsPage from "~/pages/lists"
@@ -26,6 +27,7 @@ export default function App() {
       <Route path="/login" component={LoginPage} />
       <Route path="/auth" component={AuthPage} />
       <Route path="/compose/note" component={ComposeNotePage} />
+      <Route path="/deck/:sub*" component={DeckPage} />
       <Route default component={MainShell} />
     </Router>
   )

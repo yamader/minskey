@@ -5,7 +5,7 @@ import { useAPI } from "~/features/api"
 import { useBottom } from "~/features/common"
 import NotePreview from "~/features/note/NotePreview"
 import { UserList, useListTimeline, useLists } from "~/features/user-list"
-import { Link, useSearchParams } from "~/router"
+import { Link, usePathname, useSearchParams } from "~/router"
 
 const inputClass =
   "w-full rounded-md border-2 p-2 shadow-none focus:border-lime-400 focus:outline-none"
@@ -61,6 +61,7 @@ function ListsIndex() {
 
 function ListRow({ list, onChanged }: { list: UserList; onChanged: () => void }) {
   const api = useAPI()
+  const base = usePathname().startsWith("/deck") ? "/deck/lists" : "/lists"
   const [editing, setEditing] = useState(false)
   const [name, setName] = useState(list.name)
 
@@ -88,7 +89,7 @@ function ListRow({ list, onChanged }: { list: UserList; onChanged: () => void })
         </>
       ) : (
         <>
-          <Link className="grow" href={`/lists?list=${list.id}`}>
+          <Link className="grow" href={`${base}?list=${list.id}`}>
             <div className="font-bold">{list.name}</div>
             {list.userIds && (
               <div className="text-neutral-500 text-sm">{list.userIds.length} users</div>

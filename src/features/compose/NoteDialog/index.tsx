@@ -9,7 +9,7 @@ import { useKeysymWithOpts } from "~/features/common"
 import { useComposeNoteDialog, useComposeNoteLastVisibility } from ".."
 import VisibilityIcon, { Visibility } from "./VisibilityIcon"
 
-type FormData = {
+export type ComposeForm = {
   text: string
   visibility: Visibility
 }
@@ -19,7 +19,7 @@ export default function NoteDialog() {
 
   // NoteForm state
   const [visibility] = useComposeNoteLastVisibility()
-  const form = useForm<FormData>({
+  const form = useForm<ComposeForm>({
     values: { text: "", visibility },
   })
 
@@ -49,17 +49,19 @@ export default function NoteDialog() {
   )
 }
 
-function NoteForm({
+export function NoteForm({
   register,
   handleSubmit,
   getValues,
   setValue,
   close,
-}: UseFormReturn<FormData> & { close: () => void }) {
+  minRows = 8,
+  maxRows = 16,
+}: UseFormReturn<ComposeForm> & { close: () => void; minRows?: number; maxRows?: number }) {
   const api = useAPI()
   const [, setVisibility] = useComposeNoteLastVisibility()
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: ComposeForm) => {
     if (!api) return
     setVisibility(data.visibility)
     await api.createNote(data)
@@ -85,28 +87,28 @@ function NoteForm({
           <User2 />
           <span>me</span>
         </div>
-        <button onClick={close}>
+        <button type="button" onClick={close}>
           <X />
         </button>
       </div>
       <form className="flex flex-col gap-2 bg-white p-2" onSubmit={handleSubmit(onSubmit)}>
         <TextareaAutosize
           className="w-full resize-none rounded-md border-2 border-neutral-300 p-1 focus:border-lime-500 focus:outline-none"
-          maxRows={16}
-          minRows={8}
+          maxRows={maxRows}
+          minRows={minRows}
           placeholder="ここにテキストを入力"
           autoFocus
           {...register("text")}
         />
         <div className="flex justify-between px-1 text-neutral-700">
           <div className="flex items-center">
-            <button className={btn}>
+            <button className={btn} type="button">
               <Paperclip size={20} />
             </button>
-            <button className={btn}>
+            <button className={btn} type="button">
               <BarChartHorizontal size={20} />
             </button>
-            <button className={btn}>
+            <button className={btn} type="button">
               <EyeOff size={20} />
             </button>
           </div>

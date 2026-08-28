@@ -5,7 +5,7 @@ import Dropdown from "~/components/Dropdown"
 import { isSameAccount, useAuth } from "~/features/auth"
 import { Link } from "~/router"
 
-export default function AccountMenu() {
+export default function AccountMenu({ compact }: { compact?: boolean }) {
   const { account, multiAccounts, setAuth, logout } = useAuth()
 
   const actionBtn =
@@ -15,11 +15,13 @@ export default function AccountMenu() {
       triggerClassName="cursor-pointer select-none"
       trigger={
         <div className="flex cursor-pointer select-none items-center justify-between rounded-full p-2 transition hover:bg-neutral-100">
-          <AccountBar
-            // biome-ignore lint/style/noNonNullAssertion: ログイン時のみ表示されるため
-            account={account!}
-            omake={<Menu className="mr-2.5 text-neutral-500" size={18} />}
-          />
+          <div className={compact ? "w-8 overflow-hidden" : "w-full"}>
+            <AccountBar
+              // biome-ignore lint/style/noNonNullAssertion: ログイン時のみ表示されるため
+              account={account!}
+              omake={compact ? null : <Menu className="mr-2.5 text-neutral-500" size={18} />}
+            />
+          </div>
         </div>
       }
       menuClassName="absolute right-0 z-50 mt-1 w-64 rounded-xl border bg-white py-1 shadow-md">

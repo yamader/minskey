@@ -12,6 +12,7 @@ type Settings = {
   ui: {
     rnav: string[]
     homePins: HomeDisplay[]
+    deck: HomeDisplay[]
   }
 }
 
@@ -28,6 +29,7 @@ function settingsMigrator(raw: Record<string, unknown>): Settings {
       ...(settings.ui as Settings["ui"]),
       rnav: ["search"],
       homePins: settings.ui?.homePins ?? ["homeTimeline", "localTimeline", "globalTimeline"],
+      deck: settings.ui?.deck ?? ["homeTimeline", "localTimeline", "globalTimeline"],
     }
   }
   return settings

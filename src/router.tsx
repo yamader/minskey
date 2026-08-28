@@ -11,6 +11,11 @@ export function usePathname() {
   return args.url.split("?")[0]
 }
 
+export function useURL() {
+  const [args] = usePreactRouter()
+  return args.url
+}
+
 export function useSearchParams() {
   const [args] = usePreactRouter()
   const search = args.url.split("?")[1] ?? ""

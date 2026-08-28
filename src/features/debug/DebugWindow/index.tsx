@@ -1,5 +1,5 @@
-import Window from "~/components/Window"
 import { useDebugWindow } from "~/features/debug"
+import Window from "~/features/window/Window"
 import ApiSection from "./ApiSection"
 
 export default function DebugWindow() {

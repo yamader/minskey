@@ -1,6 +1,8 @@
 import { ComponentChildren } from "preact"
-import { useEffect } from "preact/hooks"
+import { useEffect, useState } from "preact/hooks"
 import { useImmer } from "~/components/hooks"
+import { BottomRootProvider } from "~/features/common"
+import { raiseWindow, registerWindow, unregisterWindow, useWindowZ } from "~/features/window"
 
 export default function Window({
   onClose,
@@ -9,6 +11,12 @@ export default function Window({
   onClose?: () => void
   children: ComponentChildren
 }) {
+  const [id] = useState(registerWindow)
+  const zIndex = useWindowZ(id)
+  const [scrollEl, setScrollEl] = useState<HTMLElement | null>(null)
+
+  useEffect(() => () => unregisterWindow(id), [id])
+
   const [w, updateW] = useImmer({
     x: 100,
     y: 100,
@@ -46,11 +54,14 @@ export default function Window({
   return (
     <div
       className="fixed top-0 flex flex-col gap-1 rounded-lg bg-neutral-600 bg-opacity-50 p-1.5 shadow backdrop-blur-lg will-change-[top,left,width,height]"
+      onMouseDown={() => raiseWindow(id)}
       style={{
         top: w.y + "px",
         left: w.x + "px",
         width: w.w + "px",
         height: w.h + "px",
+        // 数値だと "100px" になり無効になるので文字列にする
+        zIndex: String(zIndex),
       }}>
       <nav
         className="flex select-none items-center justify-end"
@@ -68,7 +79,9 @@ export default function Window({
           &times;
         </button>
       </nav>
-      <div className="h-full overflow-auto rounded bg-white">{children}</div>
+      <div ref={setScrollEl} className="h-full overflow-auto rounded bg-white">
+        <BottomRootProvider value={scrollEl}>{children}</BottomRootProvider>
+      </div>
     </div>
   )
 }
